@@ -106,14 +106,13 @@
 
   // Headers ที่ต้องการแสดงผล (key ต้องตรงกับชื่อ Header ใน Google Sheet, ใช้ตัวพิมพ์เล็กและไม่มีสัญลักษณ์)
   const DISPLAY_HEADERS = [
-    { key: 'licenseid', label: 'License ID' }, // แก้ key ให้เป็น licenseid (ตามที่เราแก้ไขในชีท)
+    { key: 'licenseid', label: 'License ID' },    // แก้ไข key ให้ตรงกับ Google Sheet ที่ไม่มีขีดล่าง
     { key: 'affiliation', label: 'Affiliation' },
     { key: 'course', label: 'Course' },
-    { key: 'issue_date', label: 'Issued' },      
-    { key: 'expiry_date', label: 'Expires' },    
-    { key: 'agent_name', label: 'Agent Name' }, 
-    { key: 'status', label: 'Status' }
-  ];
+    { key: 'issuedate', label: 'Issued' },        // แก้ไข key ให้ตรงกับ Google Sheet ที่ไม่มีขีดล่าง
+    { key: 'expirydate', label: 'Expires' }       // แก้ไข key ให้ตรงกับ Google Sheet ที่ไม่มีขีดล่าง
+    // ลบ Agent Name และ Status ออก
+];
 
   // ฟังก์ชันช่วยจัดรูปแบบวันที่ให้สวยงาม (DD Month YYYY) และจัดการค่าว่าง
   function formatDate(dateString) {

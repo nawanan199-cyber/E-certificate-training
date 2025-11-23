@@ -1,0 +1,140 @@
+ได้ครับ! ผมจะให้ โค้ด LIFF (index.html) ฉบับสมบูรณ์ อีกครั้ง เพื่อให้คุณสามารถคัดลอกไปวางใน Notepad++ และดำเนินการแก้ไข API URL ได้เลยครับ
+
+(⚠️ โปรดจำไว้ว่าคุณต้องได้ API URL (ที่ลงท้ายด้วย /exec) จากขั้นตอน Deploy Google App Script แล้วนะครับ)
+
+📄 โค้ด LIFF (index.html) ฉบับสมบูรณ์
+โปรดคัดลอกโค้ดนี้ ทั้งหมด ไปวางในหน้าใหม่ของโปรแกรม Notepad++
+
+HTML
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee License and Training Status</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
+        .container { max-width: 950px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h2 { color: #1ed760; text-align: center; margin-bottom: 25px; }
+        input[type="text"], button { width: 100%; padding: 12px; margin-bottom: 15px; box-sizing: border-box; border-radius: 4px; font-size: 16px; }
+        button { background-color: #1ed760; color: white; border: none; cursor: pointer; transition: background-color 0.3s; }
+        button:hover { background-color: #17a84c; }
+        .result-container { margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; overflow-x: auto; }
+        .not-found { text-align: center; color: #d9534f; font-weight: bold; }
+        table { width: 100%; min-width: 900px; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
+        th, td { border: 1px solid #ddd; padding: 6px; text-align: center; }
+        th { background-color: #1ed760; color: white; }
+        .status-expired { color: red; font-weight: bold; }
+        .status-valid { color: green; font-weight: bold; }
+        .employee-info { font-weight: bold; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Employee License and Training Status</h2>
+    <input type="text" id="name" placeholder="Enter Full Name (e.g. Sanchai Jaidee)">
+    <button onclick="search()">Search</button>
+    
+    <div id="result" class="result-container">
+        </div>
+</div>
+
+<script>
+// ** ⚠️ สำคัญที่สุด: ขั้นตอนต่อไปคือการเปลี่ยน YOUR_API_LINK เป็น URL จริงที่ได้จาก Google App Script (ลงท้ายด้วย /exec) **
+const API_URL = "https://script.google.com/macros/s/AKfycby5R2lBY97Hs_aMZqiDEsac9bvtptzECzaoOMhoZG3TfPapZ7BS3FpZDW83gSRZ72SS/exec";
+const TODAY = new Date().toISOString().slice(0, 10); // Current date (YYYY-MM-DD)
+
+// Headers ที่ต้องการแสดงผล (ต้องสะกดตรงกับ Header ใน Google Sheet, ยกเว้นตัวเล็กทั้งหมด)
+const DISPLAY_HEADERS = [
+    { key: 'license_id', label: 'License ID' },
+    { key: 'affiliation', label: 'Affiliation' },
+    { key: 'course', label: 'Course' },
+    { key: 'issue_date', label: 'Issued' },
+    { key: 'expiry_date', label: 'Expires' },
+    { key: 'agent_name', label: 'Agent Name' }, 
+    { key: 'status', label: 'Status' } 
+];
+
+async function search() {
+    const nameInput = document.getElementById("name");
+    const resultDiv = document.getElementById("result");
+    const name = nameInput.value.trim();
+    
+    resultDiv.innerHTML = 'Searching...';
+
+    if (name === "") {
+        resultDiv.innerHTML = '<div class="not-found">Please enter the full employee name.</div>';
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}?name=${encodeURIComponent(name)}`);
+        const data = await response.json();
+
+        if (data.error) {
+            resultDiv.innerHTML = `<div class="not-found">Error: ${data.error}</div>`;
+            return;
+        }
+
+        if (data.length === 0) {
+            resultDiv.innerHTML = `<div class="not-found">No training or license history found for "${name}"</div>`;
+        } else {
+            // ดึงข้อมูลหลักจากรายการแรก
+            const employeeName = data[0].name;
+            const employeeCompany = data[0].company || '-';
+            
+            let html = `<div class="employee-info">Name: ${employeeName} | Company: ${employeeCompany}</div>`;
+            html += '<table>';
+            
+            // สร้าง Header ของตาราง
+            html += '<tr>' + DISPLAY_HEADERS.map(h => `<th>${h.label}</th>`).join('') + '</tr>';
+            
+            // สร้างแถวข้อมูล
+            data.forEach(item => {
+                const expiryDate = item.expiry_date || 'N/A';
+                let statusText = 'N/A';
+                let statusClass = '';
+
+                // คำนวณสถานะ
+                if (expiryDate !== 'N/A' && expiryDate !== '-' && expiryDate) {
+                    if (expiryDate < TODAY) {
+                        statusText = 'EXPIRED';
+                        statusClass = 'status-expired';
+                    } else {
+                        statusText = 'VALID';
+                        statusClass = 'status-valid';
+                    }
+                }
+                
+                html += '<tr>';
+                
+                // แสดงผลตามคอลัมน์ที่กำหนดใน DISPLAY_HEADERS
+                DISPLAY_HEADERS.forEach(header => {
+                    if (header.key === 'status') {
+                        html += `<td class="${statusClass}">${statusText}</td>`;
+                    } else if (header.key === 'expiry_date') {
+                         html += `<td class="${statusClass}">${expiryDate}</td>`;
+                    }
+                    else {
+                        // ดึงข้อมูลจาก object item
+                        html += `<td>${item[header.key.toLowerCase().replace(/_/g, '')] || '-'}</td>`;
+                    }
+                });
+                
+                html += '</tr>';
+            });
+            
+            html += '</table>';
+            resultDiv.innerHTML = html;
+        }
+
+    } catch (error) {
+        console.error("Fetch Error:", error);
+        resultDiv.innerHTML = '<div class="not-found">Cannot connect to the system. Please check your API URL and internet connection.</div>';
+    }
+}
+</script>
+</body>
+</html>

@@ -101,18 +101,18 @@
 
 <script>
   // ** ต้องแก้ไข: เปลี่ยน API_URL เป็น URL ที่คุณ Deploy จาก Google App Script **
-  const API_URL = "https://script.google.com/macros/s/AKfycbxxVKntSzbm9cYrNccLk4fLMaEIByK9WMQEw-Bl8zHrGjUZpxsvrkYEQruloYc5XOAn/exec";
+  // ใช้ URL ที่ถูกต้องที่คุณได้รับจากการ Deploy ล่าสุด
+  const API_URL = "https://script.google.com/macros/s/AKfycby5R2IBY97Hs_aMZqiDEsac9bvtpteECzaoOMhoZG3TfPapZ7BS3FpZDW83gSRZ72SS/exec"; // โปรดแทนที่ด้วย URL ล่าสุดที่คุณได้รับ
   const TODAY = new Date().toISOString().slice(0, 10); // Current date (YYYY-MM-DD)
 
   // Headers ที่ต้องการแสดงผล (key ต้องตรงกับชื่อ Header ใน Google Sheet, ใช้ตัวพิมพ์เล็กและไม่มีสัญลักษณ์)
   const DISPLAY_HEADERS = [
-    { key: 'licenseid', label: 'License ID' },    // แก้ไข key ให้ตรงกับ Google Sheet ที่ไม่มีขีดล่าง
+    { key: 'licenseid', label: 'License ID' },    // แก้เป็น issuedate
     { key: 'affiliation', label: 'Affiliation' },
     { key: 'course', label: 'Course' },
-    { key: 'issuedate', label: 'Issued' },        // แก้ไข key ให้ตรงกับ Google Sheet ที่ไม่มีขีดล่าง
-    { key: 'expirydate', label: 'Expires' }       // แก้ไข key ให้ตรงกับ Google Sheet ที่ไม่มีขีดล่าง
-    // ลบ Agent Name และ Status ออก
-];
+    { key: 'issuedate', label: 'Issued' },        // แก้เป็น issuedate
+    { key: 'expirydate', label: 'Expires' }       // แก้เป็น expirydate
+  ];
 
   // ฟังก์ชันช่วยจัดรูปแบบวันที่ให้สวยงาม (DD Month YYYY) และจัดการค่าว่าง
   function formatDate(dateString) {
@@ -181,7 +181,7 @@
               let tdClass = '';
 
               // 1. จัดรูปแบบวันที่
-              if (header.key === 'issue_date' || header.key === 'expiry_date') {
+              if (header.key === 'issuedate' || header.key === 'expirydate') { // แก้ไข key
                   value = formatDate(value);
               }
               
@@ -191,7 +191,7 @@
                   return;
               } 
               
-              // 3. ใส่ Class สำหรับ Status
+              // 3. ใส่ Class สำหรับ Status (ไม่มีแล้ว แต่โค้ดนี้กันไว้)
               if (header.key === 'status') {
                 if (value.toUpperCase() === 'VALID') {
                     tdClass = 'valid';

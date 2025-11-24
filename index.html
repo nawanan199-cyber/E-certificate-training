@@ -22,7 +22,7 @@
     h2 {
       text-align: center;
       color: #00b900;
-      margin-bottom: 20px;
+      margin-bottom: 5px; /* ลด margin เพื่อให้รูปอยู่ใกล้หัวข้อ */
     }
     input[type="text"] {
       width: calc(100% - 100px);
@@ -67,7 +67,7 @@
     }
     /* CSS สำหรับแถบชื่อด้านบนตาราง */
     .summary-info {
-      background-color: #e6ffe6; /* สีเขียวอ่อน */
+      background-color: #e6ffe6; 
       font-weight: bold;
       text-align: left;
       padding: 10px;
@@ -91,11 +91,21 @@
       color: red;
       font-weight: bold;
     }
+    /* CSS สำหรับจัดรูปภาพการ์ตูนให้อยู่กึ่งกลาง */
+    .cartoon-img {
+        display: block;
+        width: 120px; /* ปรับขนาดความกว้างตามต้องการ */
+        height: auto;
+        margin: 10px auto 20px auto; /* จัดกึ่งกลางและมีระยะห่าง */
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Certificate Checker</h2>
+    
+    <img src="https://i.imgur.com/kO8rJ4o.png" alt="รูปการ์ตูนเครื่องหมายถูกพร้อมหมวกปริญญา" class="cartoon-img">
+    
     <div style="display: flex; margin-bottom: 15px;">
       <input type="text" id="name" placeholder="กรอกชื่อเต็ม (เช่น ใจดี ดีใจ)">
       <button onclick="search()">Search</button>
@@ -104,33 +114,32 @@
   </div>
 
 <script>
-  // ** สำคัญ: ต้องใส่ API URL ใหม่ล่าสุดที่ได้จากการ Deploy ในขั้นตอนที่ 2 **
-  const API_URL = "https://script.google.com/macros/s/AKfycbx85VvDE9Y5HN1DohSfoH7DSV4gEQ2sPsKehYQK4rAlj4FmgthHi5EZBYE82CqDwb8p/exec"; // <<<--- โปรดเปลี่ยนเป็น URL ใหม่ล่าสุดของคุณ
+  // ** สำคัญ: ต้องใส่ API URL ใหม่ล่าสุดที่ได้จากการ Deploy ในขั้นตอนที่ 1 **
+  const API_URL = "https://script.google.com/macros/s/AKfycbxmkOe5pflcgVh6pRChO_-SiWuKP5PmZS6fmq_7STU3-XtMNIxi1QLkdiy4tVsZkNHX/exec"; // <<<--- โปรดเปลี่ยนเป็น URL ใหม่ล่าสุดของคุณ
   const TODAY = new Date().toISOString().slice(0, 10); 
 
-  // Headers ที่ต้องการแสดงผล (key ต้องตรงกับชื่อ Header ใน Google Sheet, ใช้ตัวพิมพ์เล็กและไม่มีสัญลักษณ์)
+  // Headers ที่ต้องการแสดงผล (ไม่มี 'affiliation' แล้ว)
   const DISPLAY_HEADERS = [
     { key: 'licenseid', label: 'License ID' },    
-    { key: 'affiliation', label: 'Affiliation' },
     { key: 'course', label: 'Course' },
     { key: 'duration', label: 'Hours' },        // คอลัมน์ Hours
     { key: 'issuedate', label: 'Issued' },        
     { key: 'expirydate', label: 'Expires' }       
   ];
 
-  // ฟังก์ชันช่วยจัดรูปแบบวันที่ (แก้ไขเป็น DD/MM/YYYY)
+  // ฟังก์ชันช่วยจัดรูปแบบวันที่ (DD/MM/YYYY)
   function formatDate(dateString) {
     if (!dateString || dateString.toString().trim() === '' || dateString.toString().trim() === '-') {
       return ''; 
     }
-
+    
     try {
       const date = new Date(dateString);
 
       if (isNaN(date)) {
         return dateString;
       }
-
+      
       const day = String(date.getDate()).padStart(2, '0');
       const month = String(date.getMonth() + 1).padStart(2, '0'); 
       const year = date.getFullYear();
@@ -162,7 +171,7 @@
 
       if (response.ok) {
         const data = await response.json();
-
+        
         if (data.error) {
           resultDiv.innerHTML = `<div class="error-message">Error: ${data.error}</div>`;
         } else if (data.length > 0) {
@@ -191,13 +200,13 @@
               if (header.key === 'issuedate' || header.key === 'expirydate') { 
                   value = formatDate(value);
               }
-
+              
               // 2. จัดการค่าว่าง
               if (value.toString().trim() === '' || value.toString().trim() === '-') {
                   html += `<td></td>`;
                   return;
               } 
-
+              
               // 3. แสดงผล
               html += `<td class="${tdClass}">${value}</td>`;
             });

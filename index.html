@@ -65,11 +65,15 @@
       color: #555;
       font-weight: bold;
     }
-    .summary-row {
-      background-color: #e6ffe6;
+    /* CSS สำหรับแถบชื่อด้านบนตาราง */
+    .summary-info {
+      background-color: #e6ffe6; /* สีเขียวอ่อน */
       font-weight: bold;
       text-align: left;
       padding: 10px;
+      margin-bottom: 15px; 
+      border-radius: 4px;
+      border: 1px solid #ccebcc; 
     }
     .not-found, .error-message {
       padding: 15px;
@@ -93,7 +97,7 @@
   <div class="container">
     <h2>Certificate Checker</h2>
     <div style="display: flex; margin-bottom: 15px;">
-      <input type="text" id="name" placeholder="กรอกชื่อเต็ม (เช่น สงกรานต์ พงษ์เดือน)">
+      <input type="text" id="name" placeholder="กรอกชื่อเต็ม (เช่น ใจดี ดีใจ)">
       <button onclick="search()">Search</button>
     </div>
     <div id="result"></div>
@@ -101,20 +105,21 @@
 
 <script>
   // ** ต้องแก้ไข: เปลี่ยน API_URL เป็น URL ที่คุณ Deploy จาก Google App Script **
-  // ใช้ URL ที่ถูกต้องที่คุณได้รับจากการ Deploy ล่าสุด
-  const API_URL = "https://script.google.com/macros/s/AKfycbxleMyVnf7SexPUXJ_YBAkBAf_qhrP2RY-32SscK7jUdHu37Y8jb0BPS8uzxS6xfJM1/exec"; // โปรดแทนที่ด้วย URL ล่าสุดที่คุณได้รับ
-  const TODAY = new Date().toISOString().slice(0, 10); // Current date (YYYY-MM-DD)
+  // ใช้ URL ที่ถูกต้องที่คุณได้รับจากการ Deploy ล่าสุด (URL ที่ไม่ขึ้น Failed to fetch)
+  const API_URL = "https://script.google.com/macros/s/AKfycby5R2IBY97Hs_aMZqiDEsac9bvtpteECzaoOMhoZG3TfPapZ7BS3FpZDW83gSRZ72SS/exec"; // โปรดแทนที่ด้วย URL ล่าสุดที่คุณได้รับ
+  const TODAY = new Date().toISOString().slice(0, 10); 
 
   // Headers ที่ต้องการแสดงผล (key ต้องตรงกับชื่อ Header ใน Google Sheet, ใช้ตัวพิมพ์เล็กและไม่มีสัญลักษณ์)
   const DISPLAY_HEADERS = [
-    { key: 'licenseid', label: 'License ID' },    // แก้เป็น issuedate
+    { key: 'licenseid', label: 'License ID' },    
     { key: 'affiliation', label: 'Affiliation' },
     { key: 'course', label: 'Course' },
-    { key: 'issuedate', label: 'Issued' },        // แก้เป็น issuedate
-    { key: 'expirydate', label: 'Expires' }       // แก้เป็น expirydate
+    { key: 'duration', label: 'Hours' },        // คอลัมน์ Hours
+    { key: 'issuedate', label: 'Issued' },        
+    { key: 'expirydate', label: 'Expires' }       
   ];
 
-  // ฟังก์ชันช่วยจัดรูปแบบวันที่ให้สวยงาม (DD Month YYYY) และจัดการค่าว่าง
+  // ฟังก์ชันช่วยจัดรูปแบบวันที่ (แก้ไขให้แสดงเป็น DD/MM/YYYY ตามข้อมูลในชีท)
   function formatDate(dateString) {
     if (!dateString || dateString.toString().trim() === '' || dateString.toString().trim() === '-') {
       return ''; 
@@ -127,9 +132,12 @@
         return dateString;
       }
       
-      // ใช้ toLocaleDateString เพื่อจัดรูปแบบวันที่ให้เป็นภาษาไทยแบบสั้น (พ.ศ.)
-      const options = { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'Asia/Bangkok' };
-      return date.toLocaleDateString('th-TH', options);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); 
+      const year = date.getFullYear();
+
+      // แสดงในรูปแบบ DD/MM/YYYY (ใช้ year.getFullYear() ซึ่งควรจะตรงกับข้อมูล)
+      return `${day}/${month}/${year}`;
 
     } catch (error) {
       console.error("Date formatting error:", error);
@@ -159,7 +167,12 @@
         if (data.error) {
           resultDiv.innerHTML = `<div class="error-message">Error: ${data.error}</div>`;
         } else if (data.length > 0) {
-          let html = '<table><thead><tr>';
+          // ส่วนนี้คือการย้ายชื่อผู้ถูกค้นหาและบริษัทมาอยู่ด้านบนของตาราง
+          const fullName = data[0]['name'] || 'N/A';
+          const company = data[0]['company'] || 'N/A'; 
+          let html = `<div class="summary-info">Name: ${fullName} | Company: ${company}</div>`; 
+
+          html += '<table><thead><tr>';
 
           // Generate table headers
           DISPLAY_HEADERS.forEach(header => {
@@ -170,18 +183,13 @@
 
           // Generate table rows
           data.forEach(item => {
-            // แสดงชื่อผู้ถูกค้นหาและบริษัท
-            const fullName = item['name'] || 'N/A';
-            const company = item['company'] || 'N/A'; 
-            html += `<tr><td colspan="${DISPLAY_HEADERS.length}" class="summary-row">Name: ${fullName} | Company: ${company}</td></tr>`;
-
             html += '<tr>';
             DISPLAY_HEADERS.forEach(header => {
               let value = item[header.key] || ''; 
               let tdClass = '';
 
               // 1. จัดรูปแบบวันที่
-              if (header.key === 'issuedate' || header.key === 'expirydate') { // แก้ไข key
+              if (header.key === 'issuedate' || header.key === 'expirydate') { 
                   value = formatDate(value);
               }
               
@@ -191,16 +199,7 @@
                   return;
               } 
               
-              // 3. ใส่ Class สำหรับ Status (ไม่มีแล้ว แต่โค้ดนี้กันไว้)
-              if (header.key === 'status') {
-                if (value.toUpperCase() === 'VALID') {
-                    tdClass = 'valid';
-                } else if (value.toUpperCase() === 'EXPIRED') {
-                    tdClass = 'expired';
-                }
-              }
-
-              // แสดงผล
+              // 3. แสดงผล
               html += `<td class="${tdClass}">${value}</td>`;
             });
             html += '</tr>';

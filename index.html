@@ -104,9 +104,8 @@
   </div>
 
 <script>
-  // ** ต้องแก้ไข: เปลี่ยน API_URL เป็น URL ที่คุณ Deploy จาก Google App Script **
-  // ใช้ URL ที่ถูกต้องที่คุณได้รับจากการ Deploy ล่าสุด (URL ที่ไม่ขึ้น Failed to fetch)
-  const API_URL = "https://script.google.com/macros/s/AKfycbyvkMjyvbr6dOLOKmCVE7UyeAK0BKB7jswZw0xV7jJw0ATsuIhCUFyS351dDcr454bv/exec"; // โปรดแทนที่ด้วย URL ล่าสุดที่คุณได้รับ
+  // ** สำคัญ: ต้องใส่ API URL ใหม่ล่าสุดที่ได้จากการ Deploy ในขั้นตอนที่ 2 **
+  const API_URL = "https://script.google.com/macros/s/AKfycbwltRuWg0Vpa7VelZSZw7PycqADHJkOoRGFrz3rQwhMtIcRaxKu7G9umwQoX47z6hh7/exec"; // <<<--- โปรดเปลี่ยนเป็น URL ใหม่ล่าสุดของคุณ
   const TODAY = new Date().toISOString().slice(0, 10); 
 
   // Headers ที่ต้องการแสดงผล (key ต้องตรงกับชื่อ Header ใน Google Sheet, ใช้ตัวพิมพ์เล็กและไม่มีสัญลักษณ์)
@@ -119,24 +118,24 @@
     { key: 'expirydate', label: 'Expires' }       
   ];
 
-  // ฟังก์ชันช่วยจัดรูปแบบวันที่ (แก้ไขให้แสดงเป็น DD/MM/YYYY ตามข้อมูลในชีท)
+  // ฟังก์ชันช่วยจัดรูปแบบวันที่ (แก้ไขเป็น DD/MM/YYYY)
   function formatDate(dateString) {
     if (!dateString || dateString.toString().trim() === '' || dateString.toString().trim() === '-') {
       return ''; 
     }
-    
+
     try {
       const date = new Date(dateString);
 
       if (isNaN(date)) {
         return dateString;
       }
-      
+
       const day = String(date.getDate()).padStart(2, '0');
       const month = String(date.getMonth() + 1).padStart(2, '0'); 
       const year = date.getFullYear();
 
-      // แสดงในรูปแบบ DD/MM/YYYY (ใช้ year.getFullYear() ซึ่งควรจะตรงกับข้อมูล)
+      // แสดงในรูปแบบ DD/MM/YYYY 
       return `${day}/${month}/${year}`;
 
     } catch (error) {
@@ -163,7 +162,7 @@
 
       if (response.ok) {
         const data = await response.json();
-        
+
         if (data.error) {
           resultDiv.innerHTML = `<div class="error-message">Error: ${data.error}</div>`;
         } else if (data.length > 0) {
@@ -192,13 +191,13 @@
               if (header.key === 'issuedate' || header.key === 'expirydate') { 
                   value = formatDate(value);
               }
-              
+
               // 2. จัดการค่าว่าง
               if (value.toString().trim() === '' || value.toString().trim() === '-') {
                   html += `<td></td>`;
                   return;
               } 
-              
+
               // 3. แสดงผล
               html += `<td class="${tdClass}">${value}</td>`;
             });
@@ -222,4 +221,3 @@
 </script>
 </body>
 </html>
-           

@@ -1,207 +1,117 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate Checker</title>
-    <style>
-        /* CSS ปรับปรุงเพื่อใช้โทนสีเขียวอ่อนเป็นหลัก */
-        
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; 
-            padding: 30px; 
-            background-color: #F9FBE7; /* พื้นหลังสีเหลืองเขียวอ่อนมาก */
-            color: #333; 
-        }
-        .container { 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            background-color: #ffffff; 
-            padding: 40px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
-        }
-        
-        /* ส่วนสำหรับ Mascot และ Header */
-        .header-section {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            margin-bottom: 30px;
-        }
-
-        /* 1. สไตล์สำหรับรูป Mascot */
-        .mascot-container {
-            margin-bottom: 20px;
-        }
-        .mascot-img {
-            width: 120px; /* ขนาดรูปภาพมาสคอต */
-            height: 120px;
-            border-radius: 50%; 
-            border: 5px solid #4CAF50; /* ขอบสีเขียวสด */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            object-fit: cover;
-        }
-
-        /* 2. สไตล์สำหรับ Header (สีเขียวเข้ม) */
-        .header { 
-            text-align: center; 
-            color: #2E7D32; /* สีเขียวเข้ม */
-            font-size: 34px; 
-            font-weight: 800; 
-            border-bottom: 4px solid #4CAF50; /* เส้นใต้สีเขียวสด */
-            padding-bottom: 10px;
-            width: 100%;
-            max-width: 450px;
-        }
-        
-        .search-area { margin-bottom: 30px; }
-        .search-bar { display: flex; gap: 15px; }
-        .search-input { flex-grow: 1; padding: 15px 20px; border: 2px solid #ccc; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
-        .search-input:focus { border-color: #4CAF50; } 
-        
-        /* 3. สไตล์ปุ่ม Search (สีเขียวสด) */
-        .search-button { 
-            background-color: #4CAF50; 
-            color: white; 
-            padding: 15px 30px; 
-            border: none; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-size: 16px; 
-            font-weight: bold; 
-            transition: background-color 0.3s, box-shadow 0.3s; 
-        }
-        .search-button:hover { 
-            background-color: #388E3C; 
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
-        }
-        
-        /* 4. สไตล์แถบแสดงชื่อ/บริษัท (สีเขียวอ่อนมาก) */
-        .result-name { 
-            background-color: #E8F5E9; 
-            padding: 18px; 
-            margin-bottom: 25px; 
-            border-radius: 12px; 
-            font-weight: bold; 
-            color: #388E3C; 
-            border: 1px solid #C8E6C9; 
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            display: none; 
-        }
-        
-        /* ข้อความเตือนและไม่พบผลลัพธ์ */
-        .alert-message { background-color: #FFE0B2; color: #E65100; padding: 15px; margin-top: 20px; border-radius: 10px; text-align: center; font-weight: bold; display: none; }
-        
-        /* 5. สไตล์ตาราง */
-        .data-table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 20px; }
-        .data-table th, .data-table td { padding: 15px; border: 1px solid #e0e0e0; }
-        .data-table th { background-color: #f5f5f5; font-weight: bold; color: #495057; }
-        .data-table tr:nth-child(even) { background-color: #fcfcfc; }
-        .data-table tr:hover { background-color: #DCEDC8; } 
-        
-        /* จัดคอลัมน์ Hours ให้อยู่ตรงกลาง */
-        .data-table th:nth-child(3), 
-        .data-table td:nth-child(3) {
-            text-align: center;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate Checker</title>
+<style>
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:30px; background:#F9FBE7; color:#333; }
+.container { max-width:1000px; margin:0 auto; background:#fff; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+.header-section { display:flex; flex-direction:column; align-items:center; margin-bottom:30px; }
+.mascot-img { width:120px; height:120px; border-radius:50%; border:5px solid #4CAF50; object-fit:cover; margin-bottom:20px; }
+.header { text-align:center; color:#2E7D32; font-size:34px; font-weight:800; border-bottom:4px solid #4CAF50; padding-bottom:10px; width:100%; max-width:450px; }
+.search-bar { display:flex; gap:15px; margin-bottom:30px; }
+.search-input { flex-grow:1; padding:15px 20px; border:2px solid #ccc; border-radius:10px; font-size:16px; }
+.search-input:focus { border-color:#4CAF50; }
+.search-button { background:#4CAF50; color:#fff; padding:15px 30px; border:none; border-radius:10px; font-size:16px; font-weight:bold; cursor:pointer; }
+.search-button:hover { background:#388E3C; }
+.result-name { background:#E8F5E9; padding:18px; margin-bottom:25px; border-radius:12px; font-weight:bold; color:#388E3C; border:1px solid #C8E6C9; display:none; }
+.alert-message { background:#FFE0B2; color:#E65100; padding:15px; margin-top:20px; border-radius:10px; text-align:center; font-weight:bold; display:none; }
+.data-table { width:100%; border-collapse:collapse; margin-top:20px; display:none; }
+.data-table th, .data-table td { padding:15px; border:1px solid #e0e0e0; }
+.data-table th { background:#f5f5f5; font-weight:bold; color:#495057; }
+.data-table tr:nth-child(even) { background:#fcfcfc; }
+.data-table tr:hover { background:#DCEDC8; }
+</style>
 </head>
 <body>
-
-    <div class="container">
-        
-        <div class="header-section">
-            <div class="mascot-container">
-                <img src="Gemini_Generated_Image_60ae4y60ae4y60ae.png" alt="Safety Mascot" class="mascot-img">
-            </div>
-            
-            <div class="header">Certificate Checker</div>
-        </div>
-        
-        <div class="search-area">
-            <div class="search-bar">
-                <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อเต็ม หรือชื่อบางส่วน (เช่น สมชาย หมายตามอง)">
-                <button id="searchButton" class="search-button">Search</button>
-            </div>
-            
-            <div id="alertMessage" class="alert-message">
-                โปรดกรอกข้อความที่ต้องการค้นหา
-            </div>
-        </div>
-
-        <div id="nameResult" class="result-name"></div>
-
-        <div id="certificateTableContainer" style="display: none;">
-            <table class="data-table">
-                <thead id="certificateTableHead"></thead>
-                <tbody id="certificateTableBody"></tbody>
-            </table>
-        </div>
-        
-        <div id="noResult" class="alert-message" style="display: none; background-color: #fffae0; color: #856404; border: 1px solid #ffbb00;">
-            ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
-        </div>
-
+<div class="container">
+    <div class="header-section">
+        <img src="Gemini_Generated_Image_60ae4y60ae4y60ae.png" class="mascot-img" alt="Mascot">
+        <div class="header">Certificate Checker</div>
     </div>
 
-    <script>
-        // 1. **URL ของ Google Apps Script ตัวล่าสุด**
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyBTq5oBf2JbEDzD6O-auhxHL63DVzZOA_TDn-WOtEbyV1-7Pcd2VqAoLDzFju4nymx/exec"; 
-        
-        // 2. **รายการคอลัมน์ที่ต้องซ่อนทั้งหมด** (ซ่อน NO., NAME, COMPANY)
-        const COLUMNS_TO_HIDE = ['no', 'name', 'company', 'no.']; 
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="กรอกชื่อเต็ม หรือบางส่วน">
+        <button id="searchButton">Search</button>
+    </div>
 
-        // [ส่วน JavaScript สำหรับการค้นหา]
-        const searchInput = document.getElementById('searchInput');
-        const searchButton = document.getElementById('searchButton');
-        const alertMessage = document.getElementById('alertMessage');
-        const nameResult = document.getElementById('nameResult');
-        const tableContainer = document.getElementById('certificateTableContainer');
-        const tableHead = document.getElementById('certificateTableHead');
-        const tableBody = document.getElementById('certificateTableBody');
-        const noResult = document.getElementById('noResult');
+    <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
+    <div id="nameResult" class="result-name"></div>
+    <table class="data-table" id="dataTable">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+    <div id="noResult" class="alert-message" style="background:#fffae0; color:#856404; border:1px solid #ffbb00; display:none;">ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้</div>
+</div>
 
-        function hideAllResults() {
-            alertMessage.style.display = 'none';
-            nameResult.style.display = 'none';
-            tableContainer.style.display = 'none';
-            noResult.style.display = 'none';
-        }
-        
-        async function runSearch() {
-            hideAllResults();
-            const query = searchInput.value.trim();
-            if (query === "") {
-                alertMessage.style.display = 'block'; 
-                return;
+<script>
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwruaAM7whazqsr-UP3nFvbQlGZHvZWeed-OhqQrGhINwWakPICvAPDS04ciCd_SJCQ/exec";
+const COLUMNS_TO_HIDE = ['NO','NAME','COMPANY','NO.'];
+
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
+const alertMessage = document.getElementById('alertMessage');
+const nameResult = document.getElementById('nameResult');
+const dataTable = document.getElementById('dataTable');
+const tableHead = document.getElementById('tableHead');
+const tableBody = document.getElementById('tableBody');
+const noResult = document.getElementById('noResult');
+
+function hideAll() {
+    alertMessage.style.display='none';
+    nameResult.style.display='none';
+    dataTable.style.display='none';
+    noResult.style.display='none';
+}
+
+searchButton.addEventListener('click', runSearch);
+searchInput.addEventListener('keypress', e => { if(e.key==='Enter') runSearch(); });
+
+async function runSearch() {
+    hideAll();
+    const query = searchInput.value.trim();
+    if(!query){ alertMessage.style.display='block'; return; }
+
+    try{
+        const res = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`);
+        const results = await res.json();
+
+        if(results.error){ alertMessage.textContent=results.error; alertMessage.style.display='block'; return; }
+        if(results.length===0){ noResult.style.display='block'; return; }
+
+        // แสดงชื่อและบริษัท
+        const first = results[0];
+        nameResult.innerHTML=`Name: <strong>${first.NAME || 'ไม่ระบุ'}</strong> | Company: <strong>${first.COMPANY || 'ไม่ระบุ'}</strong>`;
+        nameResult.style.display='block';
+
+        // สร้างตาราง
+        tableHead.innerHTML=''; tableBody.innerHTML='';
+        const headers = Object.keys(first);
+        const trHead = document.createElement('tr');
+        headers.forEach(h=>{
+            if(!COLUMNS_TO_HIDE.includes(h.toUpperCase())){
+                const th=document.createElement('th'); th.textContent=h; trHead.appendChild(th);
             }
-            
-            const url = `${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`;
+        });
+        tableHead.appendChild(trHead);
 
-            try {
-                const response = await fetch(url);
-                const results = await response.json(); 
-
-                if (results.error) {
-                    alertMessage.textContent = results.error;
-                    alertMessage.style.display = 'block';
-                    return;
+        results.forEach(row=>{
+            const tr=document.createElement('tr');
+            headers.forEach(h=>{
+                if(!COLUMNS_TO_HIDE.includes(h.toUpperCase())){
+                    const td=document.createElement('td'); td.textContent=row[h]||''; tr.appendChild(td);
                 }
-                
-                if (results.length > 0) {
-                    
-                    const firstName = results[0].name || "ไม่ระบุชื่อ"; 
-                    const firstCompany = results[0].company || "ไม่ระบุบริษัท"; 
-                    
-                    nameResult.innerHTML = `Name: <strong>${firstName}</strong> | Company: <strong>${firstCompany}</strong>`;
-                    nameResult.style.display = 'block';
-                    
-                    tableHead.innerHTML = ''; 
-                    const headerRow = document.createElement('tr');
-                    
-                    const headers = Object.keys(results[0]);
-                    headers.forEach(headerKey => {
-                        if (!COLUMNS_TO_HIDE.includes(
+            });
+            tableBody.appendChild(tr);
+        });
+        dataTable.style.display='table';
+
+    }catch(err){
+        alertMessage.textContent='เกิดข้อผิดพลาดในการดึงข้อมูล'; alertMessage.style.display='block';
+        console.error(err);
+    }
+}
+</script>
+</body>
+</html>

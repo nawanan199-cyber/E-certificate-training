@@ -65,12 +65,12 @@
     </div>
 
     <script>
-        // 1. URL ของ Google Apps Script ตัวใหม่ที่คุณส่งมา
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz3URpSvtIyoHDYtyMd6uIuWOyqldZd4DsqlkLVnw-eBhyR_hhjt3bxDXYcooApVOJv/exec"; 
+        // 1. **URL ของ Google Apps Script ตัวล่าสุด**
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzAfigyTICZZCHTiSXcOPeFyElMEC4YshPaw5nLZe5D6UnJmkenl-YrWL8l2wjcwdxl/exec"; 
         
-        // 2. ***รายการคอลัมน์ที่ต้องซ่อนทั้งหมด (ตัวพิมพ์เล็กเท่านั้น)***
-        // ซ่อน 'no', 'name', 'company' แต่แสดง 'expirydate'
-        const COLUMNS_TO_HIDE = ['no', 'name', 'company']; 
+        // 2. **รายการคอลัมน์ที่ต้องซ่อนทั้งหมด** (ตัวพิมพ์เล็ก)
+        // ซ่อน 'no', 'name', 'company', และชื่ออื่นๆ ที่อาจมาจาก GAS เช่น 'no.'
+        const COLUMNS_TO_HIDE = ['no', 'name', 'company', 'no.']; 
 
         // 3. กำหนดตัวแปรสำหรับ DOM Elements
         const searchInput = document.getElementById('searchInput');

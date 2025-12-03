@@ -5,28 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate Checker</title>
     <style>
-        /* CSS สำหรับโครงสร้างและการจัดรูปแบบ */
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f8f8f8; color: #333; }
-        .container { max-width: 1000px; margin: 0 auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
-        .header { text-align: center; color: #28a745; font-size: 28px; margin-bottom: 20px; font-weight: bold; }
+        /* CSS ปรับปรุงเพื่อความ Modern และ Clean */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 30px; 
+            background-color: #f0f4f7; /* พื้นหลังสีเทาอ่อน */
+            color: #333; 
+        }
+        .container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            background-color: #ffffff; 
+            padding: 40px; 
+            border-radius: 20px; /* มุมโค้งมนมากขึ้น */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* เงาที่นุ่มนวล */
+        }
+        
+        /* ส่วนสำหรับ Mascot และ Header */
+        .header-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+
+        /* 1. สไตล์สำหรับรูป Mascot */
+        .mascot-container {
+            margin-bottom: 20px;
+        }
+        .mascot-img {
+            width: 120px; /* ขนาดรูปภาพมาสคอต */
+            height: 120px;
+            border-radius: 50%; /* ทำให้รูปภาพกลม */
+            border: 5px solid #00a896; /* ขอบสีเขียวมิ้นต์ */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            object-fit: cover; /* จัดการให้รูปเต็มวงกลม */
+        }
+
+        /* 2. สไตล์สำหรับ Header */
+        .header { 
+            text-align: center; 
+            color: #1e3a8a; /* สีน้ำเงินเข้ม */
+            font-size: 34px; 
+            font-weight: 800; 
+            border-bottom: 4px solid #00a896; /* เส้นใต้สีเขียวมิ้นต์ */
+            padding-bottom: 10px;
+            width: 100%;
+            max-width: 450px;
+        }
+        
         .search-area { margin-bottom: 30px; }
-        .search-bar { display: flex; gap: 10px; }
-        .search-input { flex-grow: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
-        .search-button { background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
-        .search-button:hover { background-color: #1e7e34; }
+        .search-bar { display: flex; gap: 15px; }
+        .search-input { flex-grow: 1; padding: 15px 20px; border: 2px solid #ccc; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
+        .search-input:focus { border-color: #00a896; } 
         
-        /* ข้อความเตือน (ชมพู/เหลือง) */
-        .alert-message { background-color: #ffeaea; color: #d8000c; padding: 15px; margin-top: 20px; border-radius: 5px; text-align: center; font-weight: bold; display: none; }
-        .result-name { background-color: #e6ffe6; padding: 15px; margin-bottom: 20px; border-radius: 5px; font-weight: bold; color: #1e7e34; border: 1px solid #c8ecc8; display: none; }
+        /* 3. สไตล์ปุ่ม Search */
+        .search-button { 
+            background-color: #00a896; /* สีเขียวมิ้นต์ */
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold; 
+            transition: background-color 0.3s, box-shadow 0.3s; 
+        }
+        .search-button:hover { 
+            background-color: #008f7d; /* เข้มขึ้นเมื่อชี้ */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
+        }
         
-        /* ตารางผลลัพธ์ */
+        /* 4. สไตล์แถบแสดงชื่อ/บริษัท */
+        .result-name { 
+            background-color: #e0f2f1; /* พื้นหลังสีเขียวอ่อนมาก */
+            padding: 18px; 
+            margin-bottom: 25px; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            color: #00564d; 
+            border: 1px solid #b2dfdb; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: none; 
+        }
+        
+        /* ข้อความเตือนและไม่พบผลลัพธ์ */
+        .alert-message { background-color: #ffeaea; color: #d8000c; padding: 15px; margin-top: 20px; border-radius: 10px; text-align: center; font-weight: bold; display: none; }
+        
+        /* 5. สไตล์ตาราง */
         .data-table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 20px; }
-        .data-table th, .data-table td { padding: 12px; border: 1px solid #ddd; }
-        .data-table th { background-color: #f2f2f2; font-weight: bold; color: #555; }
-        .data-table tr:nth-child(even) { background-color: #f9f9f9; }
-        .data-table tr:hover { background-color: #f1f1f1; }
+        .data-table th, .data-table td { padding: 15px; border: 1px solid #e0e0e0; }
+        .data-table th { background-color: #f5f5f5; font-weight: bold; color: #495057; }
+        .data-table tr:nth-child(even) { background-color: #fcfcfc; }
+        .data-table tr:hover { background-color: #e6f7f5; } /* ไฮไลท์สีอ่อนเมื่อชี้ */
         
-        /* จัดคอลัมน์ที่ 3 (Hours) ให้อยู่ตรงกลาง */
+        /* จัดคอลัมน์ Hours ให้อยู่ตรงกลาง */
         .data-table th:nth-child(3), 
         .data-table td:nth-child(3) {
             text-align: center;
@@ -36,7 +111,14 @@
 <body>
 
     <div class="container">
-        <div class="header">Certificate Checker</div>
+        
+        <div class="header-section">
+            <div class="mascot-container">
+                <img src="YOUR_MASCOT_IMAGE_URL_HERE" alt="Safety Mascot" class="mascot-img">
+            </div>
+            
+            <div class="header">Certificate Checker</div>
+        </div>
         
         <div class="search-area">
             <div class="search-bar">
@@ -58,21 +140,20 @@
             </table>
         </div>
         
-        <div id="noResult" class="alert-message" style="display: none; background-color: #fff3cd; color: #856404; border: 1px solid #ffbb00;">
+        <div id="noResult" class="alert-message" style="display: none; background-color: #fffae0; color: #856404; border: 1px solid #ffbb00;">
             ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
         </div>
 
     </div>
 
     <script>
-        // 1. **URL ของ Google Apps Script ตัวล่าสุด**
+        // 1. **URL ของ Google Apps Script ตัวล่าสุด (ที่เพิ่งใส่ให้คุณ)**
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzAfigyTICZZCHTiSXcOPeFyElMEC4YshPaw5nLZe5D6UnJmkenl-YrWL8l2wjcwdxl/exec"; 
         
-        // 2. **รายการคอลัมน์ที่ต้องซ่อนทั้งหมด** (ตัวพิมพ์เล็ก)
-        // ซ่อน 'no', 'name', 'company', และชื่ออื่นๆ ที่อาจมาจาก GAS เช่น 'no.'
+        // 2. **รายการคอลัมน์ที่ต้องซ่อนทั้งหมด** (ซ่อน NO., NAME, COMPANY)
         const COLUMNS_TO_HIDE = ['no', 'name', 'company', 'no.']; 
 
-        // 3. กำหนดตัวแปรสำหรับ DOM Elements
+        // [ส่วน JavaScript สำหรับการค้นหา]
         const searchInput = document.getElementById('searchInput');
         const searchButton = document.getElementById('searchButton');
         const alertMessage = document.getElementById('alertMessage');
@@ -91,14 +172,12 @@
         
         async function runSearch() {
             hideAllResults();
-
             const query = searchInput.value.trim();
             if (query === "") {
                 alertMessage.style.display = 'block'; 
                 return;
             }
             
-            // ใช้ GAS_WEB_APP_URL เพื่อสร้าง URL โดยใช้พารามิเตอร์ 'name'
             const url = `${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`;
 
             try {
@@ -113,20 +192,17 @@
                 
                 if (results.length > 0) {
                     
-                    // A. จัดการแถบชื่อ (แสดง Name และ Company ในแถบสรุป)
                     const firstName = results[0].name || "ไม่ระบุชื่อ"; 
                     const firstCompany = results[0].company || "ไม่ระบุบริษัท"; 
                     
                     nameResult.innerHTML = `Name: <strong>${firstName}</strong> | Company: <strong>${firstCompany}</strong>`;
                     nameResult.style.display = 'block';
                     
-                    // B. จัดการหัวตาราง
                     tableHead.innerHTML = ''; 
                     const headerRow = document.createElement('tr');
                     
                     const headers = Object.keys(results[0]);
                     headers.forEach(headerKey => {
-                        // กรองคอลัมน์ที่ไม่ต้องการแสดง
                         if (!COLUMNS_TO_HIDE.includes(headerKey)) {
                             const th = document.createElement('th');
                             th.textContent = headerKey.toUpperCase().replace(/_/g, " "); 
@@ -135,16 +211,12 @@
                     });
                     tableHead.appendChild(headerRow);
 
-
-                    // C. จัดการเนื้อหาตาราง
                     tableBody.innerHTML = ''; 
                     results.forEach(rowObject => {
                         const tr = document.createElement('tr');
                         headers.forEach(headerKey => {
-                            // กรองคอลัมน์ที่ไม่ต้องการแสดง
                             if (!COLUMNS_TO_HIDE.includes(headerKey)) {
                                 const td = document.createElement('td');
-                                // ใช้ String() เพื่อจัดการค่าที่ไม่ใช่ String ได้อย่างปลอดภัย
                                 td.textContent = String(rowObject[headerKey] || '-'); 
                                 tr.appendChild(td);
                             }

@@ -68,8 +68,9 @@
         // 1. URL ของ Google Apps Script ตัวใหม่ที่คุณส่งมา
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz3URpSvtIyoHDYtyMd6uIuWOyqldZd4DsqlkLVnw-eBhyR_hhjt3bxDXYcooApVOJv/exec"; 
         
-        // 2. กำหนดคอลัมน์ที่ต้องการซ่อนในตาราง (เป็นตัวพิมพ์เล็กทั้งหมด)
-        const COLUMNS_TO_HIDE = ['company', 'expirydate']; 
+        // 2. ***รายการคอลัมน์ที่ต้องซ่อนทั้งหมด (ตัวพิมพ์เล็กเท่านั้น)***
+        // ซ่อน 'no', 'name', 'company' แต่แสดง 'expirydate'
+        const COLUMNS_TO_HIDE = ['no', 'name', 'company']; 
 
         // 3. กำหนดตัวแปรสำหรับ DOM Elements
         const searchInput = document.getElementById('searchInput');
@@ -112,7 +113,7 @@
                 
                 if (results.length > 0) {
                     
-                    // A. จัดการแถบชื่อ (ยังแสดง Company ในแถบสรุป)
+                    // A. จัดการแถบชื่อ (แสดง Name และ Company ในแถบสรุป)
                     const firstName = results[0].name || "ไม่ระบุชื่อ"; 
                     const firstCompany = results[0].company || "ไม่ระบุบริษัท"; 
                     

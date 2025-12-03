@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate Checker</title>
     <style>
-        /* CSS ปรับปรุงเพื่อความ Modern และ Clean */
+        /* CSS ปรับปรุงเพื่อใช้โทนสีเขียวอ่อนเป็นหลัก */
+        
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0; 
             padding: 30px; 
-            background-color: #f0f4f7; /* พื้นหลังสีเทาอ่อน */
+            background-color: #F9FBE7; /* พื้นหลังสีเหลืองเขียวอ่อนมาก */
             color: #333; 
         }
         .container { 
@@ -18,8 +19,8 @@
             margin: 0 auto; 
             background-color: #ffffff; 
             padding: 40px; 
-            border-radius: 20px; /* มุมโค้งมนมากขึ้น */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* เงาที่นุ่มนวล */
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
         }
         
         /* ส่วนสำหรับ Mascot และ Header */
@@ -38,19 +39,19 @@
         .mascot-img {
             width: 120px; /* ขนาดรูปภาพมาสคอต */
             height: 120px;
-            border-radius: 50%; /* ทำให้รูปภาพกลม */
-            border: 5px solid #00a896; /* ขอบสีเขียวมิ้นต์ */
+            border-radius: 50%; 
+            border: 5px solid #4CAF50; /* ขอบสีเขียวสด */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            object-fit: cover; /* จัดการให้รูปเต็มวงกลม */
+            object-fit: cover;
         }
 
-        /* 2. สไตล์สำหรับ Header */
+        /* 2. สไตล์สำหรับ Header (สีเขียวเข้ม) */
         .header { 
             text-align: center; 
-            color: #1e3a8a; /* สีน้ำเงินเข้ม */
+            color: #2E7D32; /* สีเขียวเข้ม */
             font-size: 34px; 
             font-weight: 800; 
-            border-bottom: 4px solid #00a896; /* เส้นใต้สีเขียวมิ้นต์ */
+            border-bottom: 4px solid #4CAF50; /* เส้นใต้สีเขียวสด */
             padding-bottom: 10px;
             width: 100%;
             max-width: 450px;
@@ -59,11 +60,11 @@
         .search-area { margin-bottom: 30px; }
         .search-bar { display: flex; gap: 15px; }
         .search-input { flex-grow: 1; padding: 15px 20px; border: 2px solid #ccc; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
-        .search-input:focus { border-color: #00a896; } 
+        .search-input:focus { border-color: #4CAF50; } 
         
-        /* 3. สไตล์ปุ่ม Search */
+        /* 3. สไตล์ปุ่ม Search (สีเขียวสด) */
         .search-button { 
-            background-color: #00a896; /* สีเขียวมิ้นต์ */
+            background-color: #4CAF50; 
             color: white; 
             padding: 15px 30px; 
             border: none; 
@@ -74,32 +75,32 @@
             transition: background-color 0.3s, box-shadow 0.3s; 
         }
         .search-button:hover { 
-            background-color: #008f7d; /* เข้มขึ้นเมื่อชี้ */
+            background-color: #388E3C; 
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
         }
         
-        /* 4. สไตล์แถบแสดงชื่อ/บริษัท */
+        /* 4. สไตล์แถบแสดงชื่อ/บริษัท (สีเขียวอ่อนมาก) */
         .result-name { 
-            background-color: #e0f2f1; /* พื้นหลังสีเขียวอ่อนมาก */
+            background-color: #E8F5E9; 
             padding: 18px; 
             margin-bottom: 25px; 
             border-radius: 12px; 
             font-weight: bold; 
-            color: #00564d; 
-            border: 1px solid #b2dfdb; 
+            color: #388E3C; 
+            border: 1px solid #C8E6C9; 
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             display: none; 
         }
         
         /* ข้อความเตือนและไม่พบผลลัพธ์ */
-        .alert-message { background-color: #ffeaea; color: #d8000c; padding: 15px; margin-top: 20px; border-radius: 10px; text-align: center; font-weight: bold; display: none; }
+        .alert-message { background-color: #FFE0B2; color: #E65100; padding: 15px; margin-top: 20px; border-radius: 10px; text-align: center; font-weight: bold; display: none; }
         
         /* 5. สไตล์ตาราง */
         .data-table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 20px; }
         .data-table th, .data-table td { padding: 15px; border: 1px solid #e0e0e0; }
         .data-table th { background-color: #f5f5f5; font-weight: bold; color: #495057; }
         .data-table tr:nth-child(even) { background-color: #fcfcfc; }
-        .data-table tr:hover { background-color: #e6f7f5; } /* ไฮไลท์สีอ่อนเมื่อชี้ */
+        .data-table tr:hover { background-color: #DCEDC8; } 
         
         /* จัดคอลัมน์ Hours ให้อยู่ตรงกลาง */
         .data-table th:nth-child(3), 
@@ -147,7 +148,7 @@
     </div>
 
     <script>
-        // 1. **URL ของ Google Apps Script ตัวล่าสุด (ที่เพิ่งใส่ให้คุณ)**
+        // 1. **URL ของ Google Apps Script ตัวล่าสุด**
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzAfigyTICZZCHTiSXcOPeFyElMEC4YshPaw5nLZe5D6UnJmkenl-YrWL8l2wjcwdxl/exec"; 
         
         // 2. **รายการคอลัมน์ที่ต้องซ่อนทั้งหมด** (ซ่อน NO., NAME, COMPANY)
@@ -203,49 +204,4 @@
                     
                     const headers = Object.keys(results[0]);
                     headers.forEach(headerKey => {
-                        if (!COLUMNS_TO_HIDE.includes(headerKey)) {
-                            const th = document.createElement('th');
-                            th.textContent = headerKey.toUpperCase().replace(/_/g, " "); 
-                            headerRow.appendChild(th);
-                        }
-                    });
-                    tableHead.appendChild(headerRow);
-
-                    tableBody.innerHTML = ''; 
-                    results.forEach(rowObject => {
-                        const tr = document.createElement('tr');
-                        headers.forEach(headerKey => {
-                            if (!COLUMNS_TO_HIDE.includes(headerKey)) {
-                                const td = document.createElement('td');
-                                td.textContent = String(rowObject[headerKey] || '-'); 
-                                tr.appendChild(td);
-                            }
-                        });
-                        tableBody.appendChild(tr);
-                    });
-                    
-                    tableContainer.style.display = 'block';
-
-                } else {
-                    noResult.style.display = 'block';
-                }
-
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                alertMessage.textContent = "เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาตรวจสอบ Apps Script และ URL.";
-                alertMessage.style.display = 'block';
-            }
-        }
-
-        searchButton.addEventListener('click', runSearch);
-        searchInput.addEventListener('keyup', function(event) {
-            if (event.key === 'Enter') {
-                runSearch();
-            }
-        });
-        
-        hideAllResults();
-    </script>
-
-</body>
-</html>
+                        if (!COLUMNS_TO_HIDE.includes(

@@ -1,132 +1,61 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate Checker</title>
-    <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; 
-            padding: 30px; 
-            background-color: #F9FBE7; 
-            color: #333; 
-        }
-        .container { 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            background-color: #ffffff; 
-            padding: 40px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
-        }
-        .header-section {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            margin-bottom: 30px;
-        }
-        .mascot-container { margin-bottom: 20px; }
-        .mascot-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 5px solid #4CAF50;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            object-fit: cover;
-        }
-        .header { 
-            text-align: center; 
-            color: #2E7D32; 
-            font-size: 34px; 
-            font-weight: 800; 
-            border-bottom: 4px solid #4CAF50; 
-            padding-bottom: 10px;
-            width: 100%;
-            max-width: 450px;
-        }
-        .search-area { margin-bottom: 30px; }
-        .search-bar { display: flex; gap: 15px; }
-        .search-input { flex-grow: 1; padding: 15px 20px; border: 2px solid #ccc; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
-        .search-input:focus { border-color: #4CAF50; } 
-        .search-button { 
-            background-color: #4CAF50; 
-            color: white; 
-            padding: 15px 30px; 
-            border: none; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-size: 16px; 
-            font-weight: bold; 
-            transition: background-color 0.3s, box-shadow 0.3s; 
-        }
-        .search-button:hover { 
-            background-color: #388E3C; 
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
-        }
-        .result-name { 
-            background-color: #E8F5E9; 
-            padding: 18px; 
-            margin-bottom: 25px; 
-            border-radius: 12px; 
-            font-weight: bold; 
-            color: #388E3C; 
-            border: 1px solid #C8E6C9; 
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            display: none; 
-        }
-        .alert-message { 
-            background-color: #FFE0B2; 
-            color: #E65100; 
-            padding: 15px; 
-            margin-top: 20px; 
-            border-radius: 10px; 
-            text-align: center; 
-            font-weight: bold; 
-            display: none; 
-        }
-        .data-table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 20px; }
-        .data-table th, .data-table td { padding: 15px; border: 1px solid #e0e0e0; }
-        .data-table th { background-color: #f5f5f5; font-weight: bold; color: #495057; }
-        .data-table tr:nth-child(even) { background-color: #fcfcfc; }
-        .data-table tr:hover { background-color: #DCEDC8; } 
-        .data-table th:nth-child(3), .data-table td:nth-child(3) { text-align: center; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate Checker</title>
+<style>
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 30px; background-color: #F9FBE7; color: #333; }
+.container { max-width: 1000px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.header-section { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 30px; }
+.mascot-container { margin-bottom: 20px; }
+.mascot-img { width: 120px; height: 120px; border-radius: 50%; border: 5px solid #4CAF50; box-shadow: 0 4px 10px rgba(0,0,0,0.1); object-fit: cover; }
+.header { text-align: center; color: #2E7D32; font-size: 34px; font-weight: 800; border-bottom: 4px solid #4CAF50; padding-bottom: 10px; width: 100%; max-width: 450px; }
+.search-area { margin-bottom: 30px; }
+.search-bar { display: flex; gap: 15px; }
+.search-input { flex-grow: 1; padding: 15px 20px; border: 2px solid #ccc; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
+.search-input:focus { border-color: #4CAF50; }
+.search-button { background-color: #4CAF50; color: white; padding: 15px 30px; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: bold; transition: background-color 0.3s, box-shadow 0.3s; }
+.search-button:hover { background-color: #388E3C; box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
+.result-name { background-color: #E8F5E9; padding: 18px; margin-bottom: 25px; border-radius: 12px; font-weight: bold; color: #388E3C; border: 1px solid #C8E6C9; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: none; }
+.alert-message { background-color: #FFE0B2; color: #E65100; padding: 15px; margin-top: 20px; border-radius: 10px; text-align: center; font-weight: bold; display: none; }
+.data-table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 20px; }
+.data-table th, .data-table td { padding: 15px; border: 1px solid #e0e0e0; }
+.data-table th { background-color: #f5f5f5; font-weight: bold; color: #495057; }
+.data-table tr:nth-child(even) { background-color: #fcfcfc; }
+.data-table tr:hover { background-color: #DCEDC8; }
+.data-table th:nth-child(3), .data-table td:nth-child(3) { text-align: center; }
+</style>
 </head>
 <body>
 <div class="container">
-    <div class="header-section">
-        <div class="mascot-container">
-            <img src="Gemini_Generated_Image_60ae4y60ae4y60ae.png" alt="Safety Mascot" class="mascot-img">
-        </div>
-        <div class="header">Certificate Checker</div>
+  <div class="header-section">
+    <div class="mascot-container">
+      <img src="Gemini_Generated_Image_60ae4y60ae4y60ae.png" alt="Safety Mascot" class="mascot-img">
     </div>
-
-    <div class="search-area">
-        <div class="search-bar">
-            <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อเต็ม หรือชื่อบางส่วน (เช่น สมชาย หมายตามอง)">
-            <button id="searchButton" class="search-button">Search</button>
-        </div>
-        <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
+    <div class="header">Certificate Checker</div>
+  </div>
+  <div class="search-area">
+    <div class="search-bar">
+      <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อเต็ม หรือชื่อบางส่วน (เช่น สมชาย)">
+      <button id="searchButton" class="search-button">Search</button>
     </div>
-
-    <div id="nameResult" class="result-name"></div>
-
-    <div id="certificateTableContainer" style="display: none;">
-        <table class="data-table">
-            <thead id="certificateTableHead"></thead>
-            <tbody id="certificateTableBody"></tbody>
-        </table>
-    </div>
-
-    <div id="noResult" class="alert-message" style="display: none; background-color: #fffae0; color: #856404; border: 1px solid #ffbb00;">
-        ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
-    </div>
+    <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
+  </div>
+  <div id="nameResult" class="result-name"></div>
+  <div id="certificateTableContainer" style="display: none;">
+    <table class="data-table">
+      <thead id="certificateTableHead"></thead>
+      <tbody id="certificateTableBody"></tbody>
+    </table>
+  </div>
+  <div id="noResult" class="alert-message" style="display: none; background-color: #fffae0; color: #856404; border: 1px solid #ffbb00;">
+    ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
+  </div>
 </div>
 
 <script>
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxVjsy1VKZcvlAZYnnFwF_hB_cCUVarPTdIiVSsL8gWm9gDoD3UyHANHveJEiEBaZuX/exec";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx0Fvfsmf9FDogri-1P1Z4f0OgQGiKBCzQSbazZUBgCGuIuHICHCMVKLg_j9BKBiBaA/exec";
 const COLUMNS_TO_HIDE = ['no','name','company','no.'];
 
 const searchInput = document.getElementById('searchInput');
@@ -139,77 +68,76 @@ const tableBody = document.getElementById('certificateTableBody');
 const noResult = document.getElementById('noResult');
 
 function hideAllResults(){
-    alertMessage.style.display='none';
-    nameResult.style.display='none';
-    tableContainer.style.display='none';
-    noResult.style.display='none';
+  alertMessage.style.display='none';
+  nameResult.style.display='none';
+  tableContainer.style.display='none';
+  noResult.style.display='none';
 }
 
 async function runSearch(){
-    hideAllResults();
-    const query = searchInput.value.trim();
-    if(!query){
-        alertMessage.style.display='block';
-        return;
+  hideAllResults();
+  const query = searchInput.value.trim();
+  if(!query){
+    alertMessage.style.display='block';
+    return;
+  }
+
+  try{
+    const res = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`);
+    const results = await res.json();
+
+    if(results.error){
+      alertMessage.textContent = results.error;
+      alertMessage.style.display='block';
+      return;
     }
 
-    try{
-        const res = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`);
-        const results = await res.json();
-
-        if(results.error){
-            alertMessage.textContent = results.error;
-            alertMessage.style.display='block';
-            return;
-        }
-
-        if(results.length === 0){
-            noResult.style.display='block';
-            return;
-        }
-
-        // แสดงชื่อ + บริษัท
-        const first = results[0];
-        nameResult.innerHTML = `Name: <strong>${first.NAME || 'ไม่ระบุ'}</strong> | Company: <strong>${first.COMPANY || 'ไม่ระบุ'}</strong>`;
-        nameResult.style.display='block';
-
-        // สร้างตารางผลลัพธ์
-        tableHead.innerHTML = '';
-        tableBody.innerHTML = '';
-        const headers = Object.keys(first);
-        const trHead = document.createElement('tr');
-        headers.forEach(h => {
-            if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
-                const th = document.createElement('th');
-                th.textContent = h;
-                trHead.appendChild(th);
-            }
-        });
-        tableHead.appendChild(trHead);
-
-        results.forEach(row => {
-            const tr = document.createElement('tr');
-            headers.forEach(h => {
-                if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
-                    const td = document.createElement('td');
-                    td.textContent = row[h] || '';
-                    tr.appendChild(td);
-                }
-            });
-            tableBody.appendChild(tr);
-        });
-
-        tableContainer.style.display='block';
-
-    } catch(err){
-        alertMessage.textContent='เกิดข้อผิดพลาดในการดึงข้อมูล';
-        alertMessage.style.display='block';
-        console.error(err);
+    if(results.length === 0){
+      noResult.style.display='block';
+      return;
     }
+
+    const first = results[0];
+    nameResult.innerHTML = `Name: <strong>${first.NAME || 'ไม่ระบุ'}</strong> | Company: <strong>${first.COMPANY || 'ไม่ระบุ'}</strong>`;
+    nameResult.style.display='block';
+
+    tableHead.innerHTML = '';
+    tableBody.innerHTML = '';
+    const headers = Object.keys(first);
+    const trHead = document.createElement('tr');
+
+    headers.forEach(h=>{
+      if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
+        const th = document.createElement('th');
+        th.textContent = h;
+        trHead.appendChild(th);
+      }
+    });
+    tableHead.appendChild(trHead);
+
+    results.forEach(row=>{
+      const tr = document.createElement('tr');
+      headers.forEach(h=>{
+        if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
+          const td = document.createElement('td');
+          td.textContent = row[h] || '';
+          tr.appendChild(td);
+        }
+      });
+      tableBody.appendChild(tr);
+    });
+
+    tableContainer.style.display='block';
+
+  }catch(err){
+    alertMessage.textContent='เกิดข้อผิดพลาดในการดึงข้อมูล';
+    alertMessage.style.display='block';
+    console.error(err);
+  }
 }
 
 searchButton.addEventListener('click', runSearch);
-searchInput.addEventListener('keypress', e => { if(e.key === 'Enter') runSearch(); });
+searchInput.addEventListener('keypress', e => { if(e.key==='Enter') runSearch(); });
 </script>
 </body>
 </html>

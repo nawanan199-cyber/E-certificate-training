@@ -65,11 +65,13 @@
     </div>
 
     <script>
-        // 1. ***โค้ดได้นำ URL ของคุณมาใส่ที่นี่แล้ว!***
-        // บรรทัดที่ 101 (โดยประมาณ)
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxLchWNdeI2mMdNDhAlSXJXfM0Y-CrBPkZ5uU07zYJAVBlzzpYlb4HvBoEE-ifLWdwi/exec"; 
+        // 1. URL ของ Google Apps Script ตัวใหม่ที่คุณส่งมา
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz3URpSvtIyoHDYtyMd6uIuWOyqldZd4DsqlkLVnw-eBhyR_hhjt3bxDXYcooApVOJv/exec"; 
         
-        // 2. กำหนดตัวแปรสำหรับ DOM Elements
+        // 2. กำหนดคอลัมน์ที่ต้องการซ่อนในตาราง (เป็นตัวพิมพ์เล็กทั้งหมด)
+        const COLUMNS_TO_HIDE = ['company', 'expirydate']; 
+
+        // 3. กำหนดตัวแปรสำหรับ DOM Elements
         const searchInput = document.getElementById('searchInput');
         const searchButton = document.getElementById('searchButton');
         const alertMessage = document.getElementById('alertMessage');
@@ -95,7 +97,7 @@
                 return;
             }
             
-            // ใช้ GAS_WEB_APP_URL ที่กำหนดไว้แล้ว เพื่อสร้าง URL โดยใช้พารามิเตอร์ 'name'
+            // ใช้ GAS_WEB_APP_URL เพื่อสร้าง URL โดยใช้พารามิเตอร์ 'name'
             const url = `${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`;
 
             try {
@@ -110,22 +112,25 @@
                 
                 if (results.length > 0) {
                     
-                    // A. จัดการแถบชื่อ
+                    // A. จัดการแถบชื่อ (ยังแสดง Company ในแถบสรุป)
                     const firstName = results[0].name || "ไม่ระบุชื่อ"; 
                     const firstCompany = results[0].company || "ไม่ระบุบริษัท"; 
                     
                     nameResult.innerHTML = `Name: <strong>${firstName}</strong> | Company: <strong>${firstCompany}</strong>`;
                     nameResult.style.display = 'block';
                     
-                    // B. จัดการหัวตาราง (สร้างจาก Key ของ Object แรก)
+                    // B. จัดการหัวตาราง
                     tableHead.innerHTML = ''; 
                     const headerRow = document.createElement('tr');
                     
                     const headers = Object.keys(results[0]);
                     headers.forEach(headerKey => {
-                        const th = document.createElement('th');
-                        th.textContent = headerKey.toUpperCase().replace(/_/g, " "); 
-                        headerRow.appendChild(th);
+                        // กรองคอลัมน์ที่ไม่ต้องการแสดง
+                        if (!COLUMNS_TO_HIDE.includes(headerKey)) {
+                            const th = document.createElement('th');
+                            th.textContent = headerKey.toUpperCase().replace(/_/g, " "); 
+                            headerRow.appendChild(th);
+                        }
                     });
                     tableHead.appendChild(headerRow);
 
@@ -135,9 +140,13 @@
                     results.forEach(rowObject => {
                         const tr = document.createElement('tr');
                         headers.forEach(headerKey => {
-                            const td = document.createElement('td');
-                            td.textContent = String(rowObject[headerKey] || '-'); 
-                            tr.appendChild(td);
+                            // กรองคอลัมน์ที่ไม่ต้องการแสดง
+                            if (!COLUMNS_TO_HIDE.includes(headerKey)) {
+                                const td = document.createElement('td');
+                                // ใช้ String() เพื่อจัดการค่าที่ไม่ใช่ String ได้อย่างปลอดภัย
+                                td.textContent = String(rowObject[headerKey] || '-'); 
+                                tr.appendChild(td);
+                            }
                         });
                         tableBody.appendChild(tr);
                     });

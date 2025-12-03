@@ -1,232 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Certificate Checker</title>
-  <script src="https://static.line-scdn.net/liff/2.22.0/sdk.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f4f4f4;
-      color: #333;
-    }
-    .container {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #00b900;
-      margin-bottom: 5px; /* ลด margin เพื่อให้รูปอยู่ใกล้หัวข้อ */
-    }
-    input[type="text"] {
-      width: calc(100% - 100px);
-      padding: 10px;
-      margin-right: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    button {
-      padding: 10px 15px;
-      background-color: #00b900;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      box-sizing: border-box;
-      width: 80px;
-    }
-    button:hover {
-      background-color: #009900;
-    }
-    #result {
-      margin-top: 20px;
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-      font-size: 0.9em;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-      color: #555;
-      font-weight: bold;
-    }
-    /* CSS สำหรับแถบชื่อด้านบนตาราง */
-    .summary-info {
-      background-color: #e6ffe6; 
-      font-weight: bold;
-      text-align: left;
-      padding: 10px;
-      margin-bottom: 15px; 
-      border-radius: 4px;
-      border: 1px solid #ccebcc; 
-    }
-    .not-found, .error-message {
-      padding: 15px;
-      background-color: #ffe6e6;
-      color: #cc0000;
-      border-radius: 4px;
-      text-align: center;
-      margin-top: 15px;
-    }
-    .valid {
-      color: green;
-      font-weight: bold;
-    }
-    .expired {
-      color: red;
-      font-weight: bold;
-    }
-    /* CSS สำหรับจัดรูปภาพการ์ตูนให้อยู่กึ่งกลาง */
-    .cartoon-img {
-        display: block;
-        width: 120px; /* ปรับขนาดความกว้างตามต้องการ */
-        height: auto;
-        margin: 10px auto 20px auto; /* จัดกึ่งกลางและมีระยะห่าง */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Checker</title>
+    <style>
+        /* CSS สำหรับโครงสร้างและการจัดรูปแบบ */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f8f8f8; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .header { text-align: center; color: #28a745; font-size: 28px; margin-bottom: 20px; font-weight: bold; }
+        .search-area { margin-bottom: 30px; }
+        .search-bar { display: flex; gap: 10px; }
+        .search-input { flex-grow: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+        .search-button { background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .search-button:hover { background-color: #1e7e34; }
+        
+        /* ข้อความเตือน (ชมพู/เหลือง) */
+        .alert-message { background-color: #ffeaea; color: #d8000c; padding: 15px; margin-top: 20px; border-radius: 5px; text-align: center; font-weight: bold; display: none; }
+        .result-name { background-color: #e6ffe6; padding: 15px; margin-bottom: 20px; border-radius: 5px; font-weight: bold; color: #1e7e34; border: 1px solid #c8ecc8; display: none; }
+        
+        /* ตารางผลลัพธ์ */
+        .data-table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 20px; }
+        .data-table th, .data-table td { padding: 12px; border: 1px solid #ddd; }
+        .data-table th { background-color: #f2f2f2; font-weight: bold; color: #555; }
+        .data-table tr:nth-child(even) { background-color: #f9f9f9; }
+        .data-table tr:hover { background-color: #f1f1f1; }
+        
+        /* จัดคอลัมน์ที่ 3 (Hours) ให้อยู่ตรงกลาง */
+        .data-table th:nth-child(3), 
+        .data-table td:nth-child(3) {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Certificate Checker</h2>
-    
-    <img src="https://i.imgur.com/kO8rJ4o.png" alt="รูปการ์ตูนเครื่องหมายถูกพร้อมหมวกปริญญา" class="cartoon-img">
-    
-    <div style="display: flex; margin-bottom: 15px;">
-      <input type="text" id="name" placeholder="กรอกชื่อเต็ม (เช่น ใจดี ดีใจ)">
-      <button onclick="search()">Search</button>
-    </div>
-    <div id="result"></div>
-  </div>
 
-<script>
-  // ** สำคัญ: ต้องใส่ API URL ใหม่ล่าสุดที่ได้จากการ Deploy ในขั้นตอนที่ 1 **
-  const API_URL = "https://script.google.com/macros/s/AKfycbxmkOe5pflcgVh6pRChO_-SiWuKP5PmZS6fmq_7STU3-XtMNIxi1QLkdiy4tVsZkNHX/exec"; // <<<--- โปรดเปลี่ยนเป็น URL ใหม่ล่าสุดของคุณ
-  const TODAY = new Date().toISOString().slice(0, 10); 
-
-  // Headers ที่ต้องการแสดงผล (ไม่มี 'affiliation' แล้ว)
-  const DISPLAY_HEADERS = [
-    { key: 'licenseid', label: 'License ID' },    
-    { key: 'course', label: 'Course' },
-    { key: 'duration', label: 'Hours' },        // คอลัมน์ Hours
-    { key: 'issuedate', label: 'Issued' },        
-    { key: 'expirydate', label: 'Expires' }       
-  ];
-
-  // ฟังก์ชันช่วยจัดรูปแบบวันที่ (DD/MM/YYYY)
-  function formatDate(dateString) {
-    if (!dateString || dateString.toString().trim() === '' || dateString.toString().trim() === '-') {
-      return ''; 
-    }
-    
-    try {
-      const date = new Date(dateString);
-
-      if (isNaN(date)) {
-        return dateString;
-      }
-      
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0'); 
-      const year = date.getFullYear();
-
-      // แสดงในรูปแบบ DD/MM/YYYY 
-      return `${day}/${month}/${year}`;
-
-    } catch (error) {
-      console.error("Date formatting error:", error);
-      return dateString;
-    }
-  }
-
-
-  async function search() {
-    const nameInput = document.getElementById("name");
-    const resultDiv = document.getElementById("result");
-    const name = nameInput.value.trim();
-
-    resultDiv.innerHTML = '<div class="searching">กำลังค้นหาข้อมูล...</div>';
-
-    if (name === "") {
-      resultDiv.innerHTML = '<div class="not-found">โปรดกรอกชื่อเต็มที่ต้องการค้นหา</div>';
-      return;
-    }
-
-    try {
-      const response = await fetch(`${API_URL}?name=${encodeURIComponent(name)}`);
-
-      if (response.ok) {
-        const data = await response.json();
+    <div class="container">
+        <div class="header">Certificate Checker</div>
         
-        if (data.error) {
-          resultDiv.innerHTML = `<div class="error-message">Error: ${data.error}</div>`;
-        } else if (data.length > 0) {
-          // ส่วนนี้คือการย้ายชื่อผู้ถูกค้นหาและบริษัทมาอยู่ด้านบนของตาราง
-          const fullName = data[0]['name'] || 'N/A';
-          const company = data[0]['company'] || 'N/A'; 
-          let html = `<div class="summary-info">Name: ${fullName} | Company: ${company}</div>`; 
+        <div class="search-area">
+            <div class="search-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อเต็ม หรือชื่อบางส่วน">
+                <button id="searchButton" class="search-button">Search</button>
+            </div>
+            
+            <div id="alertMessage" class="alert-message">
+                โปรดกรอกข้อความที่ต้องการค้นหา
+            </div>
+        </div>
 
-          html += '<table><thead><tr>';
+        <div id="nameResult" class="result-name"></div>
 
-          // Generate table headers
-          DISPLAY_HEADERS.forEach(header => {
-            html += `<th>${header.label}</th>`;
-          });
+        <div id="certificateTableContainer" style="display: none;">
+            <table class="data-table">
+                <thead id="certificateTableHead"></thead>
+                <tbody id="certificateTableBody"></tbody>
+            </table>
+        </div>
+        
+        <div id="noResult" class="alert-message" style="display: none; background-color: #fff3cd; color: #856404; border: 1px solid #ffbb00;">
+            ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
+        </div>
 
-          html += '</tr></thead><tbody>';
+    </div>
 
-          // Generate table rows
-          data.forEach(item => {
-            html += '<tr>';
-            DISPLAY_HEADERS.forEach(header => {
-              let value = item[header.key] || ''; 
-              let tdClass = '';
+    <script>
+        // 1. ***ต้องแทนที่ URL นี้ด้วย Web App URL ที่คุณ Deploy จาก Apps Script! ***
+        const GAS_WEB_APP_URL = "YOUR_DEPLOYED_WEB_APP_URL_HERE"; 
+        
+        // 2. กำหนดตัวแปรสำหรับ DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const alertMessage = document.getElementById('alertMessage');
+        const nameResult = document.getElementById('nameResult');
+        const tableContainer = document.getElementById('certificateTableContainer');
+        const tableHead = document.getElementById('certificateTableHead');
+        const tableBody = document.getElementById('certificateTableBody');
+        const noResult = document.getElementById('noResult');
 
-              // 1. จัดรูปแบบวันที่
-              if (header.key === 'issuedate' || header.key === 'expirydate') { 
-                  value = formatDate(value);
-              }
-              
-              // 2. จัดการค่าว่าง
-              if (value.toString().trim() === '' || value.toString().trim() === '-') {
-                  html += `<td></td>`;
-                  return;
-              } 
-              
-              // 3. แสดงผล
-              html += `<td class="${tdClass}">${value}</td>`;
-            });
-            html += '</tr>';
-          });
-
-          html += '</tbody></table>';
-          resultDiv.innerHTML = html;
-
-        } else {
-          resultDiv.innerHTML = `<div class="not-found">ไม่พบประวัติการฝึกอบรมหรือใบอนุญาตสำหรับ "${name}"</div>`;
+        function hideAllResults() {
+            alertMessage.style.display = 'none';
+            nameResult.style.display = 'none';
+            tableContainer.style.display = 'none';
+            noResult.style.display = 'none';
         }
-      } else {
-        resultDiv.innerHTML = `<div class="error-message">Error fetching data: ${response.status} ${response.statusText}</div>`;
-      }
-    } catch (error) {
-      console.error("Fetch error:", error);
-      resultDiv.innerHTML = `<div class="error-message">เกิดข้อผิดพลาดในการเชื่อมต่อ: ${error.message}</div>`;
-    }
-  }
-</script>
+        
+        async function runSearch() {
+            hideAllResults();
+
+            const query = searchInput.value.trim();
+            if (query === "") {
+                alertMessage.style.display = 'block'; 
+                return;
+            }
+            
+            // สร้าง URL โดยใช้พารามิเตอร์ 'name' เพื่อให้ตรงกับโค้ด GAS ของคุณ
+            const url = `${https://script.google.com/macros/s/AKfycby-JIwn3mOaD9fj8pz8mRrI7Opxi5Ky5RIf7A46DqXaWqhwiFRHIHNHMV_Y9t9uHmI6/exec}?name=${encodeURIComponent(query)}`;
+
+            try {
+                const response = await fetch(url);
+                const results = await response.json(); 
+
+                if (results.error) {
+                    alertMessage.textContent = results.error;
+                    alertMessage.style.display = 'block';
+                    return;
+                }
+                
+                if (results.length > 0) {
+                    
+                    // A. จัดการแถบชื่อ
+                    const firstName = results[0].name || "ไม่ระบุชื่อ"; 
+                    const firstCompany = results[0].company || "ไม่ระบุบริษัท"; 
+                    
+                    nameResult.innerHTML = `Name: <strong>${firstName}</strong> | Company: <strong>${firstCompany}</strong>`;
+                    nameResult.style.display = 'block';
+                    
+                    // B. จัดการหัวตาราง (สร้างจาก Key ของ Object แรก)
+                    tableHead.innerHTML = ''; 
+                    const headerRow = document.createElement('tr');
+                    
+                    const headers = Object.keys(results[0]);
+                    headers.forEach(headerKey => {
+                        const th = document.createElement('th');
+                        th.textContent = headerKey.toUpperCase().replace(/_/g, " "); 
+                        headerRow.appendChild(th);
+                    });
+                    tableHead.appendChild(headerRow);
+
+
+                    // C. จัดการเนื้อหาตาราง
+                    tableBody.innerHTML = ''; 
+                    results.forEach(rowObject => {
+                        const tr = document.createElement('tr');
+                        headers.forEach(headerKey => {
+                            const td = document.createElement('td');
+                            td.textContent = String(rowObject[headerKey] || '-'); 
+                            tr.appendChild(td);
+                        });
+                        tableBody.appendChild(tr);
+                    });
+                    
+                    tableContainer.style.display = 'block';
+
+                } else {
+                    noResult.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                alertMessage.textContent = "เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาตรวจสอบ Apps Script และ URL.";
+                alertMessage.style.display = 'block';
+            }
+        }
+
+        searchButton.addEventListener('click', runSearch);
+        searchInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                runSearch();
+            }
+        });
+        
+        hideAllResults();
+    </script>
+
 </body>
 </html>

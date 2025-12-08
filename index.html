@@ -29,33 +29,33 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 </head>
 <body>
 <div class="container">
-  <div class="header-section">
-    <div class="mascot-container">
-      <img src="Gemini_Generated_Image_60ae4y60ae4y60ae.png" alt="Safety Mascot" class="mascot-img">
-    </div>
-    <div class="header">Certificate Checker</div>
-  </div>
+  <div class="header-section">
+    <div class="mascot-container">
+      <img src="Gemini_Generated_Image_60ae4y60ae4y60ae.png" alt="Safety Mascot" class="mascot-img">
+    </div>
+    <div class="header">Certificate Checker</div>
+  </div>
 
-  <div class="search-area">
-    <div class="search-bar">
-      <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อเต็ม หรือชื่อบางส่วน">
-      <button id="searchButton" class="search-button">Search</button>
-    </div>
-    <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
-  </div>
+  <div class="search-area">
+    <div class="search-bar">
+      <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อเต็ม หรือชื่อบางส่วน">
+      <button id="searchButton" class="search-button">Search</button>
+    </div>
+    <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
+  </div>
 
-  <div id="nameResult" class="result-name"></div>
+  <div id="nameResult" class="result-name"></div>
 
-  <div id="certificateTableContainer" style="display:none;">
-    <table class="data-table">
-      <thead id="certificateTableHead"></thead>
-      <tbody id="certificateTableBody"></tbody>
-    </table>
-  </div>
+  <div id="certificateTableContainer" style="display:none;">
+    <table class="data-table">
+      <thead id="certificateTableHead"></thead>
+      <tbody id="certificateTableBody"></tbody>
+    </table>
+  </div>
 
-  <div id="noResult" class="alert-message" style="display:none; background-color:#fffae0; color:#856404; border:1px solid #ffbb00;">
-    ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
-  </div>
+  <div id="noResult" class="alert-message" style="display:none; background-color:#fffae0; color:#856404; border:1px solid #ffbb00;">
+    ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
+  </div>
 </div>
 
 <script>
@@ -71,68 +71,110 @@ const tableHead = document.getElementById('certificateTableHead');
 const tableBody = document.getElementById('certificateTableBody');
 const noResult = document.getElementById('noResult');
 
+// *************** ฟังก์ชันใหม่สำหรับแปลงวันที่เป็น DD/MM/YYYY ***************
+function formatDate(dateStr) {
+    // ตรวจสอบว่าค่าที่รับมาเป็นสตริงและไม่ว่างเปล่า
+    if (typeof dateStr !== 'string' || dateStr.trim() === '') {
+        return dateStr;
+    }
+
+    // รองรับรูปแบบ 'YYYY-MM-DDT...'
+    const parts = dateStr.split('-');
+    
+    if (parts.length >= 3 && parts[0].length === 4) {
+        try {
+            const buddhistYear = parseInt(parts[0], 10);
+            // padStart(2, '0') เพื่อให้เดือนมีสองหลักเสมอ เช่น 09
+            const month = parts[1].padStart(2, '0');
+            
+            // ส่วนของวันที่อาจมี T07:00:00.000Z ติดมา, เอาเฉพาะวัน
+            const dayPart = parts[2].split('T')[0];
+            // padStart(2, '0') เพื่อให้วันมีสองหลักเสมอ เช่น 08
+            const day = dayPart.padStart(2, '0');
+
+            return `${day}/${month}/${buddhistYear}`; // รูปแบบ DD/MM/YYYY
+        } catch (e) {
+            return dateStr; // คืนค่าเดิมถ้าแปลงไม่ได้
+        }
+    } else {
+        // ถ้าไม่ใช่รูปแบบ 'YYYY-MM-DDT...', คืนค่าเดิม
+        return dateStr;
+    }
+}
+// *********************************************************
+
 function hideAllResults(){
-  alertMessage.style.display='none';
-  nameResult.style.display='none';
-  tableContainer.style.display='none';
-  noResult.style.display='none';
+  alertMessage.style.display='none';
+  nameResult.style.display='none';
+  tableContainer.style.display='none';
+  noResult.style.display='none';
 }
 
 async function runSearch(){
-  hideAllResults();
-  const query = searchInput.value.trim();
-  if(!query){ alertMessage.style.display='block'; return; }
+  hideAllResults();
+  const query = searchInput.value.trim();
+  if(!query){ alertMessage.style.display='block'; return; }
 
-  try{
-    const res = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`);
-    const results = await res.json();
+  try{
+    const res = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`);
+    const results = await res.json();
 
-    if(results.error){ alertMessage.textContent = results.error; alertMessage.style.display='block'; return; }
-    if(results.length===0){ noResult.style.display='block'; return; }
+    if(results.error){ alertMessage.textContent = results.error; alertMessage.style.display='block'; return; }
+    if(results.length===0){ noResult.style.display='block'; return; }
 
-    const first = results[0];
-    nameResult.innerHTML = `Name: <strong>${first.NAME || 'ไม่ระบุ'}</strong> | Company: <strong>${first.COMPANY || 'ไม่ระบุ'}</strong>`;
-    nameResult.style.display='block';
+    const first = results[0];
+    nameResult.innerHTML = `Name: <strong>${first.NAME || 'ไม่ระบุ'}</strong> | Company: <strong>${first.COMPANY || 'ไม่ระบุ'}</strong>`;
+    nameResult.style.display='block';
 
-    tableHead.innerHTML='';
-    tableBody.innerHTML='';
-    const headers = Object.keys(first);
-    const trHead = document.createElement('tr');
-    headers.forEach(h=>{
-      if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
-        const th = document.createElement('th');
-        th.textContent = h;
-        trHead.appendChild(th);
-      }
-    });
-    tableHead.appendChild(trHead);
+    tableHead.innerHTML='';
+    tableBody.innerHTML='';
+    const headers = Object.keys(first);
+    const trHead = document.createElement('tr');
+    headers.forEach(h=>{
+      if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
+        const th = document.createElement('th');
+        th.textContent = h;
+        trHead.appendChild(th);
+      }
+    });
+    tableHead.appendChild(trHead);
 
-    results.forEach(row=>{
-      const tr = document.createElement('tr');
-      headers.forEach(h=>{
-        if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
-          const td = document.createElement('td');
+    results.forEach(row=>{
+      const tr = document.createElement('tr');
+      headers.forEach(h=>{
+        if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
+          const td = document.createElement('td');
+          let cellValue = row[h] || '';
 
-          /* ⭐ เพิ่มระบบขึ้นสีแดงให้ข้อความเฉพาะนี้เท่านั้น ⭐ */
-          if (row[h] === "ไม่สามารถทำงานในที่อับอากาศได้") {
-              td.innerHTML = `<span style="color:red; font-weight:bold;">${row[h]}</span>`;
-          } else {
-              td.textContent = row[h] || '';
-          }
+          // *************** ใช้ฟังก์ชันแปลงวันที่ ***************
+          // ตรวจสอบว่าหัวคอลัมน์เป็นวันที่ออก (ISSUEDATE) หรือวันที่หมดอายุ (EXPIRYDATE)
+          const headerName = h.toUpperCase();
+          if (headerName.includes('DATE') || headerName === 'ISSUEDATE' || headerName === 'EXPIRYDATE') {
+              cellValue = formatDate(cellValue);
+          }
+          // *******************************************************
 
-          tr.appendChild(td);
-        }
-      });
-      tableBody.appendChild(tr);
-    });
 
-    tableContainer.style.display='block';
+          /* ⭐ เพิ่มระบบขึ้นสีแดงให้ข้อความเฉพาะนี้เท่านั้น ⭐ */
+          if (cellValue === "ไม่สามารถทำงานในที่อับอากาศได้") {
+              td.innerHTML = `<span style="color:red; font-weight:bold;">${cellValue}</span>`;
+          } else {
+              td.textContent = cellValue;
+          }
 
-  }catch(err){
-    alertMessage.textContent='เกิดข้อผิดพลาดในการดึงข้อมูล';
-    alertMessage.style.display='block';
-    console.error(err);
-  }
+          tr.appendChild(td);
+        }
+      });
+      tableBody.appendChild(tr);
+    });
+
+    tableContainer.style.display='block';
+
+  }catch(err){
+    alertMessage.textContent='เกิดข้อผิดพลาดในการดึงข้อมูล';
+    alertMessage.style.display='block';
+    console.error(err);
+  }
 }
 
 searchButton.addEventListener('click', runSearch);

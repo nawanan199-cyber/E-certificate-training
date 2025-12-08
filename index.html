@@ -8,27 +8,25 @@
 /* ---------------------------------
    BASE STYLES (สำหรับ PC/Default)
    --------------------------------- */
-/* ลด Padding ของ Body เพื่อให้ชิดขอบบน */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:10px; background-color:#F9FBE7; color:#333; } 
-/* ลด Padding ของ Container เพื่อให้เนื้อหาด้านในขยับขึ้น */
-.container { max-width:800px; margin:0 auto; background-color:#fff; padding:20px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); } 
+.container { max-width:800px; margin:0 auto; background-color:#fff; padding:20px; border-radius:12px; box-shadow:0 6px 15px rgba(0,0,0,0.1); } 
 
-/* ⭐ ลดระยะห่างด้านล่างสุดของส่วนหัว ⭐ */
 .header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:5px; } 
 
-.mascot-container { margin-bottom:5px; }
-.mascot-img { width:150px; height:150px; border-radius:50%; border:5px solid #4CAF50; box-shadow:0 4px 10px rgba(0,0,0,0.1); object-fit:cover; }
+.mascot-container { margin-bottom:0px; padding-bottom:5px; }
+.mascot-img { width:120px; height:120px; border-radius:50%; border:4px solid #4CAF50; box-shadow:0 4px 8px rgba(0,0,0,0.1); object-fit:cover; }
 
-/* PC: ขนาด 26px */
-.header { text-align:center; color:#2E7D32; font-size:26px; font-weight:800; border-bottom:4px solid #4CAF50; padding-bottom:10px; width:100%; max-width:380px; } 
+/* ⭐ PC: ขยายขนาดตัวอักษร Header เป็น 28px ⭐ */
+.header { text-align:center; color:#2E7D32; font-size:28px; font-weight:800; border-bottom:3px solid #4CAF50; padding-bottom:5px; width:100%; max-width:350px; } 
 
-.search-area { max-width: 450px; margin: 0 auto 10px auto; } 
+/* PC: ความกว้างสูงสุดของ Search Area คือ 350px */
+.search-area { max-width: 350px; margin: 15px auto 15px auto; } 
 
 .search-bar { display:flex; gap:10px; } 
-.search-input { flex-grow:1; padding:10px 15px; border:2px solid #ccc; border-radius:10px; font-size:16px; transition:border-color 0.3s; } 
+.search-input { flex-grow:1; padding:12px 15px; border:1px solid #ccc; border-radius:8px; font-size:16px; transition:border-color 0.3s; } 
 .search-input:focus { border-color:#4CAF50; }
-.search-button { background-color:#4CAF50; color:white; padding:10px 20px; border:none; border-radius:10px; cursor:pointer; font-size:16px; font-weight:bold; transition: background-color 0.3s, box-shadow 0.3s; } 
-.search-button:hover { background-color:#388E3C; box-shadow:0 6px 12px rgba(0,0,0,0.2); }
+.search-button { background-color:#4CAF50; color:white; padding:12px 20px; border:none; border-radius:8px; cursor:pointer; font-size:16px; font-weight:bold; transition: background-color 0.3s, box-shadow 0.3s; } 
+.search-button:hover { background-color:#388E3C; box-shadow:0 4px 8px rgba(0,0,0,0.2); }
 
 .result-name { background-color:#E8F5E9; padding:18px; margin-bottom:25px; border-radius:12px; font-weight:bold; color:#388E3C; border:1px solid #C8E6C9; box-shadow:0 2px 4px rgba(0,0,0,0.05); display:none; }
 .alert-message { background-color:#FFE0B2; color:#E65100; padding:15px; margin-top:20px; border-radius:10px; text-align:center; font-weight:bold; display:none; }
@@ -39,20 +37,20 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 .data-table tr:hover { background-color:#DCEDC8; }
 .data-table th:nth-child(3), .data-table td:nth-child(3) { text-align:center; }
 
+
 /* 📱 MEDIA QUERY (สำหรับหน้าจอเล็ก เช่น โทรศัพท์มือถือ) 📱 */
 @media (max-width: 600px) {
     .container {
         padding: 15px; 
     }
     
-    /* ⭐ Mobile: ลดขนาดตัวอักษร Header ลงเหลือ 14px ⭐ */
+    /* ⭐ Mobile: ขยายขนาดตัวอักษร Header เป็น 18px ⭐ */
     .header {
-        font-size: 14px; 
-        max-width: 280px; 
-        padding-bottom: 5px; /* ลดระยะห่างด้านล่างเส้นขีด */
+        font-size: 18px; 
+        max-width: 250px; 
+        padding-bottom: 5px; 
     }
 
-    /* ⭐ Mobile: Header-section ชิดกันที่สุด ⭐ */
     .header-section {
         margin-bottom: 0px; 
     }
@@ -60,21 +58,28 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
         margin-bottom: 5px; 
     }
 
+    /* Mobile: ปุ่มค้นหาอยู่ด้านล่างและเต็มความกว้าง */
     .search-bar { 
         flex-direction: column; 
         gap: 10px; 
     }
     .search-button {
         width: 100%; 
+        padding: 10px 20px;
     }
 
     .search-input {
-        padding: 8px 12px; 
-        font-size: 14px;
+        padding: 10px 15px; 
+        font-size: 16px;
     }
+    /* Mobile: Search Area ให้เต็มความกว้างของกล่องขาว */
     .search-area { 
         max-width: 100%; 
-        margin: 0 auto 10px auto; 
+        margin: 15px auto 15px auto; 
+    }
+    .mascot-img {
+        width: 100px; 
+        height: 100px;
     }
 }
 </style>

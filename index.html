@@ -8,19 +8,19 @@
 /* ---------------------------------
    BASE STYLES (สำหรับ PC/Default)
    --------------------------------- */
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:30px; background-color:#F9FBE7; color:#333; }
-.container { max-width:800px; margin:0 auto; background-color:#fff; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); } 
+/* ลด Padding ของ Body เพื่อให้ชิดขอบบน */
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:10px; background-color:#F9FBE7; color:#333; } 
+/* ลด Padding ของ Container เพื่อให้เนื้อหาด้านในขยับขึ้น */
+.container { max-width:800px; margin:0 auto; background-color:#fff; padding:20px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); } 
 
-/* ⭐ ควบคุมระยะห่างส่วนหัวและช่องค้นหาให้ใกล้กัน ⭐ */
-.header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:10px; } 
+.header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:5px; } 
 
-.mascot-container { margin-bottom:10px; }
+.mascot-container { margin-bottom:5px; }
 .mascot-img { width:150px; height:150px; border-radius:50%; border:5px solid #4CAF50; box-shadow:0 4px 10px rgba(0,0,0,0.1); object-fit:cover; }
 
-/* ⭐ PC: ลดขนาดตัวอักษร Header (Certificate Checker) เป็น 26px ⭐ */
+/* PC: ขนาด 26px */
 .header { text-align:center; color:#2E7D32; font-size:26px; font-weight:800; border-bottom:4px solid #4CAF50; padding-bottom:10px; width:100%; max-width:380px; } 
 
-/* ⭐ ควบคุมความกว้างสูงสุดของ Search Area และจัดให้อยู่ตรงกลาง ⭐ */
 .search-area { max-width: 450px; margin: 0 auto 10px auto; } 
 
 .search-bar { display:flex; gap:10px; } 
@@ -40,15 +40,23 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 
 /* 📱 MEDIA QUERY (สำหรับหน้าจอเล็ก เช่น โทรศัพท์มือถือ) 📱 */
 @media (max-width: 600px) {
-    /* ⭐ Mobile: ลดขนาดตัวอักษร Header (Certificate Checker) เป็น 18px ⭐ */
-    .header {
-        font-size: 18px;
-        max-width: 300px; 
-    }
     .container {
-        padding: 20px; 
+        padding: 15px; /* ลด padding ลงอีกสำหรับมือถือ */
     }
-    .search-input, .search-button {
+    /* Mobile: ขนาด 16px */
+    .header {
+        font-size: 16px; 
+        max-width: 280px; 
+    }
+    .search-bar { 
+        flex-direction: column; 
+        gap: 10px; 
+    }
+    .search-button {
+        width: 100%; 
+    }
+
+    .search-input {
         padding: 8px 12px; 
         font-size: 14px;
     }
@@ -92,8 +100,8 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 </div>
 
 <script>
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzplxsTGWTz39mVet6Pw_DMtHgN-nb3S3gtZ9dSpzqJF6J1HcVdWoUH5T4xKrS66XPB/exec";
-const COLUMNS_TO_HIDE = ['no','name','company','no.'];
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxNlEn32LapklxyLvDvbB_Y3Aw3g37f6zON69m27qdvlVgY4paoUSaf8i65BerMRmFq/exec";
+const COLUMNS_TO_HIDE = ['no','name','company','no.']; // ยังซ่อน NAME, COMPANY
 
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
@@ -147,12 +155,13 @@ async function runSearch(){
           const td = document.createElement('td');
           let cellValue = row[h] || '';
 
-          /* ⭐ เพิ่มระบบขึ้นสีแดงให้ข้อความเฉพาะนี้เท่านั้น ⭐ */
-          if (cellValue === "ไม่สามารถทำงานในที่อับอากาศได้") {
-              td.innerHTML = `<span style="color:red; font-weight:bold;">${cellValue}</span>`;
+          // ⭐ Logic ตรวจสอบ STATUS และกำหนดสีแดง ⭐
+          if (h.toUpperCase() === "STATUS" && cellValue === "หมดอายุแล้ว") {
+            td.innerHTML = `<span style="color:red; font-weight:bold;">${cellValue}</span>`;
           } else {
-              td.textContent = cellValue;
+            td.textContent = cellValue;
           }
+          // ⭐ จบ Logic ตรวจสอบ STATUS ⭐
 
           tr.appendChild(td);
         }

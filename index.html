@@ -11,16 +11,17 @@
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:30px; background-color:#F9FBE7; color:#333; }
 .container { max-width:800px; margin:0 auto; background-color:#fff; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); } 
 
-/* ⭐ ลดระยะห่างด้านล่างของส่วนหัว ⭐ */
-.header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:15px; } 
+/* ⭐ ควบคุมระยะห่างส่วนหัวและช่องค้นหาให้ใกล้กัน ⭐ */
+.header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:10px; } 
 
 .mascot-container { margin-bottom:10px; }
 .mascot-img { width:150px; height:150px; border-radius:50%; border:5px solid #4CAF50; box-shadow:0 4px 10px rgba(0,0,0,0.1); object-fit:cover; }
 
-.header { text-align:center; color:#2E7D32; font-size:34px; font-weight:800; border-bottom:4px solid #4CAF50; padding-bottom:10px; width:100%; max-width:380px; } 
+/* ⭐ PC: ลดขนาดตัวอักษร Header (Certificate Checker) เป็น 26px ⭐ */
+.header { text-align:center; color:#2E7D32; font-size:26px; font-weight:800; border-bottom:4px solid #4CAF50; padding-bottom:10px; width:100%; max-width:380px; } 
 
-/* ⭐ ลดระยะห่างด้านล่างของ Search Area ⭐ */
-.search-area { margin-bottom:15px; } 
+/* ⭐ ควบคุมความกว้างสูงสุดของ Search Area และจัดให้อยู่ตรงกลาง ⭐ */
+.search-area { max-width: 450px; margin: 0 auto 10px auto; } 
 
 .search-bar { display:flex; gap:10px; } 
 .search-input { flex-grow:1; padding:10px 15px; border:2px solid #ccc; border-radius:10px; font-size:16px; transition:border-color 0.3s; } 
@@ -39,17 +40,21 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 
 /* 📱 MEDIA QUERY (สำหรับหน้าจอเล็ก เช่น โทรศัพท์มือถือ) 📱 */
 @media (max-width: 600px) {
-    /* ⭐ ลดขนาดตัวอักษรของ Header (Certificate Checker) บนมือถือ ⭐ */
+    /* ⭐ Mobile: ลดขนาดตัวอักษร Header (Certificate Checker) เป็น 18px ⭐ */
     .header {
-        font-size: 24px;
-        max-width: 300px; /* ลดความกว้างกล่องสีเขียวลงอีก */
+        font-size: 18px;
+        max-width: 300px; 
     }
     .container {
-        padding: 20px; /* ลด Padding ของกล่องหลัก */
+        padding: 20px; 
     }
     .search-input, .search-button {
-        padding: 8px 12px; /* ลดขนาดช่องค้นหาและปุ่ม */
+        padding: 8px 12px; 
         font-size: 14px;
+    }
+    .search-area { 
+        max-width: 100%; 
+        margin: 0 auto 10px auto; 
     }
 }
 </style>
@@ -67,6 +72,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
     <div class="search-bar">
       <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อเต็ม หรือชื่อบางส่วน">
       <button id="searchButton" class="search-button">Search</button>
+      
     </div>
     <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
   </div>

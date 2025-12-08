@@ -5,18 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Certificate Checker</title>
 <style>
+/* ---------------------------------
+   BASE STYLES (สำหรับ PC/Default)
+   --------------------------------- */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:30px; background-color:#F9FBE7; color:#333; }
-.container { max-width:1000px; margin:0 auto; background-color:#fff; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
-.header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:30px; }
+.container { max-width:800px; margin:0 auto; background-color:#fff; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); } 
+
+/* ⭐ ลดระยะห่างด้านล่างของส่วนหัว ⭐ */
+.header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:15px; } 
+
 .mascot-container { margin-bottom:10px; }
 .mascot-img { width:150px; height:150px; border-radius:50%; border:5px solid #4CAF50; box-shadow:0 4px 10px rgba(0,0,0,0.1); object-fit:cover; }
-.header { text-align:center; color:#2E7D32; font-size:34px; font-weight:800; border-bottom:4px solid #4CAF50; padding-bottom:10px; width:100%; max-width:400px; } /* ⭐ ปรับความกว้าง Header ⭐ */
-.search-area { margin-bottom:20px; } /* ⭐ ปรับระยะห่างด้านล่างของ Search Area ⭐ */
-.search-bar { display:flex; gap:15px; }
-.search-input { flex-grow:1; padding:12px 15px; border:2px solid #ccc; border-radius:10px; font-size:16px; transition:border-color 0.3s; } /* ⭐ ปรับ Padding Search Input ⭐ */
+
+.header { text-align:center; color:#2E7D32; font-size:34px; font-weight:800; border-bottom:4px solid #4CAF50; padding-bottom:10px; width:100%; max-width:380px; } 
+
+/* ⭐ ลดระยะห่างด้านล่างของ Search Area ⭐ */
+.search-area { margin-bottom:15px; } 
+
+.search-bar { display:flex; gap:10px; } 
+.search-input { flex-grow:1; padding:10px 15px; border:2px solid #ccc; border-radius:10px; font-size:16px; transition:border-color 0.3s; } 
 .search-input:focus { border-color:#4CAF50; }
-.search-button { background-color:#4CAF50; color:white; padding:12px 25px; border:none; border-radius:10px; cursor:pointer; font-size:16px; font-weight:bold; transition: background-color 0.3s, box-shadow 0.3s; } /* ⭐ ปรับ Padding Search Button ⭐ */
+.search-button { background-color:#4CAF50; color:white; padding:10px 20px; border:none; border-radius:10px; cursor:pointer; font-size:16px; font-weight:bold; transition: background-color 0.3s, box-shadow 0.3s; } 
 .search-button:hover { background-color:#388E3C; box-shadow:0 6px 12px rgba(0,0,0,0.2); }
+
 .result-name { background-color:#E8F5E9; padding:18px; margin-bottom:25px; border-radius:12px; font-weight:bold; color:#388E3C; border:1px solid #C8E6C9; box-shadow:0 2px 4px rgba(0,0,0,0.05); display:none; }
 .alert-message { background-color:#FFE0B2; color:#E65100; padding:15px; margin-top:20px; border-radius:10px; text-align:center; font-weight:bold; display:none; }
 .data-table { width:100%; border-collapse:collapse; text-align:left; margin-top:20px; }
@@ -25,6 +36,22 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 .data-table tr:nth-child(even) { background-color:#fcfcfc; }
 .data-table tr:hover { background-color:#DCEDC8; }
 .data-table th:nth-child(3), .data-table td:nth-child(3) { text-align:center; }
+
+/* 📱 MEDIA QUERY (สำหรับหน้าจอเล็ก เช่น โทรศัพท์มือถือ) 📱 */
+@media (max-width: 600px) {
+    /* ⭐ ลดขนาดตัวอักษรของ Header (Certificate Checker) บนมือถือ ⭐ */
+    .header {
+        font-size: 24px;
+        max-width: 300px; /* ลดความกว้างกล่องสีเขียวลงอีก */
+    }
+    .container {
+        padding: 20px; /* ลด Padding ของกล่องหลัก */
+    }
+    .search-input, .search-button {
+        padding: 8px 12px; /* ลดขนาดช่องค้นหาและปุ่ม */
+        font-size: 14px;
+    }
+}
 </style>
 </head>
 <body>

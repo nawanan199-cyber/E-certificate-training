@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Certificate Checker</title>
 <style>
-/* ใส่ CSS แบบเดิมของคุณ ไม่แก้อะไรส่วนอื่น */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:30px; background-color:#F9FBE7; color:#333; }
 .container { max-width:1000px; margin:0 auto; background-color:#fff; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
 .header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:30px; }
@@ -60,7 +59,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 </div>
 
 <script>
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxwUDt2GRLFahBXl0_8Mw7CEkNDOePeK2REiath1P3FxZPyWxjoInUtwC2KYTbYwmrZ/exec";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxsR8YvIbMlAreYAWP-rJuk8NijgVoGSkdFP6hVGMiE1L7CzidriaV_d9u0YBBK3OSS/exec";
 const COLUMNS_TO_HIDE = ['no','name','company','no.'];
 
 const searchInput = document.getElementById('searchInput');
@@ -91,12 +90,10 @@ async function runSearch(){
     if(results.error){ alertMessage.textContent = results.error; alertMessage.style.display='block'; return; }
     if(results.length===0){ noResult.style.display='block'; return; }
 
-    // แสดงชื่อ+บริษัท
     const first = results[0];
     nameResult.innerHTML = `Name: <strong>${first.NAME || 'ไม่ระบุ'}</strong> | Company: <strong>${first.COMPANY || 'ไม่ระบุ'}</strong>`;
     nameResult.style.display='block';
 
-    // สร้างตาราง
     tableHead.innerHTML='';
     tableBody.innerHTML='';
     const headers = Object.keys(first);
@@ -115,7 +112,14 @@ async function runSearch(){
       headers.forEach(h=>{
         if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
           const td = document.createElement('td');
-          td.textContent = row[h] || '';
+
+          /* ⭐ เพิ่มระบบขึ้นสีแดงให้ข้อความเฉพาะนี้เท่านั้น ⭐ */
+          if (row[h] === "ไม่สามารถทำงานในที่อับอากาศได้") {
+              td.innerHTML = `<span style="color:red; font-weight:bold;">${row[h]}</span>`;
+          } else {
+              td.textContent = row[h] || '';
+          }
+
           tr.appendChild(td);
         }
       });

@@ -31,7 +31,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 <div class="container">
   <div class="header-section">
     <div class="mascot-container">
-      <img src="Gemini_Generated_Image_60ae4y60ae4y60ae.png" alt="Safety Mascot" class="mascot-img">
+      <img src="unnamed.jpg" alt="Safety Mascot" class="mascot-img">
     </div>
     <div class="header">Certificate Checker</div>
   </div>
@@ -59,7 +59,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 </div>
 
 <script>
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxsR8YvIbMlAreYAWP-rJuk8NijgVoGSkdFP6hVGMiE1L7CzidriaV_d9u0YBBK3OSS/exec";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzplxsTGWTz39mVet6Pw_DMtHgN-nb3S3gtZ9dSpzqJF6J1HcVdWoUH5T4xKrS66XPB/exec";
 const COLUMNS_TO_HIDE = ['no','name','company','no.'];
 
 const searchInput = document.getElementById('searchInput');
@@ -70,31 +70,6 @@ const tableContainer = document.getElementById('certificateTableContainer');
 const tableHead = document.getElementById('certificateTableHead');
 const tableBody = document.getElementById('certificateTableBody');
 const noResult = document.getElementById('noResult');
-
-// *************** ฟังก์ชันสำหรับแปลงวันที่เป็น DD/MM/YYYY ***************
-function formatDate(dateStr) {
-    if (typeof dateStr !== 'string' || dateStr.trim() === '') {
-        return dateStr;
-    }
-
-    const parts = dateStr.split('-');
-    
-    if (parts.length >= 3 && parts[0].length === 4) {
-        try {
-            const buddhistYear = parseInt(parts[0], 10);
-            const month = parts[1].padStart(2, '0');
-            const dayPart = parts[2].split('T')[0];
-            const day = dayPart.padStart(2, '0');
-
-            return `${day}/${month}/${buddhistYear}`; // รูปแบบ DD/MM/YYYY
-        } catch (e) {
-            return dateStr;
-        }
-    } else {
-        return dateStr;
-    }
-}
-// *********************************************************
 
 function hideAllResults(){
   alertMessage.style.display='none';
@@ -139,19 +114,13 @@ async function runSearch(){
           const td = document.createElement('td');
           let cellValue = row[h] || '';
 
-          // ใช้ฟังก์ชันแปลงวันที่สำหรับคอลัมน์ที่เป็นวันที่
-          const headerName = h.toUpperCase();
-          if (headerName.includes('DATE') || headerName === 'ISSUEDATE' || headerName === 'EXPIRYDATE') {
-              cellValue = formatDate(cellValue);
-          }
-
-          /* ⭐ ระบบขึ้นสีแดงสำหรับข้อความ "ไม่สามารถทำงานในที่อับอากาศได้" ⭐ */
+          /* ⭐ เพิ่มระบบขึ้นสีแดงให้ข้อความเฉพาะนี้เท่านั้น ⭐ */
           if (cellValue === "ไม่สามารถทำงานในที่อับอากาศได้") {
               td.innerHTML = `<span style="color:red; font-weight:bold;">${cellValue}</span>`;
           } else {
               td.textContent = cellValue;
           }
-          
+
           tr.appendChild(td);
         }
       });

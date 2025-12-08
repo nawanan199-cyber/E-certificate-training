@@ -71,33 +71,26 @@ const tableHead = document.getElementById('certificateTableHead');
 const tableBody = document.getElementById('certificateTableBody');
 const noResult = document.getElementById('noResult');
 
-// *************** ฟังก์ชันใหม่สำหรับแปลงวันที่เป็น DD/MM/YYYY ***************
+// *************** ฟังก์ชันสำหรับแปลงวันที่เป็น DD/MM/YYYY ***************
 function formatDate(dateStr) {
-    // ตรวจสอบว่าค่าที่รับมาเป็นสตริงและไม่ว่างเปล่า
     if (typeof dateStr !== 'string' || dateStr.trim() === '') {
         return dateStr;
     }
 
-    // รองรับรูปแบบ 'YYYY-MM-DDT...'
     const parts = dateStr.split('-');
     
     if (parts.length >= 3 && parts[0].length === 4) {
         try {
             const buddhistYear = parseInt(parts[0], 10);
-            // padStart(2, '0') เพื่อให้เดือนมีสองหลักเสมอ เช่น 09
             const month = parts[1].padStart(2, '0');
-            
-            // ส่วนของวันที่อาจมี T07:00:00.000Z ติดมา, เอาเฉพาะวัน
             const dayPart = parts[2].split('T')[0];
-            // padStart(2, '0') เพื่อให้วันมีสองหลักเสมอ เช่น 08
             const day = dayPart.padStart(2, '0');
 
             return `${day}/${month}/${buddhistYear}`; // รูปแบบ DD/MM/YYYY
         } catch (e) {
-            return dateStr; // คืนค่าเดิมถ้าแปลงไม่ได้
+            return dateStr;
         }
     } else {
-        // ถ้าไม่ใช่รูปแบบ 'YYYY-MM-DDT...', คืนค่าเดิม
         return dateStr;
     }
 }
@@ -146,22 +139,19 @@ async function runSearch(){
           const td = document.createElement('td');
           let cellValue = row[h] || '';
 
-          // *************** ใช้ฟังก์ชันแปลงวันที่ ***************
-          // ตรวจสอบว่าหัวคอลัมน์เป็นวันที่ออก (ISSUEDATE) หรือวันที่หมดอายุ (EXPIRYDATE)
+          // ใช้ฟังก์ชันแปลงวันที่สำหรับคอลัมน์ที่เป็นวันที่
           const headerName = h.toUpperCase();
           if (headerName.includes('DATE') || headerName === 'ISSUEDATE' || headerName === 'EXPIRYDATE') {
               cellValue = formatDate(cellValue);
           }
-          // *******************************************************
 
-
-          /* ⭐ เพิ่มระบบขึ้นสีแดงให้ข้อความเฉพาะนี้เท่านั้น ⭐ */
+          /* ⭐ ระบบขึ้นสีแดงสำหรับข้อความ "ไม่สามารถทำงานในที่อับอากาศได้" ⭐ */
           if (cellValue === "ไม่สามารถทำงานในที่อับอากาศได้") {
               td.innerHTML = `<span style="color:red; font-weight:bold;">${cellValue}</span>`;
           } else {
               td.textContent = cellValue;
           }
-
+          
           tr.appendChild(td);
         }
       });

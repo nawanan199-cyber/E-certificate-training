@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+ <!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -16,12 +17,13 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 .mascot-container { margin-bottom:0px; padding-bottom:5px; }
 .mascot-img { width:120px; height:120px; border-radius:50%; border:4px solid #4CAF50; box-shadow:0 4px 8px rgba(0,0,0,0.1); object-fit:cover; }
 
-/* ⭐ PC: ขยายขนาดตัวอักษร Header เป็น 28px ⭐ */
-.header { text-align:center; color:#2E7D32; font-size:28px; font-weight:800; border-bottom:3px solid #4CAF50; padding-bottom:5px; width:100%; max-width:350px; } 
+/* ⭐ PC: ขยายขนาดตัวอักษร Header เป็น 32px (ใหญ่ขึ้น) ⭐ */
+.header { text-align:center; color:#2E7D32; font-size:32px; font-weight:800; border-bottom:3px solid #4CAF50; padding-bottom:5px; width:100%; max-width:350px; } 
 
-/* PC: ความกว้างสูงสุดของ Search Area คือ 350px */
-.search-area { max-width: 350px; margin: 15px auto 15px auto; } 
+/* ⭐ PC: ลดความกว้างสูงสุดของ Search Area เหลือ 300px (แคบลง) ⭐ */
+.search-area { max-width: 300px; margin: 15px auto 15px auto; } 
 
+/* PC: Search Bar ยังคงเป็นแบบข้างๆ กัน (row) */
 .search-bar { display:flex; gap:10px; } 
 .search-input { flex-grow:1; padding:12px 15px; border:1px solid #ccc; border-radius:8px; font-size:16px; transition:border-color 0.3s; } 
 .search-input:focus { border-color:#4CAF50; }
@@ -38,15 +40,16 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 .data-table th:nth-child(3), .data-table td:nth-child(3) { text-align:center; }
 
 
-/* 📱 MEDIA QUERY (สำหรับหน้าจอเล็ก เช่น โทรศัพท์มือถือ) 📱 */
-@media (max-width: 600px) {
+/* 📱 MEDIA QUERY (สำหรับหน้าจอเล็ก: โทรศัพท์มือถือ/แท็บเล็ต) 📱 */
+/* ⭐ เปลี่ยน Breakpoint เป็น 768px เพื่อให้ครอบคลุมแท็บเล็ตและแสดงผลปุ่มด้านล่าง ⭐ */
+@media (max-width: 768px) {
     .container {
         padding: 15px; 
     }
     
-    /* ⭐ Mobile: ขยายขนาดตัวอักษร Header เป็น 18px ⭐ */
+    /* ⭐ Mobile: ขยายขนาดตัวอักษร Header เป็น 22px (ใหญ่ขึ้น) ⭐ */
     .header {
-        font-size: 18px; 
+        font-size: 22px; 
         max-width: 250px; 
         padding-bottom: 5px; 
     }
@@ -58,13 +61,13 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
         margin-bottom: 5px; 
     }
 
-    /* Mobile: ปุ่มค้นหาอยู่ด้านล่างและเต็มความกว้าง */
+    /* ⭐ Mobile: บังคับให้ช่องกรอกและปุ่มอยู่ด้านล่างกัน (Column) ⭐ */
     .search-bar { 
         flex-direction: column; 
         gap: 10px; 
     }
     .search-button {
-        width: 100%; 
+        width: 100%; /* ปุ่มเต็มความกว้าง */
         padding: 10px 20px;
     }
 
@@ -72,7 +75,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
         padding: 10px 15px; 
         font-size: 16px;
     }
-    /* Mobile: Search Area ให้เต็มความกว้างของกล่องขาว */
+    /* Mobile: Search Area ให้เต็มความกว้างของกล่องขาว (ตาม Layout ที่ออกแบบไว้) */
     .search-area { 
         max-width: 100%; 
         margin: 15px auto 15px auto; 

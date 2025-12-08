@@ -13,6 +13,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 /* ลด Padding ของ Container เพื่อให้เนื้อหาด้านในขยับขึ้น */
 .container { max-width:800px; margin:0 auto; background-color:#fff; padding:20px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); } 
 
+/* ⭐ ลดระยะห่างด้านล่างสุดของส่วนหัว ⭐ */
 .header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:5px; } 
 
 .mascot-container { margin-bottom:5px; }
@@ -41,13 +42,24 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 /* 📱 MEDIA QUERY (สำหรับหน้าจอเล็ก เช่น โทรศัพท์มือถือ) 📱 */
 @media (max-width: 600px) {
     .container {
-        padding: 15px; /* ลด padding ลงอีกสำหรับมือถือ */
+        padding: 15px; 
     }
-    /* Mobile: ขนาด 16px */
+    
+    /* ⭐ Mobile: ลดขนาดตัวอักษร Header ลงเหลือ 14px ⭐ */
     .header {
-        font-size: 16px; 
+        font-size: 14px; 
         max-width: 280px; 
+        padding-bottom: 5px; /* ลดระยะห่างด้านล่างเส้นขีด */
     }
+
+    /* ⭐ Mobile: Header-section ชิดกันที่สุด ⭐ */
+    .header-section {
+        margin-bottom: 0px; 
+    }
+    .mascot-container {
+        margin-bottom: 5px; 
+    }
+
     .search-bar { 
         flex-direction: column; 
         gap: 10px; 
@@ -101,7 +113,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 
 <script>
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxNlEn32LapklxyLvDvbB_Y3Aw3g37f6zON69m27qdvlVgY4paoUSaf8i65BerMRmFq/exec";
-const COLUMNS_TO_HIDE = ['no','name','company','no.']; // ยังซ่อน NAME, COMPANY
+const COLUMNS_TO_HIDE = ['no','name','company','no.']; 
 
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
@@ -155,13 +167,12 @@ async function runSearch(){
           const td = document.createElement('td');
           let cellValue = row[h] || '';
 
-          // ⭐ Logic ตรวจสอบ STATUS และกำหนดสีแดง ⭐
+          // Logic ตรวจสอบ STATUS และกำหนดสีแดง
           if (h.toUpperCase() === "STATUS" && cellValue === "หมดอายุแล้ว") {
             td.innerHTML = `<span style="color:red; font-weight:bold;">${cellValue}</span>`;
           } else {
             td.textContent = cellValue;
           }
-          // ⭐ จบ Logic ตรวจสอบ STATUS ⭐
 
           tr.appendChild(td);
         }

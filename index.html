@@ -15,47 +15,43 @@
 body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     margin:0; padding:10px; 
-    background-color:#F9FBE7; 
+    background-color:#F1F8E9; 
     color:#333; 
 } 
 
 .container { 
-    max-width:300px !important;      /* ← ปรับให้เล็กลงตามภาพตัวอย่าง */
+    max-width:350px !important; 
     margin:0 auto; 
     background-color:#fff; 
-    padding:15px 20px 20px 20px;      /* ← ลด padding ด้านบน-ล่าง */
-    border-radius:28px;               /* ← ลดความโค้งให้เหมือนภาพ */
-    border: 1px solid #e0e0e0; 
-    box-shadow:0 8px 20px rgba(0,0,0,0.08); 
+    padding:20px 18px;        /* ↓ ลดขอบขาว */
+    border-radius:28px;
+    border: 1px solid #dcdcdc; 
+    box-shadow:0 6px 18px rgba(0,0,0,0.08); 
 } 
 
 .header-section { 
-    display:flex; 
-    align-items:center; 
-    justify-content:center; 
-    flex-direction:column; 
-    margin-bottom:10px;   /* ชิดขึ้น */
+    text-align:center; 
+    margin-bottom:0px; 
 } 
 
 .mascot-img { 
-    width:120px;  
-    height:120px; 
+    width:130px; 
+    height:130px; 
     border-radius:50%; 
     border:4px solid #4CAF50; 
-    box-shadow:0 4px 8px rgba(0,0,0,0.1); 
     object-fit:cover; 
 }
 
 .header { 
     text-align:center; 
     color:#2E7D32; 
-    font-size:26px; 
+    font-size:34px; 
     font-weight:800; 
-    background:#E0F2E9;
-    padding:10px 15px;
-    border-radius:12px;
-    width:100%;
-    margin-top:10px;
+    border-bottom:3px solid #4CAF50; 
+    padding-bottom:6px; 
+    width:100%; 
+    margin-top:5px;
+    margin-bottom: 15px;     /* ↑ เพื่อให้ช่องหาไม่ติดเกินไป */
 }
 
 /* ----------------------------------------------------
@@ -63,13 +59,11 @@ body {
 ---------------------------------------------------- */
 
 .search-area { 
-    margin:15px auto 10px auto;  
+    max-width: 300px; 
+    margin: 0 auto 15px auto; 
 } 
 
-.search-bar { 
-    display:flex; 
-    gap:10px; 
-} 
+.search-bar { display:flex; gap:10px; } 
 
 .search-input { 
     flex-grow:1; 
@@ -91,50 +85,19 @@ body {
 } 
 
 /* ----------------------------------------------------
-   RESULT NAME
+   RESULT BLOCKS
 ---------------------------------------------------- */
 
 .result-name { 
     background-color:#E8F5E9; 
-    padding:10px;    
-    margin-bottom:5px;
+    padding:10px;  
+    margin-bottom:8px; 
     border-radius:10px; 
     font-weight:bold; 
     color:#388E3C; 
     border:1px solid #C8E6C9; 
     display:none; 
 }
-
-/* ----------------------------------------------------
-   TABLE (ชิดผลลัพธ์ + เต็มขอบ + สีสลับ)
----------------------------------------------------- */
-
-.data-table { 
-    width:100%; 
-    border-collapse:collapse;
-    margin-top:5px;     /* ชิดกับผลลัพธ์ */
-    border-radius:10px;
-    overflow:hidden;
-    border:1px solid #e0e0e0;
-}
-
-.data-table th {
-    background:#e0e0e0;
-    padding:8px;
-    font-weight:bold;
-}
-
-.data-table td {
-    padding:8px;
-    border-bottom:1px solid #e0e0e0;
-}
-
-.data-table tr:nth-child(even) { background-color:#FFF7E6; } /* ส้มอ่อน */
-.data-table tr:nth-child(odd)  { background-color:#ffffff; } /* ขาว */
-
-/* ----------------------------------------------------
-   ALERT
----------------------------------------------------- */
 
 .alert-message { 
     background-color:#FFE0B2; 
@@ -148,31 +111,85 @@ body {
 }
 
 /* ----------------------------------------------------
-   MOBILE
+   TABLE STYLE — FULL WIDTH + COLOR STRIPE
+---------------------------------------------------- */
+
+.data-table { 
+    width:100%; 
+    border-collapse:collapse; 
+    margin-top:10px; 
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid #e0e0e0;
+}
+
+/* หัวตาราง */
+.data-table th { 
+    background-color:#e0e0e0; 
+    padding:8px; 
+    font-weight:bold; 
+    color:#333; 
+}
+
+/* ขยาย Course ให้ใหญ่ขึ้น */
+.data-table th:nth-child(1),
+.data-table td:nth-child(1) {
+    width:45%;
+}
+
+/* ลด Duration */
+.data-table th:nth-child(2),
+.data-table td:nth-child(2) {
+    width:20%;
+}
+
+/* ช่องอื่นอิสระ */
+.data-table td { 
+    padding:8px 10px; 
+    border-bottom:1px solid #e0e0e0;
+}
+
+/* สีสลับแถว */
+.data-table tr:nth-child(even) { background-color:#FFF7E6; }
+.data-table tr:nth-child(odd)  { background-color:#ffffff; }
+
+.data-table tr:hover { background-color:#DCEDC8; }
+
+/* ----------------------------------------------------
+   MOBILE RESPONSIVE
 ---------------------------------------------------- */
 
 @media (max-width: 768px) {
     .container {
-        max-width: 300px !important;
-        padding:15px;
+        max-width: 100%; 
+        padding: 18px;
+    }
+
+    .header { font-size: 26px; }
+    .mascot-img { width:110px; height:110px; }
+
+    .data-table th, .data-table td { 
+        padding: 7px; 
+        font-size:14px;
     }
 }
-</style>
 
+</style>
 </head>
+
 <body>
 
 <div class="container">
 
     <div class="header-section">
-        <img src="unnamed.jpg" class="mascot-img">
+        <img src="unnamed.jpg" alt="Safety Mascot" class="mascot-img">
         <div class="header">Certificate Checker</div>
     </div>
 
     <div class="search-area">
         <div class="search-bar">
-            <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อเต็ม หรือชื่อบางส่วน">
-            <button id="searchButton" class="search-button">Search</button>
+            <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อ-นามสกุล เช่น ใจรัก มีสุข">
+            <button id="searchButton" class="search-button">ค้นหา</button>
         </div>
         <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
     </div>
@@ -186,7 +203,7 @@ body {
         </table>
     </div>
 
-    <div id="noResult" class="alert-message" style="display:none; background-color:#fffae0; color:#856404;">
+    <div id="noResult" class="alert-message" style="display:none; background-color:#FFF8D1; color:#8A6D3B;">
         ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
     </div>
 
@@ -223,12 +240,6 @@ async function runSearch(){
     try{
         const res = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`);
         const results = await res.json();
-
-        if(results.error){ 
-            alertMessage.textContent = results.error; 
-            alertMessage.style.display='block'; 
-            return; 
-        }
 
         if(results.length===0){ 
             noResult.style.display='block'; 

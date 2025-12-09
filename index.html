@@ -10,14 +10,14 @@
    BASE STYLES (สำหรับ PC/Default)
    --------------------------------- */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:10px; background-color:#F9FBE7; color:#333; } 
-/* ⭐ Container: เพิ่มความโค้งมนเป็น 25px และเงาให้ดูนุ่มนวลขึ้น ⭐ */
+/* Container: ความโค้งมน 25px และเงาที่นุ่มนวล */
 .container { 
     max-width:800px; 
     margin:0 auto; 
     background-color:#fff; 
-    padding:30px 25px; /* เพิ่ม Padding รอบด้าน */
+    padding:30px 25px; 
     border-radius:25px; 
-    box-shadow:0 8px 20px rgba(0,0,0,0.08); /* เงาอ่อนลงและฟุ้งขึ้น */
+    box-shadow:0 8px 20px rgba(0,0,0,0.08); 
 } 
 
 .header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:10px; } 
@@ -32,51 +32,47 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
     font-size:32px; 
     font-weight:800; 
     border-bottom:3px solid #4CAF50; 
-    padding-bottom:8px; /* ปรับ Padding ด้านล่าง */
+    padding-bottom:8px; 
     width:100%; 
     max-width:350px; 
 } 
 
-/* PC: Search Area Width 300px (แคบลง) */
-.search-area { max-width: 300px; margin: 25px auto 15px auto; /* เพิ่มระยะห่างด้านบน */ } 
+/* PC: Search Area Width 300px */
+.search-area { max-width: 300px; margin: 25px auto 15px auto; } 
 
 .search-bar { display:flex; gap:10px; } 
-/* Search Input: ความโค้งมน 12px */
+/* Search Input/Button: ความโค้งมน 12px */
 .search-input { flex-grow:1; padding:12px 15px; border:1px solid #ccc; border-radius:12px; font-size:16px; transition:border-color 0.3s; } 
 .search-input:focus { border-color:#4CAF50; }
-/* Search Button: ความโค้งมน 12px */
 .search-button { background-color:#4CAF50; color:white; padding:12px 20px; border:none; border-radius:12px; cursor:pointer; font-size:16px; font-weight:bold; transition: background-color 0.3s, box-shadow 0.3s; } 
 .search-button:hover { background-color:#388E3C; box-shadow:0 4px 8px rgba(0,0,0,0.2); }
 
-/* สไตล์สำหรับตารางและผลลัพธ์ยังคงเดิม */
-.result-name { background-color:#E8F5E9; padding:18px; margin-bottom:25px; border-radius:12px; font-weight:bold; color:#388E3C; border:1px solid #C8E6C9; box-shadow:0 2px 4px rgba(0,0,0,0.05); display:none; }
+/* ผลลัพธ์ชื่อ: ปรับความโค้งมนและ Padding */
+.result-name { background-color:#E8F5E9; padding:15px; margin-bottom:20px; border-radius:10px; font-weight:bold; color:#388E3C; border:1px solid #C8E6C9; box-shadow:0 2px 4px rgba(0,0,0,0.05); display:none; }
 .alert-message { background-color:#FFE0B2; color:#E65100; padding:15px; margin-top:20px; border-radius:10px; text-align:center; font-weight:bold; display:none; }
-.data-table { width:100%; border-collapse:collapse; text-align:left; margin-top:20px; }
-.data-table th, .data-table td { padding:15px; border:1px solid #e0e0e0; }
+
+/* ตาราง: ปรับสไตล์ให้ดูสะอาดและกระชับขึ้น */
+.data-table { width:100%; border-collapse:collapse; text-align:left; margin-top:20px; border-radius:10px; overflow: hidden; } /* เพิ่ม overflow:hidden เพื่อให้ขอบโค้งของตารางทำงาน */
+.data-table th, .data-table td { padding:12px 15px; border:1px solid #e0e0e0; }
 .data-table th { background-color:#f5f5f5; font-weight:bold; color:#495057; }
 .data-table tr:nth-child(even) { background-color:#fcfcfc; }
 .data-table tr:hover { background-color:#DCEDC8; }
-.data-table th:nth-child(3), .data-table td:nth-child(3) { text-align:center; }
+.data-table th:first-child { border-top-left-radius: 10px; } /* ทำให้หัวมุมซ้ายบนโค้ง */
+.data-table th:last-child { border-top-right-radius: 10px; } /* ทำให้หัวมุมขวาบนโค้ง */
 
 
 /* 📱 MEDIA QUERY (สำหรับหน้าจอเล็ก: โทรศัพท์มือถือ/แท็บเล็ต) 📱 */
 @media (max-width: 768px) {
     .container {
-        padding: 25px 15px; /* ปรับ Padding มือถือให้เข้ากับ PC */
+        padding: 25px 15px;
     }
     
-    /* Mobile: Header Size 22px */
     .header {
         font-size: 22px; 
         max-width: 250px; 
-        padding-bottom: 5px; 
-    }
-
-    .header-section {
-        margin-bottom: 0px; 
     }
     .mascot-container {
-        margin-bottom: 15px; /* เพิ่มระยะห่างให้มาสคอตดูมีพื้นที่ */
+        margin-bottom: 15px;
     }
 
     /* Mobile: บังคับให้ช่องกรอกและปุ่มอยู่ด้านล่างกัน (Column) */
@@ -88,8 +84,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
         width: 100%; 
         padding: 15px 20px;
     }
-
-    /* Mobile: Search Input มีความโค้งมนสูงเหมือนในรูป */
     .search-input {
         padding: 15px 15px;
         font-size: 16px;
@@ -102,6 +96,11 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
     .mascot-img {
         width: 100px; 
         height: 100px;
+    }
+    /* ปรับ Padding ตารางบนมือถือ */
+    .data-table th, .data-table td { 
+        padding: 10px; 
+        font-size: 14px;
     }
 }
 </style>
@@ -140,7 +139,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 
 <script>
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxNlEn32LapklxyLvDvbB_Y3Aw3g37f6zON69m27qdvlVgY4paoUSaf8i65BerMRmFq/exec";
-// ซ่อนคอลัมน์ STATUS แล้ว
+// คอลัมน์ที่ต้องการซ่อน (รวม STATUS)
 const COLUMNS_TO_HIDE = ['no','name','company','no.', 'status']; 
 
 const searchInput = document.getElementById('searchInput');
@@ -193,6 +192,7 @@ async function runSearch(){
           const td = document.createElement('td');
           let cellValue = row[h] || '';
 
+          // ลบ Logic การเปลี่ยนสี STATUS ออกอย่างเด็ดขาดแล้ว
           td.textContent = cellValue;
           tr.appendChild(td);
         }

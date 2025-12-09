@@ -123,31 +123,27 @@ body {
     color:#333;
 }
 
-/* Course กว้างขึ้น 55% */
+/* Course กว้างขึ้น 60% */
 .data-table th:nth-child(1),
 .data-table td:nth-child(1) {
-    width:55%; 
-    /* คำสั่งเดิมคือไม่มี text-align แต่ในโค้ดก่อนหน้ามี text-align: left; 
-       เพื่อให้เป็นไปตามกฎ "ห้ามแก้อะไรที่ไม่ได้ให้แก้เด็ดขาด" จึงเอา text-align ออกไป */
+    width:60%; /* ขยายความกว้างของช่อง Course */
 }
 
-/* Duration แคบลง 15% */
+/* Duration แคบลง 10% */
 .data-table th:nth-child(2),
 .data-table td:nth-child(2) {
-    width:15%; 
+    width:10%; /* ลดความกว้างของช่อง Duration */
     text-align:center; /* ⭐ ตัวเลขอยู่ตรงกลาง - คงไว้ตามโค้ดเดิมของคุณ */
 }
 
-/* คอลัมน์อื่นเว้นตามปกติ - จัดกึ่งกลางตามโค้ดเดิมของคุณ */
+/* คอลัมน์อื่นเว้นตามปกติ - จัดกึ่งกลางตามโค้ดเดิมของคุณ (ISSUEDATE/EXPIRYDATE แบ่ง 30% ที่เหลือ) */
 .data-table td:nth-child(3) {
-    text-align:center; /* EXPIRE center - คงไว้ตามโค้ดเดิมของคุณ */
+    text-align:center; /* ISSUEDATE center - คงไว้ตามโค้ดเดิมของคุณ */
 }
 
-/* เพิ่มการจัดกึ่งกลางให้กับคอลัมน์ที่ 4 (EXPIRYDATE) ให้ชัดเจน */
 .data-table td:nth-child(4) {
-    text-align:center; 
+    text-align:center; /* EXPIRYDATE center */
 }
-
 
 .data-table tr:nth-child(even) { background:#FFF7E6; }
 .data-table tr:nth-child(odd) { background:#ffffff; }

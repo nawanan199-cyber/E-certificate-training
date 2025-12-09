@@ -9,11 +9,11 @@
 /* ---------------------------------
    BASE STYLES (สำหรับ PC/Default)
    --------------------------------- */
-/* ⭐ 1. ปรับพื้นหลัง Body เป็นสีเขียวอ่อนขึ้น (#E8F5E9) ⭐ */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:10px; background-color:#E8F5E9; color:#333; } 
-/* Container: กรอบขาวกว้าง 350px, มีเส้นขอบให้เห็นพื้นหลังสีเขียวมากขึ้น */
+
+/* ⭐ 1. แก้ไข: บังคับกรอบขาว 350px ให้แคบลงอย่างเห็นได้ชัด ⭐ */
 .container { 
-    max-width:350px; 
+    max-width:350px !important; /* บังคับใช้ 350px ด้วย !important */
     margin:0 auto; 
     background-color:#fff; 
     padding:30px 25px; 
@@ -25,44 +25,76 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 .header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:0px; } 
 
 .mascot-container { margin-bottom:5px; padding-bottom:0px; }
-/* ⭐ 2. ปรับสี Border มาสคอตเป็นเขียวที่เข้มขึ้นเล็กน้อย (#43A047) ⭐ */
 .mascot-img { width:120px; height:120px; border-radius:50%; border:4px solid #43A047; box-shadow:0 4px 8px rgba(0,0,0,0.1); object-fit:cover; }
 
 /* PC: Header Size 36px */
 .header { 
     text-align:center; 
-    color:#2E7D32; /* เขียวเข้มสุด */
+    color:#2E7D32; 
     font-size:36px; 
     font-weight:800; 
-    border-bottom:3px solid #66BB6A; /* ⭐ 2. ปรับสีเส้นใต้ Header ให้ดูสดใสขึ้น (#66BB6A) ⭐ */
+    border-bottom:3px solid #66BB6A; 
     padding-bottom:8px; 
     width:100%; 
     max-width:350px; 
     margin-bottom: -5px; 
 } 
 
-/* PC: Search Area (ชิด Header มากที่สุด) */
-.search-area { max-width: 300px; margin: 5px auto 15px auto; } 
+/* ⭐ 2. แก้ไข: ลดระยะห่างช่องค้นหาเหลือ 0px (ชิดสุดๆ) ⭐ */
+.search-area { max-width: 300px; margin: 0 auto 15px auto; } 
 
 .search-bar { display:flex; gap:10px; } 
 .search-input { flex-grow:1; padding:12px 15px; border:1px solid #ccc; border-radius:12px; font-size:16px; transition:border-color 0.3s; } 
-.search-input:focus { border-color:#43A047; } /* ⭐ 2. ปรับสี Focus Input เป็นเข้มขึ้นเล็กน้อย (#43A047) ⭐ */
-/* ⭐ 2. ปรับสีปุ่มค้นหาให้เข้มขึ้นเล็กน้อย (#43A047) ⭐ */
-.search-button { background-color:#43A047; color:white; padding:12px 20px; border:none; border-radius:12px; cursor:pointer; font-size:16px; font-weight:bold; transition: background-color 0.3s, box-shadow 0.3s; } 
+.search-input:focus { border-color:#43A047; } 
+.search-button { 
+    background-color:#43A047; 
+    color:white; 
+    padding:12px 20px; 
+    border:none; 
+    border-radius:12px; 
+    font-size:18px; 
+    font-weight:bold; 
+    cursor:pointer; 
+    transition: background-color 0.3s, box-shadow 0.3s; 
+} 
 .search-button:hover { background-color:#388E3C; box-shadow:0 4px 8px rgba(0,0,0,0.2); }
 
 /* สไตล์สำหรับผลลัพธ์ */
-.result-name { background-color:#DCEDC8; /* ⭐ ใช้สีเขียวกลาง (#DCEDC8) ⭐ */
+.result-name { background-color:#DCEDC8; 
     padding:15px; margin-bottom:20px; border-radius:10px; font-weight:bold; color:#2E7D32; border:1px solid #C8E6C9; box-shadow:0 2px 4px rgba(0,0,0,0.05); display:none; }
 .alert-message { background-color:#FFE0B2; color:#E65100; padding:15px; margin-top:20px; border-radius:10px; text-align:center; font-weight:bold; display:none; }
-.data-table { width:100%; border-collapse:collapse; text-align:left; margin-top:20px; border-radius:10px; overflow: hidden; } 
-.data-table th, .data-table td { padding:12px 15px; border:1px solid #e0e0e0; }
-/* ⭐ 3. เปลี่ยนสีหัวตารางเป็นเขียวกลาง (#DCEDC8) และตัวอักษรเป็นสีดำ (#495057) ⭐ */
+.data-table { 
+    width:100%; 
+    /* ⭐ 3. แก้ไข: ใช้ border-collapse: separate; และ border-spacing: 0; เพื่อแก้ปัญหาเส้นขอบขาดและแสดงผลมุมโค้งให้สมบูรณ์ ⭐ */
+    border-collapse:separate; 
+    border-spacing:0; 
+    text-align:left; 
+    margin-top:20px; 
+    border-radius:10px; 
+    overflow: hidden; 
+    border: 1px solid #e0e0e0; /* เพิ่มเส้นขอบรอบตารางหลัก */
+} 
+/* ปรับปรุงการแสดงเส้นขอบของเซลล์ */
+.data-table th, .data-table td { 
+    padding:12px 15px; 
+    border-bottom:1px solid #e0e0e0; 
+    border-right:1px solid #e0e0e0;
+}
+/* ลบเส้นขอบขวาของคอลัมน์สุดท้าย */
+.data-table th:last-child, .data-table td:last-child {
+    border-right: none;
+}
+/* ลบเส้นขอบล่างของแถวสุดท้าย */
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
 .data-table th { background-color:#DCEDC8; font-weight:bold; color:#495057; }
 .data-table tr:nth-child(even) { background-color:#fcfcfc; }
 .data-table tr:hover { background-color:#DCEDC8; }
-.data-table th:first-child { border-top-left-radius: 10px; } 
-.data-table th:last-child { border-top-right-radius: 10px; } 
+/* กำหนดมุมโค้งให้ Header */
+.data-table thead tr:first-child th:first-child { border-top-left-radius: 10px; } 
+.data-table thead tr:first-child th:last-child { border-top-right-radius: 10px; } 
 
 
 /* 📱 MEDIA QUERY (สำหรับหน้าจอเล็ก: โทรศัพท์มือถือ/แท็บเล็ต) 📱 */
@@ -74,7 +106,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
         border-radius: 0; 
     }
     
-    /* Mobile: Header Size 26px */
     .header {
         font-size: 26px; 
         max-width: 280px; 
@@ -83,13 +114,13 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
         margin-bottom: 10px;
     }
 
-    /* Mobile: Search Area (ใกล้ Header มากขึ้น) */
+    /* Mobile: Search Area (ชิด Header มากที่สุด) */
     .search-area { 
         max-width: 100%; 
-        margin: 5px auto 15px auto; 
+        margin: 0 auto 15px auto; /* ⭐ ลด margin บนมือถือเป็น 0px ⭐ */
     }
 
-    /* อื่นๆ */
+    /* การจัดเรียงบนมือถือ: ไม่มีการแก้ไขตามคำสั่งของคุณ */
     .search-bar { 
         flex-direction: column; 
         gap: 15px; 
@@ -97,6 +128,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
     .search-button {
         width: 100%; 
         padding: 15px 20px;
+        font-size: 18px; 
     }
     .search-input {
         padding: 15px 15px;

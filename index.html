@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -124,6 +123,7 @@ body {
 }
 
 /* ⭐⭐⭐ การปรับแก้ความกว้างตามสัดส่วนใหม่ (LICENSEID 20, DURATION 10, COURSE 30, ISSUEDATE 20, EXPIRYDATE 20) ⭐⭐⭐ */
+/* **การแก้ไขนี้จะทำงานอย่างถูกต้อง เพราะลำดับคอลัมน์ถูกกำหนดตายตัวใน JavaScript แล้ว** */
 
 /* คอลัมน์ที่ 1: LICENSEID (20%) */
 .data-table th:nth-child(1),
@@ -207,6 +207,9 @@ body {
 <script>
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxNlEn32LapklxyLvDvbB_Y3Aw3g37f6zON69m27qdvlVgY4paoUSaf8i65BerMRmFq/exec";
 const COLUMNS_TO_HIDE = ['no','name','company','no.', 'status']; 
+// ⭐⭐ กำหนดลำดับหัวตารางให้แน่นอน ⭐⭐
+const DISPLAY_ORDER = ['LICENSEID', 'DURATION', 'COURSE', 'ISSUEDATE', 'EXPIRYDATE'];
+// ------------------------------------
 
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
@@ -250,23 +253,27 @@ async function runSearch(){
         tableBody.innerHTML='';
 
         const headers = Object.keys(first);
+        
+        // กรองและเรียงลำดับหัวตารางตาม DISPLAY_ORDER ที่กำหนดไว้
+        const headersToShow = DISPLAY_ORDER.filter(h => 
+            !COLUMNS_TO_HIDE.includes(h.toLowerCase()) && headers.includes(h)
+        );
 
-        headers.forEach(h=>{
-            if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
-                const th = document.createElement('th');
-                th.textContent = h;
-                tableHead.appendChild(th);
-            }
+
+        // สร้าง TH ตามลำดับที่กำหนดไว้
+        headersToShow.forEach(h=>{
+            const th = document.createElement('th');
+            th.textContent = h;
+            tableHead.appendChild(th);
         });
 
         results.forEach(row=>{
             const tr = document.createElement('tr');
-            headers.forEach(h=>{
-                if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
-                    const td = document.createElement('td');
-                    td.textContent = row[h] || '';
-                    tr.appendChild(td);
-                }
+            // สร้าง TD ตามลำดับที่กำหนดไว้
+            headersToShow.forEach(h=>{
+                const td = document.createElement('td');
+                td.textContent = row[h] || '';
+                tr.appendChild(td);
             });
             tableBody.appendChild(tr);
         });

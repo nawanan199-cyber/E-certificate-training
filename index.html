@@ -23,7 +23,7 @@ body {
     max-width:350px !important; 
     margin:0 auto; 
     background-color:#fff; 
-    padding:15px 15px;        /* ↓ ลดขอบขาวให้เห็นสีเขียวมากขึ้น */
+    padding:25px 20px;     /* ✔ กรอบขาวใหญ่ขึ้นให้โปร่งกว่าเดิม */
     border-radius:24px;
     border: 1px solid #dcdcdc; 
     box-shadow:0 6px 18px rgba(0,0,0,0.08); 
@@ -51,7 +51,7 @@ body {
     padding-bottom:8px; 
     width:100%; 
     margin-top:5px;
-    margin-bottom: 22px;    /* ↑ เพิ่มระยะห่างตามสั่ง */
+    margin-bottom: 22px;
 }
 
 /* ----------------------------------------------------
@@ -60,16 +60,18 @@ body {
 
 .search-area { 
     max-width: 300px; 
-    margin: 0 auto 15px auto; 
+    margin: 0 auto 10px auto; 
 } 
 
+/* ✔ ทำให้ปุ่มลงมาอยู่ข้างล่าง */
 .search-bar { 
     display:flex; 
-    gap:10px; 
+    flex-direction:column; 
+    gap:8px; 
 } 
 
 .search-input { 
-    flex-grow:1; 
+    width:100%;
     padding:12px 15px; 
     border:1px solid #ccc; 
     border-radius:12px; 
@@ -77,6 +79,7 @@ body {
 } 
 
 .search-button { 
+    width:100%;
     background-color:#4CAF50; 
     color:white; 
     padding:12px 20px; 
@@ -123,7 +126,7 @@ body {
     margin-top:10px; 
     border-radius:10px;
     overflow:hidden;
-    border:1px solid #bcbcbc;   /* ✔ เส้นตารางกลับมา */
+    border:1px solid #bcbcbc;
 }
 
 /* หัวตาราง */
@@ -135,13 +138,13 @@ body {
     border:1px solid #d0d0d0;
 }
 
-/* ขยาย Course ให้ใหญ่ขึ้น */
+/* ✔ ขยาย Course */
 .data-table th:nth-child(1),
 .data-table td:nth-child(1) {
     width:48%;
 }
 
-/* ลด Duration ให้แคบลง */
+/* ✔ Duration แคบลง */
 .data-table th:nth-child(2),
 .data-table td:nth-child(2) {
     width:18%;
@@ -150,7 +153,7 @@ body {
 /* ช่องอื่นคงเดิม */
 .data-table td { 
     padding:8px 10px; 
-    border:1px solid #e0e0e0;   /* ✔ เส้นแต่ละช่อง */
+    border:1px solid #e0e0e0;
 }
 
 /* สีสลับแถว */
@@ -166,7 +169,7 @@ body {
 @media (max-width: 768px) {
     .container {
         max-width: 100%; 
-        padding: 15px;
+        padding: 20px;
     }
 
     .header { font-size: 26px; }

@@ -8,137 +8,137 @@
 
 <style>
 
-body { 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin:0; padding:20px;
-    background-color:#F1F8E9;
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin:0; padding:20px;
+    background-color:#F1F8E9;
 }
 
 /* ─────────────────────────────
-   กรอบขาวใหญ่ขึ้น
+   กรอบขาวใหญ่ขึ้น
 ────────────────────────────── */
-.container { 
-    max-width:420px !important;
-    margin: 20px auto;
-    background-color:#fff;
-    padding:30px 30px; 
-    border-radius:28px;
-    border:1px solid #dcdcdc;
-    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+.container { 
+    max-width:420px !important;
+    margin: 20px auto;
+    background-color:#fff;
+    padding:30px 30px; 
+    border-radius:28px;
+    border:1px solid #dcdcdc;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-.header-section { 
-    text-align:center;
-    margin-bottom:10px;
+.header-section { 
+    text-align:center;
+    margin-bottom:10px;
 }
 
 .mascot-img {
-    width:130px;
-    height:130px;
-    border-radius:50%;
-    border:4px solid #4CAF50;
-    object-fit:cover;
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    border:4px solid #4CAF50;
+    object-fit:cover;
 }
 
 .header {
-    color:#2E7D32;
-    font-size:34px;
-    font-weight:800;
-    border-bottom:3px solid #4CAF50;
-    padding-bottom:8px;
-    margin-top:5px;
-    margin-bottom:25px;
+    color:#2E7D32;
+    font-size:34px;
+    font-weight:800;
+    border-bottom:3px solid #4CAF50;
+    padding-bottom:8px;
+    margin-top:5px;
+    margin-bottom:25px;
 }
 
 /* ─────────────────────────────
-   ปุ่มค้นหาอยู่ล่างเหมือนเดิม
+   ปุ่มค้นหาอยู่ล่างเหมือนเดิม
 ────────────────────────────── */
 .search-area {
-    margin-top:20px;
-    margin-bottom:20px;
+    margin-top:20px;
+    margin-bottom:20px;
 }
 
 .search-bar {
-    display:flex;
-    flex-direction:column;
-    gap:12px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
 }
 
 .search-input {
-    padding:12px 15px;
-    border:1px solid #ccc;
-    border-radius:12px;
-    font-size:16px;
+    padding:12px 15px;
+    border:1px solid #ccc;
+    border-radius:12px;
+    font-size:16px;
 }
 
 .search-button {
-    background-color:#4CAF50;
-    color:white;
-    padding:12px;
-    border:none;
-    border-radius:12px;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
+    background-color:#4CAF50;
+    color:white;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 /* ─────────────────────────────
-   กล่องแจ้งเตือน
+   กล่องแจ้งเตือน
 ────────────────────────────── */
-.alert-message { 
-    background-color:#FFE0B2;
-    color:#E65100;
-    padding:12px;
-    border-radius:10px;
-    font-weight:bold;
-    text-align:center;
-    display:none;
-    margin-top:10px;
+.alert-message { 
+    background-color:#FFE0B2;
+    color:#E65100;
+    padding:12px;
+    border-radius:10px;
+    font-weight:bold;
+    text-align:center;
+    display:none;
+    margin-top:10px;
 }
 
 /* ─────────────────────────────
-   ตารางใหม่ + เส้นครบทุกด้าน
+   ตารางใหม่ + เส้นครบทุกด้าน
 ────────────────────────────── */
 .data-table {
-    width:100%;
-    border-collapse:collapse;
-    margin-top:10px;
-    **border:1px solid #9e9e9e;** /* เส้นนอกบางลง */
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    border:2px solid #9e9e9e; /* เส้นนอกเข้มขึ้น */
 }
 
 .data-table th,
 .data-table td {
-    **border:0.5px solid #9e9e9e !important;** /* ⭐ เส้นครบทุกด้านบางลง */
-    padding:8px 10px;
+    border:1.5px solid #9e9e9e !important; /* ⭐ เส้นครบทุกด้าน */
+    padding:8px 10px;
 }
 
 /* เฮดตาราง */
 .data-table th {
-    background-color:#e0e0e0;
-    font-weight:bold;
-    color:#333;
+    background-color:#e0e0e0;
+    font-weight:bold;
+    color:#333;
 }
 
 /* Course กว้างขึ้น 55% */
 .data-table th:nth-child(1),
 .data-table td:nth-child(1) {
-    width:55%;
+    width:55%;
 }
 
 /* Duration แคบลง 15% */
 .data-table th:nth-child(2),
 .data-table td:nth-child(2) {
-    width:15%;
-    text-align:center;  /* ⭐ ตัวเลขอยู่ตรงกลาง */
+    width:15%;
+    text-align:center;  /* ⭐ ตัวเลขอยู่ตรงกลาง */
 }
 
 /* คอลัมน์อื่นเว้นตามปกติ */
 .data-table td:nth-child(3) {
-    text-align:center; /* EXPIRE center */
+    text-align:center; /* EXPIRE center */
 }
 
 .data-table tr:nth-child(even) { background:#FFF7E6; }
-.data-table tr:nth-child(odd)  { background:#ffffff; }
+.data-table tr:nth-child(odd)  { background:#ffffff; }
 .data-table tr:hover { background:#DCEDC8; }
 
 </style>
@@ -148,40 +148,40 @@ body { 
 
 <div class="container">
 
-    <div class="header-section">
-        <img src="unnamed.jpg" class="mascot-img">
-        <div class="header">Certificate Checker</div>
-    </div>
+    <div class="header-section">
+        <img src="unnamed.jpg" class="mascot-img">
+        <div class="header">Certificate Checker</div>
+    </div>
 
-    <div class="search-area">
-        <div class="search-bar">
-            <input id="searchInput" class="search-input" placeholder="กรอกชื่อ-นามสกุล เช่น ใจรัก มีสุข">
-            <button id="searchButton" class="search-button">ค้นหา</button>
-        </div>
-        <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
-    </div>
+    <div class="search-area">
+        <div class="search-bar">
+            <input id="searchInput" class="search-input" placeholder="กรอกชื่อ-นามสกุล เช่น ใจรัก มีสุข">
+            <button id="searchButton" class="search-button">ค้นหา</button>
+        </div>
+        <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
+    </div>
 
-    <div id="nameResult" class="alert-message" 
-        style="display:none; background:#E8F5E9; color:#2E7D32;">
-    </div>
+    <div id="nameResult" class="alert-message" 
+        style="display:none; background:#E8F5E9; color:#2E7D32;">
+    </div>
 
-    <div id="certificateTableContainer" style="display:none;">
-        <table class="data-table">
-            <thead id="certificateTableHead"></thead>
-            <tbody id="certificateTableBody"></tbody>
-        </table>
-    </div>
+    <div id="certificateTableContainer" style="display:none;">
+        <table class="data-table">
+            <thead id="certificateTableHead"></thead>
+            <tbody id="certificateTableBody"></tbody>
+        </table>
+    </div>
 
-    <div id="noResult" class="alert-message" 
-        style="display:none; background-color:#FFF8D1; color:#8A6D3B;">
-        ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
-    </div>
+    <div id="noResult" class="alert-message" 
+        style="display:none; background-color:#FFF8D1; color:#8A6D3B;">
+        ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
+    </div>
 
 </div>
 
 <script>
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxNlEn32LapklxyLvDvbB_Y3Aw3g37f6zON69m27qdvlVgY4paoUSaf8i65BerMRmFq/exec";
-const COLUMNS_TO_HIDE = ['no','name','company','no.', 'status']; 
+const COLUMNS_TO_HIDE = ['no','name','company','no.', 'status']; 
 
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
@@ -193,70 +193,70 @@ const tableBody = document.getElementById('certificateTableBody');
 const noResult = document.getElementById('noResult');
 
 function hideAllResults(){
-    alertMessage.style.display='none';
-    nameResult.style.display='none';
-    tableContainer.style.display='none';
-    noResult.style.display='none';
+    alertMessage.style.display='none';
+    nameResult.style.display='none';
+    tableContainer.style.display='none';
+    noResult.style.display='none';
 }
 
 async function runSearch(){
-    hideAllResults();
-    const query = searchInput.value.trim();
+    hideAllResults();
+    const query = searchInput.value.trim();
 
-    if(!query){ 
-        alertMessage.style.display='block';
-        return;
-    }
+    if(!query){ 
+        alertMessage.style.display='block';
+        return;
+    }
 
-    try{
-        const res = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`);
-        const results = await res.json();
+    try{
+        const res = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`);
+        const results = await res.json();
 
-        if(results.length === 0){
-            noResult.style.display='block';
-            return;
-        }
+        if(results.length === 0){
+            noResult.style.display='block';
+            return;
+        }
 
-        const first = results[0];
-        nameResult.innerHTML = `Name: <strong>${first.NAME || 'ไม่ระบุ'}</strong> | Company: <strong>${first.COMPANY || 'ไม่ระบุ'}</strong>`;
-        nameResult.style.display='block';
+        const first = results[0];
+        nameResult.innerHTML = `Name: <strong>${first.NAME || 'ไม่ระบุ'}</strong> | Company: <strong>${first.COMPANY || 'ไม่ระบุ'}</strong>`;
+        nameResult.style.display='block';
 
-        tableHead.innerHTML='';
-        tableBody.innerHTML='';
+        tableHead.innerHTML='';
+        tableBody.innerHTML='';
 
-        const headers = Object.keys(first);
+        const headers = Object.keys(first);
 
-        headers.forEach(h=>{
-            if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
-                const th = document.createElement('th');
-                th.textContent = h;
-                tableHead.appendChild(th);
-            }
-        });
+        headers.forEach(h=>{
+            if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
+                const th = document.createElement('th');
+                th.textContent = h;
+                tableHead.appendChild(th);
+            }
+        });
 
-        results.forEach(row=>{
-            const tr = document.createElement('tr');
-            headers.forEach(h=>{
-                if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
-                    const td = document.createElement('td');
-                    td.textContent = row[h] || '';
-                    tr.appendChild(td);
-                }
-            });
-            tableBody.appendChild(tr);
-        });
+        results.forEach(row=>{
+            const tr = document.createElement('tr');
+            headers.forEach(h=>{
+                if(!COLUMNS_TO_HIDE.includes(h.toLowerCase())){
+                    const td = document.createElement('td');
+                    td.textContent = row[h] || '';
+                    tr.appendChild(td);
+                }
+            });
+            tableBody.appendChild(tr);
+        });
 
-        tableContainer.style.display='block';
+        tableContainer.style.display='block';
 
-    } catch (err){
-        alertMessage.textContent='เกิดข้อผิดพลาดในการดึงข้อมูล';
-        alertMessage.style.display='block';
-    }
+    } catch (err){
+        alertMessage.textContent='เกิดข้อผิดพลาดในการดึงข้อมูล';
+        alertMessage.style.display='block';
+    }
 }
 
 searchButton.addEventListener('click', runSearch);
 searchInput.addEventListener('keypress', e=>{
-    if(e.key === 'Enter') runSearch();
+    if(e.key === 'Enter') runSearch();
 });
 </script>
 

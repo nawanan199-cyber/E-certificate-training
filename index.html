@@ -8,178 +8,134 @@
 
 <style>
 
-/* ----------------------------------------------------
-   BASE STYLES
----------------------------------------------------- */
-
 body { 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    margin:0; padding:10px; 
-    background-color:#F1F8E9; 
-    color:#333; 
-} 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin:0; padding:20px;
+    background-color:#F1F8E9;
+}
 
+/* ─────────────────────────────
+   กรอบขาวใหญ่ขึ้น (ตามที่ขอ)
+────────────────────────────── */
 .container { 
-    max-width:350px !important; 
-    margin:0 auto; 
-    background-color:#fff; 
-    padding:25px 20px;     /* ✔ กรอบขาวใหญ่ขึ้นให้โปร่งกว่าเดิม */
-    border-radius:24px;
-    border: 1px solid #dcdcdc; 
-    box-shadow:0 6px 18px rgba(0,0,0,0.08); 
-} 
+    max-width:420px !important;
+    margin: 20px auto;
+    background-color:#fff;
+    padding:25px 25px; 
+    border-radius:28px;
+    border:1px solid #dcdcdc;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
 
 .header-section { 
-    text-align:center; 
-    margin-bottom:0px; 
-} 
-
-.mascot-img { 
-    width:130px; 
-    height:130px; 
-    border-radius:50%; 
-    border:4px solid #4CAF50; 
-    object-fit:cover; 
+    text-align:center;
+    margin-bottom:10px;
 }
 
-.header { 
-    text-align:center; 
-    color:#2E7D32; 
-    font-size:34px; 
-    font-weight:800; 
-    border-bottom:3px solid #4CAF50; 
-    padding-bottom:8px; 
-    width:100%; 
+.mascot-img {
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    border:4px solid #4CAF50;
+    object-fit:cover;
+}
+
+.header {
+    color:#2E7D32;
+    font-size:34px;
+    font-weight:800;
+    border-bottom:3px solid #4CAF50;
+    padding-bottom:8px;
     margin-top:5px;
-    margin-bottom: 22px;
+    margin-bottom:25px;
 }
 
-/* ----------------------------------------------------
-   SEARCH AREA
----------------------------------------------------- */
+/* ─────────────────────────────
+   ปุ่มค้นหาอยู่ล่างเหมือนเดิม
+────────────────────────────── */
+.search-area {
+    margin-top:20px;
+    margin-bottom:20px;
+}
 
-.search-area { 
-    max-width: 300px; 
-    margin: 0 auto 10px auto; 
-} 
+.search-bar {
+    display:flex;
+    flex-direction:column;   /* ✔ บังคับให้ปุ่มอยู่ล่าง */
+    gap:12px;
+}
 
-/* ✔ ทำให้ปุ่มลงมาอยู่ข้างล่าง */
-.search-bar { 
-    display:flex; 
-    flex-direction:column; 
-    gap:8px; 
-} 
+.search-input {
+    padding:12px 15px;
+    border:1px solid #ccc;
+    border-radius:12px;
+    font-size:16px;
+}
 
-.search-input { 
-    width:100%;
-    padding:12px 15px; 
-    border:1px solid #ccc; 
-    border-radius:12px; 
-    font-size:16px; 
-} 
-
-.search-button { 
-    width:100%;
-    background-color:#4CAF50; 
-    color:white; 
-    padding:12px 20px; 
-    border:none; 
-    border-radius:12px; 
+.search-button {
+    background-color:#4CAF50;
+    color:white;
+    padding:12px;
+    border:none;
+    border-radius:12px;
     font-size:18px;
-    font-weight:bold; 
-    cursor:pointer; 
-} 
-
-/* ----------------------------------------------------
-   RESULT BLOCKS
----------------------------------------------------- */
-
-.result-name { 
-    background-color:#E8F5E9; 
-    padding:10px;  
-    margin-bottom:8px; 
-    border-radius:10px; 
-    font-weight:bold; 
-    color:#388E3C; 
-    border:1px solid #C8E6C9; 
-    display:none; 
+    font-weight:bold;
+    cursor:pointer;
 }
 
+/* ─────────────────────────────
+   กล่องแจ้งเตือน
+────────────────────────────── */
 .alert-message { 
-    background-color:#FFE0B2; 
-    color:#E65100; 
-    padding:12px; 
-    margin-top:10px; 
-    border-radius:10px; 
-    text-align:center; 
-    font-weight:bold; 
-    display:none; 
+    background-color:#FFE0B2;
+    color:#E65100;
+    padding:12px;
+    border-radius:10px;
+    font-weight:bold;
+    text-align:center;
+    display:none;
+    margin-top:10px;
 }
 
-/* ----------------------------------------------------
-   TABLE STYLE — WITH BORDER
----------------------------------------------------- */
-
-.data-table { 
-    width:100%; 
-    border-collapse:collapse; 
-    margin-top:10px; 
+/* ─────────────────────────────
+   เส้นตาราง + layout ใหม่
+────────────────────────────── */
+.data-table {
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
     border-radius:10px;
     overflow:hidden;
     border:1px solid #bcbcbc;
 }
 
-/* หัวตาราง */
-.data-table th { 
-    background-color:#e0e0e0; 
-    padding:8px; 
-    font-weight:bold; 
-    color:#333; 
+.data-table th {
+    background-color:#e0e0e0;
+    padding:8px;
+    font-weight:bold;
+    color:#333;
     border:1px solid #d0d0d0;
 }
 
-/* ✔ ขยาย Course */
+/* Course กว้างขึ้น */
 .data-table th:nth-child(1),
 .data-table td:nth-child(1) {
-    width:48%;
+    width:50%;
 }
 
-/* ✔ Duration แคบลง */
+/* Duration แคบลง */
 .data-table th:nth-child(2),
 .data-table td:nth-child(2) {
     width:18%;
 }
 
-/* ช่องอื่นคงเดิม */
-.data-table td { 
-    padding:8px 10px; 
+.data-table td {
+    padding:8px 10px;
     border:1px solid #e0e0e0;
 }
 
-/* สีสลับแถว */
-.data-table tr:nth-child(even) { background-color:#FFF7E6; }
-.data-table tr:nth-child(odd)  { background-color:#ffffff; }
-
-.data-table tr:hover { background-color:#DCEDC8; }
-
-/* ----------------------------------------------------
-   MOBILE RESPONSIVE
----------------------------------------------------- */
-
-@media (max-width: 768px) {
-    .container {
-        max-width: 100%; 
-        padding: 20px;
-    }
-
-    .header { font-size: 26px; }
-    .mascot-img { width:110px; height:110px; }
-
-    .data-table th, .data-table td { 
-        padding: 7px; 
-        font-size:14px;
-    }
-}
+.data-table tr:nth-child(even) { background:#FFF7E6; }
+.data-table tr:nth-child(odd)  { background:#ffffff; }
+.data-table tr:hover { background:#DCEDC8; }
 
 </style>
 </head>
@@ -189,19 +145,19 @@ body {
 <div class="container">
 
     <div class="header-section">
-        <img src="unnamed.jpg" alt="Safety Mascot" class="mascot-img">
+        <img src="unnamed.jpg" class="mascot-img">
         <div class="header">Certificate Checker</div>
     </div>
 
     <div class="search-area">
         <div class="search-bar">
-            <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อ-นามสกุล เช่น ใจรัก มีสุข">
+            <input id="searchInput" class="search-input" placeholder="กรอกชื่อ-นามสกุล เช่น ใจรัก มีสุข">
             <button id="searchButton" class="search-button">ค้นหา</button>
         </div>
         <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
     </div>
 
-    <div id="nameResult" class="result-name"></div>
+    <div id="nameResult" class="alert-message" style="display:none; background:#E8F5E9; color:#2E7D32;"></div>
 
     <div id="certificateTableContainer" style="display:none;">
         <table class="data-table">
@@ -239,18 +195,19 @@ function hideAllResults(){
 async function runSearch(){
     hideAllResults();
     const query = searchInput.value.trim();
+
     if(!query){ 
-        alertMessage.style.display='block'; 
-        return; 
+        alertMessage.style.display='block';
+        return;
     }
 
     try{
         const res = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`);
         const results = await res.json();
 
-        if(results.length===0){ 
-            noResult.style.display='block'; 
-            return; 
+        if(results.length === 0){
+            noResult.style.display='block';
+            return;
         }
 
         const first = results[0];
@@ -284,16 +241,15 @@ async function runSearch(){
 
         tableContainer.style.display='block';
 
-    }catch(err){
+    } catch (err){
         alertMessage.textContent='เกิดข้อผิดพลาดในการดึงข้อมูล';
         alertMessage.style.display='block';
-        console.error(err);
     }
 }
 
 searchButton.addEventListener('click', runSearch);
-searchInput.addEventListener('keypress', function(e){ 
-    if(e.key==='Enter') runSearch(); 
+searchInput.addEventListener('keypress', e=>{
+    if(e.key === 'Enter') runSearch();
 });
 </script>
 

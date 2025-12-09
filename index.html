@@ -98,7 +98,7 @@ body {
 
 /* ─────────────────────────────
     ตารางใหม่ + เส้นครบทุกด้าน
-    *** ปรับแก้ตามคำสั่ง: COURSE กว้างขึ้น, DURATION แคบลง, ลดความเข้มเส้นตาราง ***
+    *** ปรับแก้ตามคำสั่ง: COURSE กว้างขึ้น, DURATION แคบลง, LICENSEID/ISSUEDATE/EXPIRYDATE ตามสัดส่วนใหม่, ลดความเข้มเส้นตาราง ***
 ────────────────────────────── */
 .data-table {
     width:100%;
@@ -123,30 +123,44 @@ body {
     color:#333;
 }
 
-/* Course กว้างขึ้น 60% */
+/* ⭐⭐⭐ การปรับแก้ความกว้างตามสัดส่วนใหม่ (LICENSEID 20, DURATION 10, COURSE 30, ISSUEDATE 20, EXPIRYDATE 20) ⭐⭐⭐ */
+
+/* คอลัมน์ที่ 1: LICENSEID (20%) */
 .data-table th:nth-child(1),
 .data-table td:nth-child(1) {
-    width:60%; /* ขยายความกว้างของช่อง Course */
-    text-align: left; /* จัดชิดซ้ายเพื่อให้อ่านง่ายขึ้น */
+    width:20%; 
+    text-align: center; 
 }
 
-/* Duration แคบลง 10% */
+/* คอลัมน์ที่ 2: DURATION (10%) */
 .data-table th:nth-child(2),
 .data-table td:nth-child(2) {
-    width:10%; /* ลดความกว้างของช่อง Duration */
-    text-align:center; /* ⭐ ตัวเลขอยู่ตรงกลาง - คงไว้ตามโค้ดเดิมของคุณ */
+    width:10%; 
+    text-align:center; 
 }
 
-/* คอลัมน์อื่นเว้นตามปกติ - จัดกึ่งกลางตามโค้ดเดิมของคุณ */
-/* คอลัมน์ที่ 3 (ISSUEDATE) และ 4 (EXPIRYDATE) จะแบ่งความกว้าง 30% ที่เหลือ */
+/* คอลัมน์ที่ 3: COURSE (30%) */
+.data-table th:nth-child(3),
 .data-table td:nth-child(3) {
-    text-align:center; /* ISSUEDATE center - คงไว้ตามโค้ดเดิมของคุณ */
+    width:30%; 
+    text-align: left; 
 }
 
+/* คอลัมน์ที่ 4: ISSUEDATE (20%) */
+.data-table th:nth-child(4),
 .data-table td:nth-child(4) {
-    text-align:center; /* EXPIRYDATE center */
+    width:20%; 
+    text-align:center; 
 }
 
+/* คอลัมน์ที่ 5: EXPIRYDATE (20%) */
+.data-table th:nth-child(5),
+.data-table td:nth-child(5) {
+    width:20%; 
+    text-align:center; 
+}
+
+/* -------------------------------------------------------------------------- */
 
 .data-table tr:nth-child(even) { background:#FFF7E6; }
 .data-table tr:nth-child(odd) { background:#ffffff; }

@@ -7,15 +7,12 @@
 
 <style>
 
+/* โค้ดส่วนอื่น ๆ (Header, Container, Search) ไม่มีการเปลี่ยนแปลง */
 body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin:0; padding:20px;
     background-color:#F1F8E9;
 }
-
-/* ─────────────────────────────
-    กรอบขาวใหญ่ขึ้น
-────────────────────────────── */
 .container { 
     max-width:420px !important;
     margin: 20px auto;
@@ -25,12 +22,10 @@ body {
     border:1px solid #dcdcdc;
     box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
-
 .header-section { 
     text-align:center;
     margin-bottom:10px;
 }
-
 .mascot-img {
     width:130px;
     height:130px;
@@ -38,7 +33,6 @@ body {
     border:4px solid #4CAF50;
     object-fit:cover;
 }
-
 .header {
     color:#2E7D32;
     font-size:34px;
@@ -48,28 +42,21 @@ body {
     margin-top:5px;
     margin-bottom:25px;
 }
-
-/* ─────────────────────────────
-    ปุ่มค้นหาอยู่ล่างเหมือนเดิม
-────────────────────────────── */
 .search-area {
     margin-top:20px;
     margin-bottom:20px;
 }
-
 .search-bar {
     display:flex;
     flex-direction:column;
     gap:12px;
 }
-
 .search-input {
     padding:12px 15px;
     border:1px solid #ccc;
     border-radius:12px;
     font-size:16px;
 }
-
 .search-button {
     background-color:#4CAF50;
     color:white;
@@ -80,10 +67,6 @@ body {
     font-weight:bold;
     cursor:pointer;
 }
-
-/* ─────────────────────────────
-    กล่องแจ้งเตือน
-────────────────────────────── */
 .alert-message { 
     background-color:#FFE0B2;
     color:#E65100;
@@ -94,69 +77,64 @@ body {
     display:none;
     margin-top:10px;
 }
-
 /* ─────────────────────────────
     ตารางใหม่ + เส้นครบทุกด้าน
-    *** ปรับแก้ตามคำสั่ง: COURSE กว้างขึ้น, DURATION แคบลง, LICENSEID/ISSUEDATE/EXPIRYDATE ตามสัดส่วนใหม่, ลดความเข้มเส้นตาราง ***
+    *** แก้ไข: ใช้ Selector ที่เจาะจงสูงสุด ***
 ────────────────────────────── */
 .data-table {
-    width:100%;
+    width:100% !important; 
     border-collapse:collapse;
     margin-top:10px;
-    /* ลดความเข้มของเส้นตาราง (เปลี่ยนจาก 2px เป็น 1px) */
     border:1px solid #9e9e9e; 
 }
 
 .data-table th,
 .data-table td {
-    /* ลดความเข้มของเส้นตารางด้านใน (เปลี่ยนจาก 1.5px เป็น 1px) */
     border:1px solid #9e9e9e !important; 
     padding:8px 10px;
     vertical-align: top;
 }
 
-/* เฮดตาราง */
 .data-table th {
     background-color:#e0e0e0;
     font-weight:bold;
     color:#333;
 }
 
-/* ⭐⭐⭐ การปรับแก้ความกว้างตามสัดส่วนใหม่ (LICENSEID 20, DURATION 10, COURSE 30, ISSUEDATE 20, EXPIRYDATE 20) ⭐⭐⭐ */
-/* **การแก้ไขนี้จะทำงานอย่างถูกต้อง เพราะลำดับคอลัมน์ถูกกำหนดตายตัวใน JavaScript แล้ว** */
+/* ⭐⭐⭐ การปรับแก้ความกว้างด้วย Selector ที่เจาะจงสูงสุด (15, 10, 45, 15, 15) ⭐⭐⭐ */
 
-/* คอลัมน์ที่ 1: LICENSEID (20%) */
-.data-table th:nth-child(1),
-.data-table td:nth-child(1) {
-    width:20%; 
+/* คอลัมน์ที่ 1: LICENSEID (15%) */
+table.data-table th:nth-child(1),
+table.data-table td:nth-child(1) {
+    width:15% !important; 
     text-align: center; 
 }
 
 /* คอลัมน์ที่ 2: DURATION (10%) */
-.data-table th:nth-child(2),
-.data-table td:nth-child(2) {
-    width:10%; 
+table.data-table th:nth-child(2),
+table.data-table td:nth-child(2) {
+    width:10% !important; 
     text-align:center; 
 }
 
-/* คอลัมน์ที่ 3: COURSE (30%) */
-.data-table th:nth-child(3),
-.data-table td:nth-child(3) {
-    width:30%; 
+/* คอลัมน์ที่ 3: COURSE (45%) */
+table.data-table th:nth-child(3),
+table.data-table td:nth-child(3) {
+    width:45% !important; 
     text-align: left; 
 }
 
-/* คอลัมน์ที่ 4: ISSUEDATE (20%) */
-.data-table th:nth-child(4),
-.data-table td:nth-child(4) {
-    width:20%; 
+/* คอลัมน์ที่ 4: ISSUEDATE (15%) */
+table.data-table th:nth-child(4),
+table.data-table td:nth-child(4) {
+    width:15% !important; 
     text-align:center; 
 }
 
-/* คอลัมน์ที่ 5: EXPIRYDATE (20%) */
-.data-table th:nth-child(5),
-.data-table td:nth-child(5) {
-    width:20%; 
+/* คอลัมน์ที่ 5: EXPIRYDATE (15%) */
+table.data-table th:nth-child(5),
+table.data-table td:nth-child(5) {
+    width:15% !important; 
     text-align:center; 
 }
 
@@ -205,9 +183,9 @@ body {
 </div>
 
 <script>
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycby8rswYDBKw802H3DvGBkzF91m8D_AXCf_o7MOVKSEuLZ209TPyEQ_XBAKb-sXpy_M/exec";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyh8L_eUPmaKmrmpVY-zlVuN8OOVAumOvbzqm6KNmI-kgWfI2nL0-FQ40Hl2pOpnKns/exec";
 const COLUMNS_TO_HIDE = ['no','name','company','no.', 'status']; 
-// ⭐⭐ กำหนดลำดับหัวตารางให้แน่นอน ⭐⭐
+// กำหนดลำดับหัวตารางให้แน่นอน
 const DISPLAY_ORDER = ['LICENSEID', 'DURATION', 'COURSE', 'ISSUEDATE', 'EXPIRYDATE'];
 // ------------------------------------
 

@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Certificate Checker</title>
+
 <style>
 
 /* ----------------------------------------------------
@@ -19,11 +20,11 @@ body {
 } 
 
 .container { 
-    max-width:350px !important; 
+    max-width:300px !important;      /* ← ปรับให้เล็กลงตามภาพตัวอย่าง */
     margin:0 auto; 
     background-color:#fff; 
-    padding:30px 25px; 
-    border-radius:35px;   /* ← โค้งขึ้น */
+    padding:15px 20px 20px 20px;      /* ← ลด padding ด้านบน-ล่าง */
+    border-radius:28px;               /* ← ลดความโค้งให้เหมือนภาพ */
     border: 1px solid #e0e0e0; 
     box-shadow:0 8px 20px rgba(0,0,0,0.08); 
 } 
@@ -33,14 +34,12 @@ body {
     align-items:center; 
     justify-content:center; 
     flex-direction:column; 
-    margin-bottom:0px; 
+    margin-bottom:10px;   /* ชิดขึ้น */
 } 
 
-.mascot-container { margin-bottom:5px; padding-bottom:0px; }
-
 .mascot-img { 
-    width:140px;   /* เพิ่มขนาด */
-    height:140px; 
+    width:120px;  
+    height:120px; 
     border-radius:50%; 
     border:4px solid #4CAF50; 
     box-shadow:0 4px 8px rgba(0,0,0,0.1); 
@@ -50,13 +49,13 @@ body {
 .header { 
     text-align:center; 
     color:#2E7D32; 
-    font-size:36px; 
+    font-size:26px; 
     font-weight:800; 
-    border-bottom:3px solid #4CAF50; 
-    padding-bottom:8px; 
-    width:100%; 
-    max-width:350px; 
-    margin-bottom: 0px; 
+    background:#E0F2E9;
+    padding:10px 15px;
+    border-radius:12px;
+    width:100%;
+    margin-top:10px;
 }
 
 /* ----------------------------------------------------
@@ -64,11 +63,13 @@ body {
 ---------------------------------------------------- */
 
 .search-area { 
-    max-width: 300px; 
-    margin: 0 auto 10px auto;  /* ← ชิดขึ้นด้านบน */
+    margin:15px auto 10px auto;  
 } 
 
-.search-bar { display:flex; gap:10px; } 
+.search-bar { 
+    display:flex; 
+    gap:10px; 
+} 
 
 .search-input { 
     flex-grow:1; 
@@ -76,10 +77,7 @@ body {
     border:1px solid #ccc; 
     border-radius:12px; 
     font-size:16px; 
-    transition:border-color 0.3s; 
 } 
-
-.search-input:focus { border-color:#4CAF50; } 
 
 .search-button { 
     background-color:#4CAF50; 
@@ -90,22 +88,16 @@ body {
     font-size:18px;
     font-weight:bold; 
     cursor:pointer; 
-    transition: background-color 0.3s, box-shadow 0.3s; 
 } 
 
-.search-button:hover { 
-    background-color:#388E3C; 
-    box-shadow:0 4px 8px rgba(0,0,0,0.2); 
-}
-
 /* ----------------------------------------------------
-   RESULT BLOCKS
+   RESULT NAME
 ---------------------------------------------------- */
 
 .result-name { 
     background-color:#E8F5E9; 
-    padding:10px;    /* ← ลด padding ให้ชิดขึ้น */
-    margin-bottom:10px; /* ← ลดระยะห่างลง */
+    padding:10px;    
+    margin-bottom:5px;
     border-radius:10px; 
     font-weight:bold; 
     color:#388E3C; 
@@ -113,10 +105,41 @@ body {
     display:none; 
 }
 
+/* ----------------------------------------------------
+   TABLE (ชิดผลลัพธ์ + เต็มขอบ + สีสลับ)
+---------------------------------------------------- */
+
+.data-table { 
+    width:100%; 
+    border-collapse:collapse;
+    margin-top:5px;     /* ชิดกับผลลัพธ์ */
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid #e0e0e0;
+}
+
+.data-table th {
+    background:#e0e0e0;
+    padding:8px;
+    font-weight:bold;
+}
+
+.data-table td {
+    padding:8px;
+    border-bottom:1px solid #e0e0e0;
+}
+
+.data-table tr:nth-child(even) { background-color:#FFF7E6; } /* ส้มอ่อน */
+.data-table tr:nth-child(odd)  { background-color:#ffffff; } /* ขาว */
+
+/* ----------------------------------------------------
+   ALERT
+---------------------------------------------------- */
+
 .alert-message { 
     background-color:#FFE0B2; 
     color:#E65100; 
-    padding:15px; 
+    padding:12px; 
     margin-top:10px; 
     border-radius:10px; 
     text-align:center; 
@@ -125,103 +148,31 @@ body {
 }
 
 /* ----------------------------------------------------
-   TABLE STYLE (ปรับให้ชิดขึ้น)
----------------------------------------------------- */
-
-.data-table { 
-    width:100%; 
-    border-collapse:separate; 
-    border-spacing:0; 
-    text-align:left; 
-    margin-top:10px;  /* ← ชิดขึ้น */
-    border-radius:10px; 
-    overflow: hidden; 
-    border: 1px solid #e0e0e0; 
-} 
-
-.data-table th, .data-table td { 
-    padding:6px 10px;   /* ← กระชับ */
-    border-bottom:1px solid #e0e0e0; 
-    border-right:1px solid #e0e0e0;
-}
-
-.data-table th:last-child, .data-table td:last-child {
-    border-right: none;
-}
-
-.data-table tr:last-child td {
-    border-bottom: none;
-}
-
-/* หัวตารางเป็นสีเทา */
-.data-table th { 
-    background-color:#e0e0e0; 
-    font-weight:bold; 
-    color:#333; 
-}
-
-.data-table tr:nth-child(even) { background-color:#fcfcfc; }
-.data-table tr:hover { background-color:#DCEDC8; }
-
-.data-table thead tr:first-child th:first-child { border-top-left-radius: 10px; } 
-.data-table thead tr:first-child th:last-child { border-top-right-radius: 10px; } 
-
-/* ----------------------------------------------------
-   MOBILE RESPONSIVE
+   MOBILE
 ---------------------------------------------------- */
 
 @media (max-width: 768px) {
     .container {
-        max-width: 100%; 
-        padding: 25px 15px;
-        border: none; 
-        border-radius: 0; 
-    }
-    
-    .header { 
-        font-size: 26px; 
-        max-width: 280px; 
-    }
-
-    .search-area { 
-        max-width:100%; 
-        margin:0 auto 10px auto; 
-    }
-
-    .search-bar { 
-        flex-direction: column; 
-        gap: 15px; 
-    }
-
-    .search-button { width: 100%; padding: 15px 20px; }
-
-    .search-input { padding: 15px 15px; font-size: 16px; }
-
-    .mascot-img { width: 110px; height: 110px; }
-
-    .data-table th, .data-table td { 
-        padding: 8px; 
-        font-size: 14px;
+        max-width: 300px !important;
+        padding:15px;
     }
 }
-
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="container">
+
     <div class="header-section">
-        <div class="mascot-container">
-            <img src="unnamed.jpg" alt="Safety Mascot" class="mascot-img">
-        </div>
+        <img src="unnamed.jpg" class="mascot-img">
         <div class="header">Certificate Checker</div>
     </div>
 
     <div class="search-area">
         <div class="search-bar">
-            <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อ-นามสกุล เช่น ใจรัก มีสุข">
-            <button id="searchButton" class="search-button">ค้นหา</button>
+            <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อเต็ม หรือชื่อบางส่วน">
+            <button id="searchButton" class="search-button">Search</button>
         </div>
         <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
     </div>
@@ -235,9 +186,10 @@ body {
         </table>
     </div>
 
-    <div id="noResult" class="alert-message" style="display:none; background-color:#fffae0; color:#856404; border:1px solid #ffbb00;">
+    <div id="noResult" class="alert-message" style="display:none; background-color:#fffae0; color:#856404;">
         ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
     </div>
+
 </div>
 
 <script>

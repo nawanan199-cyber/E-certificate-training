@@ -10,9 +10,9 @@
    BASE STYLES (สำหรับ PC/Default)
    --------------------------------- */
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:10px; background-color:#F9FBE7; color:#333; } 
-/* Container: ความโค้งมน 25px และเงาที่นุ่มนวล */
+/* Container: ความกว้าง 550px และความโค้งมน 25px */
 .container { 
-    max-width:800px; 
+    max-width:550px; 
     margin:0 auto; 
     background-color:#fff; 
     padding:30px 25px; 
@@ -20,16 +20,16 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
     box-shadow:0 8px 20px rgba(0,0,0,0.08); 
 } 
 
-.header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:10px; } 
+.header-section { display:flex; align-items:center; justify-content:center; flex-direction:column; margin-bottom:0px; } 
 
 .mascot-container { margin-bottom:5px; padding-bottom:0px; }
 .mascot-img { width:120px; height:120px; border-radius:50%; border:4px solid #4CAF50; box-shadow:0 4px 8px rgba(0,0,0,0.1); object-fit:cover; }
 
-/* PC: Header Size 32px */
+/* PC: Header Size 36px */
 .header { 
     text-align:center; 
     color:#2E7D32; 
-    font-size:32px; 
+    font-size:36px; 
     font-weight:800; 
     border-bottom:3px solid #4CAF50; 
     padding-bottom:8px; 
@@ -37,45 +37,50 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
     max-width:350px; 
 } 
 
-/* PC: Search Area Width 300px */
-.search-area { max-width: 300px; margin: 25px auto 15px auto; } 
+/* PC: Search Area (ใกล้ Header มากขึ้น) */
+.search-area { max-width: 300px; margin: 15px auto 15px auto; } 
 
 .search-bar { display:flex; gap:10px; } 
-/* Search Input/Button: ความโค้งมน 12px */
 .search-input { flex-grow:1; padding:12px 15px; border:1px solid #ccc; border-radius:12px; font-size:16px; transition:border-color 0.3s; } 
 .search-input:focus { border-color:#4CAF50; }
 .search-button { background-color:#4CAF50; color:white; padding:12px 20px; border:none; border-radius:12px; cursor:pointer; font-size:16px; font-weight:bold; transition: background-color 0.3s, box-shadow 0.3s; } 
 .search-button:hover { background-color:#388E3C; box-shadow:0 4px 8px rgba(0,0,0,0.2); }
 
-/* ผลลัพธ์ชื่อ: ปรับความโค้งมนและ Padding */
+/* สไตล์สำหรับผลลัพธ์ */
 .result-name { background-color:#E8F5E9; padding:15px; margin-bottom:20px; border-radius:10px; font-weight:bold; color:#388E3C; border:1px solid #C8E6C9; box-shadow:0 2px 4px rgba(0,0,0,0.05); display:none; }
 .alert-message { background-color:#FFE0B2; color:#E65100; padding:15px; margin-top:20px; border-radius:10px; text-align:center; font-weight:bold; display:none; }
-
-/* ตาราง: ปรับสไตล์ให้ดูสะอาดและกระชับขึ้น */
-.data-table { width:100%; border-collapse:collapse; text-align:left; margin-top:20px; border-radius:10px; overflow: hidden; } /* เพิ่ม overflow:hidden เพื่อให้ขอบโค้งของตารางทำงาน */
+.data-table { width:100%; border-collapse:collapse; text-align:left; margin-top:20px; border-radius:10px; overflow: hidden; } 
 .data-table th, .data-table td { padding:12px 15px; border:1px solid #e0e0e0; }
 .data-table th { background-color:#f5f5f5; font-weight:bold; color:#495057; }
 .data-table tr:nth-child(even) { background-color:#fcfcfc; }
 .data-table tr:hover { background-color:#DCEDC8; }
-.data-table th:first-child { border-top-left-radius: 10px; } /* ทำให้หัวมุมซ้ายบนโค้ง */
-.data-table th:last-child { border-top-right-radius: 10px; } /* ทำให้หัวมุมขวาบนโค้ง */
+.data-table th:first-child { border-top-left-radius: 10px; } 
+.data-table th:last-child { border-top-right-radius: 10px; } 
 
 
 /* 📱 MEDIA QUERY (สำหรับหน้าจอเล็ก: โทรศัพท์มือถือ/แท็บเล็ต) 📱 */
 @media (max-width: 768px) {
     .container {
+        max-width: 100%; 
         padding: 25px 15px;
     }
     
+    /* Mobile: Header Size 26px */
     .header {
-        font-size: 22px; 
-        max-width: 250px; 
+        font-size: 26px; 
+        max-width: 280px; 
     }
     .mascot-container {
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
 
-    /* Mobile: บังคับให้ช่องกรอกและปุ่มอยู่ด้านล่างกัน (Column) */
+    /* Mobile: Search Area (ใกล้ Header มากขึ้น) */
+    .search-area { 
+        max-width: 100%; 
+        margin: 15px auto 15px auto; 
+    }
+
+    /* อื่นๆ */
     .search-bar { 
         flex-direction: column; 
         gap: 15px; 
@@ -89,15 +94,10 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
         font-size: 16px;
         border-radius: 12px;
     }
-    .search-area { 
-        max-width: 100%; 
-        margin: 20px auto 15px auto; 
-    }
     .mascot-img {
         width: 100px; 
         height: 100px;
     }
-    /* ปรับ Padding ตารางบนมือถือ */
     .data-table th, .data-table td { 
         padding: 10px; 
         font-size: 14px;
@@ -116,7 +116,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 
   <div class="search-area">
     <div class="search-bar">
-      <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อเต็ม หรือชื่อบางส่วน">
+            <input type="text" id="searchInput" class="search-input" placeholder="กรอกชื่อเต็ม หรือชื่อบางส่วน เช่น ใจรัก มีสุข">
       <button id="searchButton" class="search-button">Search</button>
       
     </div>
@@ -130,6 +130,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
       <thead id="certificateTableHead"></thead>
       <tbody id="certificateTableBody"></tbody>
     </table>
+    
   </div>
 
   <div id="noResult" class="alert-message" style="display:none; background-color:#fffae0; color:#856404; border:1px solid #ffbb00;">
@@ -139,7 +140,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; p
 
 <script>
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxNlEn32LapklxyLvDvbB_Y3Aw3g37f6zON69m27qdvlVgY4paoUSaf8i65BerMRmFq/exec";
-// คอลัมน์ที่ต้องการซ่อน (รวม STATUS)
 const COLUMNS_TO_HIDE = ['no','name','company','no.', 'status']; 
 
 const searchInput = document.getElementById('searchInput');
@@ -192,7 +192,6 @@ async function runSearch(){
           const td = document.createElement('td');
           let cellValue = row[h] || '';
 
-          // ลบ Logic การเปลี่ยนสี STATUS ออกอย่างเด็ดขาดแล้ว
           td.textContent = cellValue;
           tr.appendChild(td);
         }

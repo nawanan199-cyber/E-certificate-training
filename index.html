@@ -127,6 +127,7 @@ body {
 .data-table th:nth-child(1),
 .data-table td:nth-child(1) {
     width:60%; /* ขยายความกว้างของช่อง Course */
+    text-align: left; /* จัดชิดซ้ายเพื่อให้อ่านง่ายขึ้น */
 }
 
 /* Duration แคบลง 10% */
@@ -136,7 +137,8 @@ body {
     text-align:center; /* ⭐ ตัวเลขอยู่ตรงกลาง - คงไว้ตามโค้ดเดิมของคุณ */
 }
 
-/* คอลัมน์อื่นเว้นตามปกติ - จัดกึ่งกลางตามโค้ดเดิมของคุณ (ISSUEDATE/EXPIRYDATE แบ่ง 30% ที่เหลือ) */
+/* คอลัมน์อื่นเว้นตามปกติ - จัดกึ่งกลางตามโค้ดเดิมของคุณ */
+/* คอลัมน์ที่ 3 (ISSUEDATE) และ 4 (EXPIRYDATE) จะแบ่งความกว้าง 30% ที่เหลือ */
 .data-table td:nth-child(3) {
     text-align:center; /* ISSUEDATE center - คงไว้ตามโค้ดเดิมของคุณ */
 }
@@ -144,6 +146,7 @@ body {
 .data-table td:nth-child(4) {
     text-align:center; /* EXPIRYDATE center */
 }
+
 
 .data-table tr:nth-child(even) { background:#FFF7E6; }
 .data-table tr:nth-child(odd) { background:#ffffff; }

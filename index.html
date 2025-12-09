@@ -21,7 +21,7 @@ body {
     max-width:420px !important;
     margin: 20px auto;
     background-color:#fff;
-    padding:30px 30px; 
+    padding:25px 25px; 
     border-radius:28px;
     border:1px solid #dcdcdc;
     box-shadow:0 6px 18px rgba(0,0,0,0.08);
@@ -97,46 +97,43 @@ body {
 }
 
 /* ─────────────────────────────
-   ตารางใหม่ + เส้นครบทุกด้าน
+   ตาราง — เส้นบางลง / ปรับคอลัมน์ใหม่
 ────────────────────────────── */
 .data-table {
     width:100%;
     border-collapse:collapse;
+    table-layout: fixed;         /* ⭐ บังคับให้ width ของคอลัมน์ทำงานจริง */
     margin-top:10px;
-    border:2px solid #9e9e9e; /* เส้นนอกเข้มขึ้น */
+    border:1px solid #bcbcbc;    /* เส้นขอบนอกบาง */
 }
 
-.data-table th,
-.data-table td {
-    border:1.5px solid #9e9e9e !important; /* ⭐ เส้นครบทุกด้าน */
-    padding:8px 10px;
-}
-
-/* เฮดตาราง */
 .data-table th {
     background-color:#e0e0e0;
+    padding:8px;
     font-weight:bold;
     color:#333;
+    border:1px solid #c8c8c8;    /* ⭐ เส้นหัวตารางบาง */
 }
 
-/* Course กว้างขึ้น 55% */
+/* Course — ให้กว้างขึ้น 60% */
 .data-table th:nth-child(1),
 .data-table td:nth-child(1) {
-    width:55%;
+    width:60%;
 }
 
-/* Duration แคบลง 15% */
+/* Duration — ให้แคบลง 12% */
 .data-table th:nth-child(2),
 .data-table td:nth-child(2) {
-    width:15%;
-    text-align:center;  /* ⭐ ตัวเลขอยู่ตรงกลาง */
+    width:12%;
+    text-align:center;          /* ⭐ ตัวเลขอยู่ตรงกลาง */
 }
 
-/* คอลัมน์อื่นเว้นตามปกติ */
-.data-table td:nth-child(3) {
-    text-align:center; /* EXPIRE center */
+.data-table td {
+    padding:8px 10px;
+    border:1px solid #c8c8c8;    /* ⭐ เส้นตารางด้านในบางลง */
 }
 
+/* สีสลับ */
 .data-table tr:nth-child(even) { background:#FFF7E6; }
 .data-table tr:nth-child(odd)  { background:#ffffff; }
 .data-table tr:hover { background:#DCEDC8; }
@@ -161,9 +158,7 @@ body {
         <div id="alertMessage" class="alert-message">โปรดกรอกข้อความที่ต้องการค้นหา</div>
     </div>
 
-    <div id="nameResult" class="alert-message" 
-        style="display:none; background:#E8F5E9; color:#2E7D32;">
-    </div>
+    <div id="nameResult" class="alert-message" style="display:none; background:#E8F5E9; color:#2E7D32;"></div>
 
     <div id="certificateTableContainer" style="display:none;">
         <table class="data-table">
@@ -172,8 +167,7 @@ body {
         </table>
     </div>
 
-    <div id="noResult" class="alert-message" 
-        style="display:none; background-color:#FFF8D1; color:#8A6D3B;">
+    <div id="noResult" class="alert-message" style="display:none; background-color:#FFF8D1; color:#8A6D3B;">
         ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
     </div>
 

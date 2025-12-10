@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Certificate Checker</title>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <style>
 
 /* โค้ดส่วนอื่น ๆ (Header, Container, Search) ไม่มีการเปลี่ยนแปลง */
@@ -101,30 +103,24 @@ body {
     text-align: center; 
 }
 
-/* -------------------------------------------------------------------------- */
-
 .data-table tr:nth-child(even) { background:#FFF7E6; }
 .data-table tr:nth-child(odd) { background:#ffffff; }
 .data-table tr:hover { background:#DCEDC8; }
 
-/* ⭐⭐⭐ การแก้ไขตามคำสั่ง: กำหนดสีให้กับข้อความสถานะ (CSS Attribute Selector) ⭐⭐⭐ */
-
-/* ข้อความสีเขียว: "สามารถทำงานในที่อับอากาศได้" */
-/* ค้นหาเซลล์ใดๆ (td) ที่มีข้อความนี้ และทำให้เป็นสีเขียวเข้ม */
-td[data-status*="สามารถทำงานในที่อับอากาศได้"] {
-    color: green !important;
-    font-weight: bold;
-}
-
+/* ⭐⭐⭐ การแก้ไข: CSS Attribute Selector เพื่อกำหนดสีตามคีย์เวิร์ดใน LICENSEID ⭐⭐⭐ */
 /* ข้อความสีแดง: "ไม่สามารถทำงานในที่อับอากาศได้" */
-/* ค้นหาเซลล์ใดๆ (td) ที่มีข้อความนี้ และทำให้เป็นสีแดงเข้ม */
-td[data-status*="ไม่สามารถทำงานในที่อับอากาศได้"] {
+tr[data-keyword*="ไม่สามารถ"] {
     color: red !important;
     font-weight: bold;
 }
 
-/* -------------------------------------------------------------------------- */
+/* ข้อความสีเขียว: "สามารถทำงานในที่อับอากาศได้" */
+tr[data-keyword*="สามารถ"] {
+    color: green !important;
+    font-weight: bold;
+}
 
+/* -------------------------------------------------------------------------- */
 
 </style>
 </head>
@@ -161,12 +157,19 @@ td[data-status*="ไม่สามารถทำงานในที่อั
         style="display:none; background-color:#FFF8D1; color:#8A6D3B;">
         ไม่พบข้อมูลใบรับรองสำหรับคำค้นหานี้
     </div>
+    
+    <div id="loadingMessage" class="alert-message" 
+        style="display:none; background-color:#E0F7FA; color:#006064;">
+        <i class="fas fa-spinner fa-spin"></i> รอสักครู่ครับ...
+    </div>
 
 </div>
 
 <script>
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyh8L_eUPmaKmrmpVY-zlVuN8OOVAumOvbzqm6KNmI-kgWfI2nL0-FQ40Hl2pOpnKns/exec";
-// เพิ่ม 'status' เข้าไปใน COLUMNS_TO_HIDE ชั่วคราวเพื่อให้ไม่แสดงผล แต่เรายังต้องใช้ข้อมูล status
+// ⭐⭐ เปลี่ยน URL นี้เป็น URL Web App ของคุณ ⭐⭐
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyc4ZIYdCYuYs_ljRsd-MJOr93dc9oCzEtU3boYVkTMX_AeEw5Yf9r1W1eXxcInuPAH/exec"; 
+
+// ⭐⭐ ลบ 'status' ออกจากรายการซ่อนแล้ว แต่ยังคงเป็นส่วนหนึ่งของโค้ดเดิมที่ซ่อนคอลัมน์อื่น ๆ
 const COLUMNS_TO_HIDE = ['no','name','company','no.', 'status']; 
 
 // กำหนดความกว้างคอลัมน์แบบตายตัว (Inline Style)
@@ -177,7 +180,7 @@ const COLUMN_WIDTHS = {
     'ISSUEDATE': '15%',
     'EXPIRYDATE': '15%'
 };
-// ------------------------------------
+// กำหนดลำดับการแสดงผลของคอลัมน์
 const DISPLAY_ORDER = ['LICENSEID', 'DURATION', 'COURSE', 'ISSUEDATE', 'EXPIRYDATE'];
 
 
@@ -189,12 +192,15 @@ const tableContainer = document.getElementById('certificateTableContainer');
 const tableHead = document.getElementById('certificateTableHead');
 const tableBody = document.getElementById('certificateTableBody');
 const noResult = document.getElementById('noResult');
+const loadingMessage = document.getElementById('loadingMessage'); // ⭐ เพิ่มตัวแปร Loading
+
 
 function hideAllResults(){
     alertMessage.style.display='none';
     nameResult.style.display='none';
     tableContainer.style.display='none';
     noResult.style.display='none';
+    loadingMessage.style.display='none'; // ⭐ ซ่อน Loading State
 }
 
 async function runSearch(){
@@ -206,13 +212,21 @@ async function runSearch(){
         return;
     }
     
-    // จัดการคำค้นหา: ลบช่องว่างทั้งหมด 
+    // ⭐⭐ การแก้ไข: ลบช่องว่างทั้งหมดเพื่อให้ค้นหาได้ยืดหยุ่น (แก้ปัญหาการค้นหาชื่อเต็ม) ⭐⭐
     query = query.replace(/\s/g, ''); 
+    
+    // ⭐⭐ เพิ่ม: แสดง Loading State ก่อนเริ่มการค้นหา ⭐⭐
+    loadingMessage.style.display='block';
+
 
     try{
         const res = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`);
+        
+        // ⭐⭐ ซ่อน Loading State ทันทีที่รับ Response ได้แล้ว ⭐⭐
+        loadingMessage.style.display='none'; 
+        
         const results = await res.json();
-
+        
         if(results.length === 0){
             noResult.style.display='block';
             return;
@@ -237,7 +251,7 @@ async function runSearch(){
         headersToShow.forEach(h=>{
             const th = document.createElement('th');
             th.textContent = h;
-            // กำหนดความกว้าง inline ให้กับ Header
+            // ⭐ การแก้ไข: กำหนดความกว้าง inline ให้กับ Header
             if(COLUMN_WIDTHS[h]) { 
                 th.style.width = COLUMN_WIDTHS[h]; 
             }
@@ -246,19 +260,24 @@ async function runSearch(){
 
         results.forEach(row=>{
             const tr = document.createElement('tr');
+            
+            // ⭐⭐⭐ การแก้ไข: ตรวจสอบข้อความในคอลัมน์ LICENSEID และกำหนด Attribute เพื่อเปลี่ยนสี ⭐⭐⭐
+            const licenseDetails = row['LICENSEID'] || '';
+            
+            if (licenseDetails.includes("ไม่สามารถทำงานในที่อับอากาศได้")) {
+                tr.setAttribute('data-keyword', 'ไม่สามารถ');
+            } else if (licenseDetails.includes("สามารถทำงานในที่อับอากาศได้")) {
+                tr.setAttribute('data-keyword', 'สามารถ');
+            }
+            // CSS จะใช้ data-keyword นี้เปลี่ยนสีทั้งแถว
+
             // สร้าง TD ตามลำดับที่กำหนดไว้
             headersToShow.forEach(h=>{
                 const td = document.createElement('td');
                 const headerKey = h.toLowerCase();
                 td.textContent = row[h] || '';
                 
-                // ⭐⭐ การแก้ไขที่สำคัญ: เพิ่ม Attribute data-status เข้าไปใน TD
-                // เพื่อให้โค้ด CSS (ข้างบน) สามารถจับคู่ข้อความและเปลี่ยนสีได้
-                if (row['Status']) {
-                    td.setAttribute('data-status', row['Status']);
-                }
-                
-                // กำหนดความกว้าง inline ให้กับ Cell
+                // ⭐ การแก้ไข: กำหนดความกว้าง inline ให้กับ Cell
                 if(COLUMN_WIDTHS[h]) { 
                     td.style.width = COLUMN_WIDTHS[h]; 
                 }
@@ -278,6 +297,8 @@ async function runSearch(){
         tableContainer.style.display='block';
 
     } catch (err){
+        // ⭐⭐ ซ่อน Loading State เมื่อเกิดข้อผิดพลาด ⭐⭐
+        loadingMessage.style.display='none'; 
         alertMessage.textContent='เกิดข้อผิดพลาดในการดึงข้อมูล';
         alertMessage.style.display='block';
     }

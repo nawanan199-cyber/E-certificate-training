@@ -160,8 +160,6 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyc4ZIYdCYuYs_l
 // ลบคอลัมน์ 'status' ออกไปแล้ว
 const COLUMNS_TO_HIDE = ['no','name','company','no.', 'status']; 
 
-// ❌ ลบตัวแปร COLUMN_WIDTHS ออกไปแล้ว
-
 // กำหนดลำดับการแสดงผลของคอลัมน์
 const DISPLAY_ORDER = ['LICENSEID', 'DURATION', 'COURSE', 'ISSUEDATE', 'EXPIRYDATE'];
 
@@ -233,7 +231,6 @@ async function runSearch(){
         headersToShow.forEach(h=>{
             const th = document.createElement('th');
             th.textContent = h;
-            // โค้ดกำหนดความกว้าง inline ให้กับ Header ถูกลบออกแล้ว
             tableHead.appendChild(th);
         });
 
@@ -246,24 +243,22 @@ async function runSearch(){
                 const headerKey = h.toLowerCase();
                 td.textContent = row[h] || '';
                 
-                // ⭐⭐ ตรวจสอบและกำหนดสีเฉพาะเซลล์ LICENSEID เท่านั้น (สีแดง/เขียว) ⭐⭐
+                // ⭐⭐ การแก้ไขตรรกะสี: ตรวจสอบสตริงยาว (สีแดง) ก่อนสตริงสั้น (สีเขียว) ⭐⭐
                 if (h === 'LICENSEID') {
                     const licenseDetails = row[h] || '';
                     
-                    // เงื่อนไขสำหรับสีเขียว
-                    if (licenseDetails.includes("สามารถทำงานในที่อับอากาศได้")) {
-                        td.style.color = 'green';
+                    // 1. เงื่อนไขสำหรับสีแดง (ตรวจสอบก่อน)
+                    if (licenseDetails.includes("ไม่สามารถทำงานในที่อับอากาศได้")) {
+                        td.style.color = 'red'; 
                         td.style.fontWeight = 'bold';
                     } 
-                    // เงื่อนไขสำหรับสีแดง
-                    else if (licenseDetails.includes("ไม่สามารถทำงานในที่อับอากาศได้")) {
-                        td.style.color = 'red'; 
+                    // 2. เงื่อนไขสำหรับสีเขียว
+                    else if (licenseDetails.includes("สามารถทำงานในที่อับอากาศได้")) {
+                        td.style.color = 'green';
                         td.style.fontWeight = 'bold';
                     }
                     // ข้อความอื่น ๆ จะปล่อยให้เป็นสีดำปกติ
                 }
-
-                // โค้ดกำหนดความกว้าง inline ให้กับ Cell ถูกลบออกแล้ว
                 
                 // จัดกึ่งกลางสำหรับทุกคอลัมน์ ยกเว้น COURSE
                 if (h !== 'COURSE') {

@@ -79,7 +79,6 @@ body {
 }
 /* ─────────────────────────────
     ตารางใหม่ + เส้นครบทุกด้าน
-    *** แก้ไข: ใช้ Selector ที่เจาะจงสูงสุด ***
 ────────────────────────────── */
 .data-table {
     width:100% !important; 
@@ -99,43 +98,7 @@ body {
     background-color:#e0e0e0;
     font-weight:bold;
     color:#333;
-}
-
-/* ⭐⭐⭐ การปรับแก้ความกว้างด้วย Selector ที่เจาะจงสูงสุด (15, 10, 45, 15, 15) ⭐⭐⭐ */
-
-/* คอลัมน์ที่ 1: LICENSEID (15%) */
-table.data-table th:nth-child(1),
-table.data-table td:nth-child(1) {
-    width:15% !important; 
     text-align: center; 
-}
-
-/* คอลัมน์ที่ 2: DURATION (10%) */
-table.data-table th:nth-child(2),
-table.data-table td:nth-child(2) {
-    width:10% !important; 
-    text-align:center; 
-}
-
-/* คอลัมน์ที่ 3: COURSE (45%) */
-table.data-table th:nth-child(3),
-table.data-table td:nth-child(3) {
-    width:45% !important; 
-    text-align: left; 
-}
-
-/* คอลัมน์ที่ 4: ISSUEDATE (15%) */
-table.data-table th:nth-child(4),
-table.data-table td:nth-child(4) {
-    width:15% !important; 
-    text-align:center; 
-}
-
-/* คอลัมน์ที่ 5: EXPIRYDATE (15%) */
-table.data-table th:nth-child(5),
-table.data-table td:nth-child(5) {
-    width:15% !important; 
-    text-align:center; 
 }
 
 /* -------------------------------------------------------------------------- */
@@ -143,6 +106,25 @@ table.data-table td:nth-child(5) {
 .data-table tr:nth-child(even) { background:#FFF7E6; }
 .data-table tr:nth-child(odd) { background:#ffffff; }
 .data-table tr:hover { background:#DCEDC8; }
+
+/* ⭐⭐⭐ การแก้ไขตามคำสั่ง: กำหนดสีให้กับข้อความสถานะ (CSS Attribute Selector) ⭐⭐⭐ */
+
+/* ข้อความสีเขียว: "สามารถทำงานในที่อับอากาศได้" */
+/* ค้นหาเซลล์ใดๆ (td) ที่มีข้อความนี้ และทำให้เป็นสีเขียวเข้ม */
+td[data-status*="สามารถทำงานในที่อับอากาศได้"] {
+    color: green !important;
+    font-weight: bold;
+}
+
+/* ข้อความสีแดง: "ไม่สามารถทำงานในที่อับอากาศได้" */
+/* ค้นหาเซลล์ใดๆ (td) ที่มีข้อความนี้ และทำให้เป็นสีแดงเข้ม */
+td[data-status*="ไม่สามารถทำงานในที่อับอากาศได้"] {
+    color: red !important;
+    font-weight: bold;
+}
+
+/* -------------------------------------------------------------------------- */
+
 
 </style>
 </head>
@@ -184,10 +166,20 @@ table.data-table td:nth-child(5) {
 
 <script>
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyh8L_eUPmaKmrmpVY-zlVuN8OOVAumOvbzqm6KNmI-kgWfI2nL0-FQ40Hl2pOpnKns/exec";
+// เพิ่ม 'status' เข้าไปใน COLUMNS_TO_HIDE ชั่วคราวเพื่อให้ไม่แสดงผล แต่เรายังต้องใช้ข้อมูล status
 const COLUMNS_TO_HIDE = ['no','name','company','no.', 'status']; 
-// กำหนดลำดับหัวตารางให้แน่นอน
-const DISPLAY_ORDER = ['LICENSEID', 'DURATION', 'COURSE', 'ISSUEDATE', 'EXPIRYDATE'];
+
+// กำหนดความกว้างคอลัมน์แบบตายตัว (Inline Style)
+const COLUMN_WIDTHS = {
+    'LICENSEID': '15%',
+    'DURATION': '10%',
+    'COURSE': '45%',
+    'ISSUEDATE': '15%',
+    'EXPIRYDATE': '15%'
+};
 // ------------------------------------
+const DISPLAY_ORDER = ['LICENSEID', 'DURATION', 'COURSE', 'ISSUEDATE', 'EXPIRYDATE'];
+
 
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
@@ -207,12 +199,15 @@ function hideAllResults(){
 
 async function runSearch(){
     hideAllResults();
-    const query = searchInput.value.trim();
+    let query = searchInput.value.trim(); 
 
     if(!query){ 
         alertMessage.style.display='block';
         return;
     }
+    
+    // จัดการคำค้นหา: ลบช่องว่างทั้งหมด 
+    query = query.replace(/\s/g, ''); 
 
     try{
         const res = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(query)}`);
@@ -242,6 +237,10 @@ async function runSearch(){
         headersToShow.forEach(h=>{
             const th = document.createElement('th');
             th.textContent = h;
+            // กำหนดความกว้าง inline ให้กับ Header
+            if(COLUMN_WIDTHS[h]) { 
+                th.style.width = COLUMN_WIDTHS[h]; 
+            }
             tableHead.appendChild(th);
         });
 
@@ -250,7 +249,27 @@ async function runSearch(){
             // สร้าง TD ตามลำดับที่กำหนดไว้
             headersToShow.forEach(h=>{
                 const td = document.createElement('td');
+                const headerKey = h.toLowerCase();
                 td.textContent = row[h] || '';
+                
+                // ⭐⭐ การแก้ไขที่สำคัญ: เพิ่ม Attribute data-status เข้าไปใน TD
+                // เพื่อให้โค้ด CSS (ข้างบน) สามารถจับคู่ข้อความและเปลี่ยนสีได้
+                if (row['Status']) {
+                    td.setAttribute('data-status', row['Status']);
+                }
+                
+                // กำหนดความกว้าง inline ให้กับ Cell
+                if(COLUMN_WIDTHS[h]) { 
+                    td.style.width = COLUMN_WIDTHS[h]; 
+                }
+                
+                // จัดกึ่งกลางสำหรับทุกคอลัมน์ ยกเว้น COURSE
+                if (h !== 'COURSE') {
+                    td.style.textAlign = 'center';
+                } else {
+                    td.style.textAlign = 'left';
+                }
+                
                 tr.appendChild(td);
             });
             tableBody.appendChild(tr);
@@ -269,6 +288,5 @@ searchInput.addEventListener('keypress', e=>{
     if(e.key === 'Enter') runSearch();
 });
 </script>
-
 </body>
 </html>

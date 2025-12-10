@@ -87,7 +87,7 @@ body {
     border-collapse:collapse;
     margin-top:10px;
     border:1px solid #9e9e9e; 
-    table-layout: fixed; 
+    /* ❌ ยกเลิก: table-layout: fixed; */
 }
 
 .data-table th,
@@ -95,7 +95,7 @@ body {
     border:1px solid #9e9e9e !important; 
     padding:8px 10px;
     vertical-align: top;
-    word-wrap: break-word;
+    /* ❌ ยกเลิก: word-wrap: break-word; */
 }
 
 .data-table th {
@@ -161,14 +161,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyc4ZIYdCYuYs_l
 // ลบคอลัมน์ 'status' ออกไปแล้ว
 const COLUMNS_TO_HIDE = ['no','name','company','no.', 'status']; 
 
-// กำหนดความกว้างคอลัมน์แบบตายตัว (Inline Style)
-const COLUMN_WIDTHS = {
-    'LICENSEID': '15%',
-    'DURATION': '10%',
-    'COURSE': '45%',
-    'ISSUEDATE': '15%',
-    'EXPIRYDATE': '15%'
-};
+// ❌ ลบตัวแปร COLUMN_WIDTHS ออกไปแล้ว
+
 // กำหนดลำดับการแสดงผลของคอลัมน์
 const DISPLAY_ORDER = ['LICENSEID', 'DURATION', 'COURSE', 'ISSUEDATE', 'EXPIRYDATE'];
 
@@ -240,10 +234,7 @@ async function runSearch(){
         headersToShow.forEach(h=>{
             const th = document.createElement('th');
             th.textContent = h;
-            // กำหนดความกว้าง inline ให้กับ Header
-            if(COLUMN_WIDTHS[h]) { 
-                th.style.width = COLUMN_WIDTHS[h]; 
-            }
+            // ❌ โค้ดกำหนดความกว้าง inline ให้กับ Header ถูกลบออกแล้ว
             tableHead.appendChild(th);
         });
 
@@ -256,7 +247,7 @@ async function runSearch(){
                 const headerKey = h.toLowerCase();
                 td.textContent = row[h] || '';
                 
-                // ⭐⭐ การแก้ไข: ตรวจสอบและกำหนดสีเฉพาะเซลล์ LICENSEID เท่านั้น ⭐⭐
+                // ⭐⭐ ตรวจสอบและกำหนดสีเฉพาะเซลล์ LICENSEID เท่านั้น (ยังคงอยู่) ⭐⭐
                 if (h === 'LICENSEID') {
                     const licenseDetails = row[h] || '';
                     
@@ -270,10 +261,7 @@ async function runSearch(){
                     // ข้อความอื่น ๆ จะปล่อยให้เป็นสีดำปกติ
                 }
 
-                // กำหนดความกว้าง inline ให้กับ Cell
-                if(COLUMN_WIDTHS[h]) { 
-                    td.style.width = COLUMN_WIDTHS[h]; 
-                }
+                // ❌ โค้ดกำหนดความกว้าง inline ให้กับ Cell ถูกลบออกแล้ว
                 
                 // จัดกึ่งกลางสำหรับทุกคอลัมน์ ยกเว้น COURSE
                 if (h !== 'COURSE') {

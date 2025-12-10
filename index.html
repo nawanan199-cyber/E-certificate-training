@@ -87,7 +87,7 @@ body {
     border-collapse:collapse;
     margin-top:10px;
     border:1px solid #9e9e9e; 
-    /* ❌ ยกเลิก: table-layout: fixed; */
+    /* โหมด Auto Layout (ขนาดตามเนื้อหา) */
 }
 
 .data-table th,
@@ -95,7 +95,6 @@ body {
     border:1px solid #9e9e9e !important; 
     padding:8px 10px;
     vertical-align: top;
-    /* ❌ ยกเลิก: word-wrap: break-word; */
 }
 
 .data-table th {
@@ -234,7 +233,7 @@ async function runSearch(){
         headersToShow.forEach(h=>{
             const th = document.createElement('th');
             th.textContent = h;
-            // ❌ โค้ดกำหนดความกว้าง inline ให้กับ Header ถูกลบออกแล้ว
+            // โค้ดกำหนดความกว้าง inline ให้กับ Header ถูกลบออกแล้ว
             tableHead.appendChild(th);
         });
 
@@ -247,21 +246,24 @@ async function runSearch(){
                 const headerKey = h.toLowerCase();
                 td.textContent = row[h] || '';
                 
-                // ⭐⭐ ตรวจสอบและกำหนดสีเฉพาะเซลล์ LICENSEID เท่านั้น (ยังคงอยู่) ⭐⭐
+                // ⭐⭐ ตรวจสอบและกำหนดสีเฉพาะเซลล์ LICENSEID เท่านั้น (สีแดง/เขียว) ⭐⭐
                 if (h === 'LICENSEID') {
                     const licenseDetails = row[h] || '';
                     
+                    // เงื่อนไขสำหรับสีเขียว
                     if (licenseDetails.includes("สามารถทำงานในที่อับอากาศได้")) {
                         td.style.color = 'green';
                         td.style.fontWeight = 'bold';
-                    } else if (licenseDetails.includes("ไม่สามารถทำงานในที่อับอากาศได้")) {
-                        td.style.color = 'red';
+                    } 
+                    // เงื่อนไขสำหรับสีแดง
+                    else if (licenseDetails.includes("ไม่สามารถทำงานในที่อับอากาศได้")) {
+                        td.style.color = 'red'; 
                         td.style.fontWeight = 'bold';
                     }
                     // ข้อความอื่น ๆ จะปล่อยให้เป็นสีดำปกติ
                 }
 
-                // ❌ โค้ดกำหนดความกว้าง inline ให้กับ Cell ถูกลบออกแล้ว
+                // โค้ดกำหนดความกว้าง inline ให้กับ Cell ถูกลบออกแล้ว
                 
                 // จัดกึ่งกลางสำหรับทุกคอลัมน์ ยกเว้น COURSE
                 if (h !== 'COURSE') {
